@@ -1,5 +1,5 @@
 import api from "../api/api";
-import {
+import type {
   RegisterRequest,
   LoginRequest,
   LoginResponse,
