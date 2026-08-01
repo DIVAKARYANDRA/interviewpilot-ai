@@ -12,7 +12,8 @@ export default function InterviewSetupPage() {
 
     const {
         setSessionId,
-        setQuestion
+        setQuestion,
+        setInterviewMode
     } = useInterview();
 
     const [loading, setLoading] = useState(false);
@@ -108,6 +109,41 @@ export default function InterviewSetupPage() {
                     <option>Medium</option>
                     <option>Hard</option>
                 </select>
+
+                <h3>
+
+                    Interview Mode
+
+                    </h3>
+
+                    <select
+
+                        onChange={(e)=>
+
+                            setInterviewMode(
+
+                                e.target.value as
+                                "text" | "voice"
+
+                            )
+
+                        }
+
+                    >
+
+                        <option value="text">
+
+                            Text Interview
+
+                        </option>
+
+                        <option value="voice">
+
+                            Voice Interview
+
+                        </option>
+
+                    </select>
 
                 <textarea
                     rows={5}

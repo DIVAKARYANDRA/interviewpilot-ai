@@ -1,0 +1,57 @@
+.hero-card{
+
+    background:#1e293b;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    margin-bottom:30px;
+
+}
+
+.hero-card h1{
+
+    margin-bottom:12px;
+
+}
+
+.hero-card p{
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+
+}
+
+.hero-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:16px;
+
+    margin-top:25px;
+
+}
+
+.hero-actions button{
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+.secondary-btn{
+
+    background:#334155;
+
+    color:white;
+
+}

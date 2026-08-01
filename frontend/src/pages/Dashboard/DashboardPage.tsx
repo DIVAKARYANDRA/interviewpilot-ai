@@ -1,37 +1,58 @@
 import MainLayout from "../../layouts/MainLayout";
-import { Link } from "react-router-dom";
+
+import HeroCard from "../../components/dashboard/HeroCard/HeroCard";
+import StatsCard from "../../components/dashboard/StatsCard/StatsCard";
+import QuickActions from "../../components/dashboard/QuickActions/QuickActions";
+
+import "./DashboardPage.css";
 
 export default function DashboardPage() {
-  return (
-    <MainLayout>
 
-      <div
-        style={{
-          maxWidth: "900px",
-          margin: "40px auto"
-        }}
-      >
+    return (
 
-        <h1>Welcome 👋</h1>
+        <MainLayout>
 
-        <p>
-          Your AI Interview Dashboard
-        </p>
+            <div className="dashboard">
 
-        <br/>
+                <HeroCard />
 
-        <Link to="/interview/setup">
+                <div className="stats-grid">
 
-            <button>
+                    <StatsCard
 
-                Start Interview
+                        title="Interviews"
 
-            </button>
+                        value="0"
 
-        </Link>
+                    />
 
-      </div>
+                    <StatsCard
 
-    </MainLayout>
-  );
+                        title="Average Score"
+
+                        value="0%"
+
+                    />
+
+                    <StatsCard
+
+                        title="Best Score"
+
+                        value="0%"
+
+                    />
+
+                    
+
+                </div>
+
+                <QuickActions />
+                
+
+            </div>
+
+        </MainLayout>
+
+    );
+
 }

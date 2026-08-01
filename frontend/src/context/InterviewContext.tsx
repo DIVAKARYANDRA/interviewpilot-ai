@@ -25,10 +25,18 @@ interface InterviewContextType {
 
   evaluation: any;
 
+  interviewMode: "text" | "voice";
+
+  setInterviewMode: (
+      mode: "text" | "voice"
+  ) => void;
+
   setSessionId: (id: string) => void;
   setQuestion: (question: string) => void;
   setAnswer: (answer: string) => void;
   setEvaluation: (evaluation: any) => void;
+
+
 
 
 }
@@ -55,6 +63,8 @@ export function InterviewProvider({
 
   const [totalQuestions,setTotalQuestions]=useState(10);
 
+  const [interviewMode, setInterviewMode] = useState<"text" | "voice">("text");
+
   return (
     <InterviewContext.Provider
       value={{
@@ -71,7 +81,9 @@ export function InterviewProvider({
         setAnswer,
         setEvaluation,
         report,
-        setReport
+        setReport,
+        interviewMode,
+        setInterviewMode
       }}
     >
       {children}

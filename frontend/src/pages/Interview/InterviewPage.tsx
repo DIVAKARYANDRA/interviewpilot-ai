@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainLayout from "../../layouts/MainLayout";
@@ -8,15 +8,15 @@ import { useInterview } from "../../context/InterviewContext";
 import { submitAnswer } from "../../services/interviewService";
 import { endInterview } from "../../services/reportService";
 
+import { speak } from "../../hooks/useSpeech";
+
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
 import Progress from "../../components/interview/Progress/Progress";
 import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
-import AnswerBox from "../../components/interview/AnswerBox/AnswerBox";
+import InterviewInput from "../../components/interview/InterviewInput/InterviewInput";
 import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
 
-
 export default function InterviewPage() {
-
 
     const {
 
@@ -36,26 +36,70 @@ export default function InterviewPage() {
 
         setCurrentQuestion,
 
-        setReport
+        setReport,
+
+        interviewMode
 
     } = useInterview();
 
-
-
     const navigate = useNavigate();
 
-
     const [loading, setLoading] = useState(false);
+
+    /*
+     --------------------------------
+     Voice Mode
+     --------------------------------
+    */
+
+    useEffect(() => {
+
+        if (
+
+            interviewMode === "voice"
+
+            &&
+
+            question
+
+        ) {
+
+            window.speechSynthesis.cancel();
+
+            speak(question);
+
+        }
+
+        return () => {
+
+            window.speechSynthesis.cancel();
+
+        };
+
+    }, [
+
+        question,
+
+        interviewMode
+
+    ]);
 
 
 
     async function handleSubmit() {
 
+        if (loading) {
+
+            return;
+
+        }
 
         if (!sessionId) {
 
             alert(
+
                 "Interview session expired. Please start again."
+
             );
 
             navigate("/interview/setup");
@@ -64,24 +108,21 @@ export default function InterviewPage() {
 
         }
 
-
         if (!answer.trim()) {
 
             alert(
+
                 "Please enter your answer."
+
             );
 
             return;
 
         }
 
-
         setLoading(true);
 
-
-
         try {
-
 
             const response = await submitAnswer({
 
@@ -91,120 +132,117 @@ export default function InterviewPage() {
 
             });
 
-
-
-            setAnswer("");
-
-
-
             /*
-             Interview Completed
+             Save evaluation first
             */
 
-            if (response.interview_completed) {
+            setEvaluation(
 
+                response.evaluation
+
+            );
+
+            /*
+             Interview Finished
+            */
+
+            if (
+
+                response.interview_completed
+
+            ) {
 
                 try {
 
-
                     const report = await endInterview(
+
                         sessionId
+
                     );
 
+                    setReport(
 
-                    setReport(report);
+                        report
 
+                    );
 
-                    navigate("/report");
+                    navigate(
 
+                        "/report"
+
+                    );
 
                 }
 
-                catch(error){
-
+                catch (error) {
 
                     console.error(
+
                         "Report generation failed",
+
                         error
+
                     );
 
-
                     alert(
+
                         "Interview completed but report generation failed."
+
                     );
 
                 }
-
 
                 return;
 
             }
 
-
-
-
             /*
              Continue Interview
             */
 
-
-            setEvaluation(
-                response.evaluation
-            );
-
-
             setQuestion(
-                response.question
-            );
 
+                response.question
+
+            );
 
             setCurrentQuestion(
+
                 response.question_number
+
             );
 
+            setAnswer("");
 
         }
 
+        catch (error) {
 
-        catch(error){
-
-
-            console.error(
-                error
-            );
-
+            console.error(error);
 
             alert(
+
                 "Failed to submit answer."
+
             );
 
-
         }
-
 
         finally {
 
-
             setLoading(false);
-
 
         }
 
     }
 
-
-
     return (
 
         <MainLayout>
 
-
             <InterviewLayout>
 
-
                 <Progress />
-
-
 
                 <QuestionCard
 
@@ -212,9 +250,7 @@ export default function InterviewPage() {
 
                 />
 
-
-
-                <AnswerBox
+                <InterviewInput
 
                     answer={answer}
 
@@ -222,11 +258,7 @@ export default function InterviewPage() {
 
                 />
 
-
-
                 <br />
-
-
 
                 <button
 
@@ -240,26 +272,21 @@ export default function InterviewPage() {
 
                         loading
 
-                        ?
+                            ?
 
-                        "Submitting..."
+                            "Submitting..."
 
-                        :
+                            :
 
-                        "Submit Answer"
+                            "Submit Answer"
 
                     }
 
-
                 </button>
 
-
-
                 <br />
 
                 <br />
-
-
 
                 <EvaluationPanel
 
@@ -267,9 +294,7 @@ export default function InterviewPage() {
 
                 />
 
-
             </InterviewLayout>
-
 
         </MainLayout>
 
