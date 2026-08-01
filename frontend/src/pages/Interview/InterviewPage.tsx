@@ -1,20 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MainLayout from "../../layouts/MainLayout";
 
 import { useInterview } from "../../context/InterviewContext";
 
 import { submitAnswer } from "../../services/interviewService";
-import { useNavigate } from "react-router-dom";
-
 import { endInterview } from "../../services/reportService";
+
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
 import Progress from "../../components/interview/Progress/Progress";
 import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
 import AnswerBox from "../../components/interview/AnswerBox/AnswerBox";
 import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
 
+
 export default function InterviewPage() {
+
 
     const {
 
@@ -32,31 +34,54 @@ export default function InterviewPage() {
 
         setEvaluation,
 
-        currentQuestion,
-
         setCurrentQuestion,
 
         setReport
 
     } = useInterview();
 
-    const [loading, setLoading] = useState(false);
+
 
     const navigate = useNavigate();
 
+
+    const [loading, setLoading] = useState(false);
+
+
+
     async function handleSubmit() {
 
-        if (!answer.trim()) {
 
-            alert("Please enter your answer.");
+        if (!sessionId) {
+
+            alert(
+                "Interview session expired. Please start again."
+            );
+
+            navigate("/interview/setup");
 
             return;
 
         }
 
+
+        if (!answer.trim()) {
+
+            alert(
+                "Please enter your answer."
+            );
+
+            return;
+
+        }
+
+
         setLoading(true);
 
+
+
         try {
+
 
             const response = await submitAnswer({
 
@@ -66,93 +91,185 @@ export default function InterviewPage() {
 
             });
 
-            setEvaluation(response.evaluation);
+
 
             setAnswer("");
 
+
+
+            /*
+             Interview Completed
+            */
+
             if (response.interview_completed) {
 
-                const report = await endInterview(sessionId);
 
-                setReport(report);
+                try {
 
-                navigate("/report");
+
+                    const report = await endInterview(
+                        sessionId
+                    );
+
+
+                    setReport(report);
+
+
+                    navigate("/report");
+
+
+                }
+
+                catch(error){
+
+
+                    console.error(
+                        "Report generation failed",
+                        error
+                    );
+
+
+                    alert(
+                        "Interview completed but report generation failed."
+                    );
+
+                }
+
 
                 return;
 
             }
 
-            setQuestion(response.question);
 
-            setCurrentQuestion(response.question_number);
+
+
+            /*
+             Continue Interview
+            */
+
+
+            setEvaluation(
+                response.evaluation
+            );
+
+
+            setQuestion(
+                response.question
+            );
+
+
+            setCurrentQuestion(
+                response.question_number
+            );
+
 
         }
 
-        catch (error) {
 
-            console.error(error);
+        catch(error){
 
-            alert("Failed to submit answer.");
+
+            console.error(
+                error
+            );
+
+
+            alert(
+                "Failed to submit answer."
+            );
+
 
         }
+
 
         finally {
 
+
             setLoading(false);
+
 
         }
 
     }
 
+
+
     return (
 
         <MainLayout>
 
+
             <InterviewLayout>
+
 
                 <Progress />
 
+
+
                 <QuestionCard
+
                     question={question}
+
                 />
 
+
+
                 <AnswerBox
+
                     answer={answer}
+
                     setAnswer={setAnswer}
+
                 />
+
+
 
                 <br />
 
+
+
                 <button
+
                     onClick={handleSubmit}
+
                     disabled={loading}
+
                 >
 
                     {
 
                         loading
 
-                            ?
+                        ?
 
-                            "Submitting..."
+                        "Submitting..."
 
-                            :
+                        :
 
-                            "Submit Answer"
+                        "Submit Answer"
 
                     }
 
+
                 </button>
 
+
+
                 <br />
 
                 <br />
+
+
 
                 <EvaluationPanel
+
                     evaluation={evaluation}
+
                 />
 
+
             </InterviewLayout>
+
 
         </MainLayout>
 

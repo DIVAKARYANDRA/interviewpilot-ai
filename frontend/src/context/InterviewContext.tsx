@@ -4,6 +4,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { ReportResponse } from "../types/report";
 
 interface InterviewContextType {
   sessionId: string;
@@ -18,9 +19,9 @@ interface InterviewContextType {
 
   setTotalQuestions:(value:number)=>void;
 
-  report: any;
+  report:ReportResponse | null;
 
-  setReport: (report: any) => void;
+  setReport:(report:ReportResponse)=>void;
 
   evaluation: any;
 
@@ -50,7 +51,7 @@ export function InterviewProvider({
 
   const [currentQuestion,setCurrentQuestion]=useState(1);
 
-  const [report, setReport] = useState<any>(null);
+  const [report,setReport] = useState<ReportResponse | null>(null);
 
   const [totalQuestions,setTotalQuestions]=useState(10);
 

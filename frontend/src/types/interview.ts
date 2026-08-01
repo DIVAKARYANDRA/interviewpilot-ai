@@ -12,11 +12,22 @@ export interface EvaluationResponse {
   feedback: string;
   next_topic: string;
 }
-
 export interface SubmitAnswerResponse {
-  question: string;
-  difficulty: string;
-  evaluation: EvaluationResponse;
+
+    session_id: string;
+
+    question: string;
+
+    difficulty: string;
+
+    question_number: number;
+
+    total_questions: number;
+
+    interview_completed: boolean;
+
+    evaluation: EvaluationResponse;
+
 }
 
 export interface StartInterviewRequest {

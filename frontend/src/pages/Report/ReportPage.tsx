@@ -3,7 +3,7 @@ import MainLayout from "../../layouts/MainLayout";
 import { useInterview } from "../../context/InterviewContext";
 
 import ScoreCard from "../../components/report/ScoreCard/ScoreCard";
-
+import { useNavigate } from "react-router-dom";
 import ListCard from "../../components/report/ListCard/ListCard";
 
 
@@ -18,6 +18,8 @@ export default function ReportPage(){
         report
 
     } = useInterview();
+
+    const navigate = useNavigate();
 
 
 
@@ -162,6 +164,14 @@ export default function ReportPage(){
 
 
                 </div>
+
+                <button
+                    onClick={() => navigate("/interview/setup")}
+                >
+
+                    Start New Interview
+
+                </button>
 
 
 
