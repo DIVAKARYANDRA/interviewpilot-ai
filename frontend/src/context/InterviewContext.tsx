@@ -58,7 +58,7 @@ export function InterviewProvider({
         currentQuestion,
         setCurrentQuestion,
         totalQuestions,
-        setTotalQuestions
+        setTotalQuestions,
         setSessionId,
         setQuestion,
         setAnswer,
