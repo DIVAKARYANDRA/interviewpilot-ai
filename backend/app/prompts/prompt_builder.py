@@ -17,54 +17,64 @@ class PromptBuilder:
             state.get("previous_questions", [])
         )
 
-        Projects:
-        {", ".join(state.get("projects", []))}
+        skills = ", ".join(
+            state.get("skills", [])
+        )
 
-        Skills:
-        {", ".join(state.get("skills", []))}
+        projects = ", ".join(
+            state.get("projects", [])
+        )
+
+        projects_section = ""
+
+        if projects:
+
+            projects_section = f"""
+
+Projects:
+{projects}
+
+"""
 
         interview_rules = {
 
             "Technical": """
-- Ask only technical questions.
-- Focus on coding, backend, frontend, databases, APIs, cloud and architecture.
-- Ask practical questions.
+- Ask ONLY technical interview questions.
+- Focus on programming, backend, frontend, APIs, databases, cloud, architecture and debugging.
+- Prefer practical and real-world scenarios.
 """,
 
             "HR": """
-- Ask HR interview questions only.
-- Focus on communication, teamwork, leadership, motivation and career goals.
-- Do not ask technical questions.
+- Ask ONLY HR interview questions.
+- Focus on communication, teamwork, leadership, conflict resolution, motivation and career goals.
+- Do NOT ask technical questions.
 """,
 
             "Behavioral": """
-- Ask behavioral interview questions.
-- Use STAR methodology.
-- Focus on ownership, leadership, failures, conflict resolution and decision making.
+- Ask ONLY behavioral interview questions.
+- Use the STAR interview methodology.
+- Focus on ownership, leadership, failures, decision making and collaboration.
 """,
 
             "System Design": """
-- Ask system design questions.
-- Focus on scalability, databases, caching, messaging, APIs and distributed systems.
+- Ask ONLY system design questions.
+- Focus on scalability, databases, caching, messaging, APIs, distributed systems and performance.
 """,
 
             "DSA": """
-- Ask Data Structures & Algorithms questions.
-- Cover arrays, linked lists, trees, graphs, dynamic programming and complexity analysis.
+- Ask ONLY Data Structures and Algorithms questions.
+- Cover arrays, linked lists, trees, graphs, dynamic programming, recursion and complexity analysis.
 """,
 
             "Resume": """
-- Ask questions based on the candidate's projects, experience and listed skills.
-- Dive deeper into project architecture and implementation.
-
-1. Start with one of the candidate's projects.
-2. Ask about architecture.
-3. Ask why technologies were chosen.
-4. Ask challenges faced.
-5. Ask improvements.
-6. Ask follow-up questions naturally.
-7. Only move to skills if projects are exhausted.
-
+- Conduct a resume-based interview.
+- Focus primarily on the candidate's projects.
+- Ask about architecture, design decisions and implementation.
+- Ask why specific technologies were selected.
+- Ask about challenges faced.
+- Ask about improvements they would make.
+- Ask natural follow-up questions.
+- Move to skills only after discussing projects.
 """
 
         }
@@ -75,11 +85,13 @@ class PromptBuilder:
         )
 
         return f"""
-You are an experienced senior interviewer from {state["company"]}.
+You are an experienced Senior Software Engineer conducting an interview for {state["company"]}.
 
 Conduct a {interview_type} interview.
 
+=========================
 Candidate Details
+=========================
 
 Name:
 {state["candidate_name"]}
@@ -98,19 +110,29 @@ Difficulty:
 
 Skills:
 {skills}
+{projects_section}
+=========================
+Previous Questions
+=========================
 
-Previous Questions:
 {previous_questions}
 
-Instructions
+=========================
+Interview Rules
+=========================
 
 {rules}
 
-General Rules
+=========================
+General Instructions
+=========================
 
-- Ask exactly ONE interview question.
+- Ask EXACTLY one interview question.
 - Do NOT repeat previous questions.
-- Keep the difficulty at {difficulty}.
-- If this is not the first question, ask a logical follow-up or move to another relevant topic.
-- Return only the interview question.
+- Maintain {difficulty} difficulty.
+- If the previous answer was good, ask a deeper follow-up before changing topics.
+- If the previous answer was weak, simplify the next question slightly.
+- Keep the conversation natural like a real interviewer.
+- Do NOT provide explanations, hints or answers.
+- Return ONLY the interview question.
 """
