@@ -1,26 +1,21 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
-from sqlalchemy import String
 from sqlalchemy import ForeignKey
 from sqlalchemy import Text
 
 from app.database.db import Base
 
 
-class Answer(Base):
+class Evaluation(Base):
 
-    __tablename__ = "answers"
+    __tablename__ = "evaluations"
 
     id = Column(Integer, primary_key=True)
 
-    interview_session_id = Column(
+    answer_id = Column(
         Integer,
-        ForeignKey("interview_sessions.id")
+        ForeignKey("answers.id")
     )
-
-    question = Column(Text)
-
-    answer = Column(Text)
 
     technical_score = Column(Integer)
 

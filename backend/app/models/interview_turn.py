@@ -3,13 +3,15 @@ from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
 from sqlalchemy import Text
+from sqlalchemy import DateTime
+from sqlalchemy.sql import func
 
 from app.database.db import Base
 
 
-class Answer(Base):
+class InterviewTurn(Base):
 
-    __tablename__ = "answers"
+    __tablename__ = "interview_turns"
 
     id = Column(Integer, primary_key=True)
 
@@ -17,6 +19,8 @@ class Answer(Base):
         Integer,
         ForeignKey("interview_sessions.id")
     )
+
+    turn_number = Column(Integer)
 
     question = Column(Text)
 
@@ -28,4 +32,15 @@ class Answer(Base):
 
     confidence_score = Column(Integer)
 
+    strengths = Column(Text)
+
+    weaknesses = Column(Text)
+
     feedback = Column(Text)
+
+    next_topic = Column(String)
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
