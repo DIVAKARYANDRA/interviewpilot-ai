@@ -5,7 +5,9 @@ from app.schemas.answer_schema import SubmitAnswerRequest
 from app.services.interview_service import (
     start_interview,
     submit_answer,
+    end_interview
 )
+from app.schemas.end_interview_schema import EndInterviewRequest
 
 router = APIRouter(
     prefix="/interview",
@@ -25,3 +27,9 @@ def interview(
 def submit_answer_api(request: SubmitAnswerRequest):
 
     return submit_answer(request)
+
+
+@router.post("/end")
+def end(request: EndInterviewRequest):
+
+    return end_interview(request)

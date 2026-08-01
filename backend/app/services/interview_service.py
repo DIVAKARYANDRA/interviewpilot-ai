@@ -54,6 +54,19 @@ def start_interview(data):
         print("===========================================\n")
         raise
 
+def end_interview(request):
+
+    state = SessionManager.get(request.session_id)
+
+    if not state:
+
+        raise ValueError("Interview not found.")
+
+    graph = InterviewGraph()
+
+    state = graph.finish(state)
+
+    return state["report"]
 
 def submit_answer(request):
 
