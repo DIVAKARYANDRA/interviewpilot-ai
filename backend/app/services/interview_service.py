@@ -1,7 +1,7 @@
 from uuid import uuid4
 
-from app.agents.interviewer_agent import InterviewerAgent
 from app.graph.interview_graph import InterviewGraph
+from app.graph.session_manager import SessionManager
 
 
 def start_interview(data):
@@ -36,15 +36,23 @@ def start_interview(data):
     }
 
     graph = InterviewGraph()
-    state = graph.start(state)
-    SessionManager.create(state)
 
-    return {
+    try:
+        state = graph.start(state)
 
-        "session_id": state["session_id"],
+        SessionManager.create(state)
 
-        "question": state["current_question"]
-    }
+        return {
+            "session_id": state["session_id"],
+            "question": state["current_question"]
+        }
+
+    except Exception as e:
+        print("\n========== START INTERVIEW ERROR ==========")
+        print(type(e))
+        print(str(e))
+        print("===========================================\n")
+        raise
 
 
 def submit_answer(request):
@@ -52,20 +60,26 @@ def submit_answer(request):
     state = SessionManager.get(request.session_id)
 
     if not state:
-
         raise ValueError("Interview session not found.")
 
     state["previous_answers"].append(request.answer)
 
-    state = graph.next(state)
+    graph = InterviewGraph()
 
-    SessionManager.update(state)
+    try:
+        state = graph.next(state)
 
-    return {
+        SessionManager.update(state)
 
-        "question": state["current_question"],
+        return {
+            "question": state["current_question"],
+            "difficulty": state["difficulty"],
+            "evaluation": state["evaluations"][-1]
+        }
 
-        "difficulty": state["difficulty"],
-
-        "evaluation": state["evaluations"][-1]
-    }
+    except Exception as e:
+        print("\n========== SUBMIT ANSWER ERROR ==========")
+        print(type(e))
+        print(str(e))
+        print("=========================================\n")
+        raise
