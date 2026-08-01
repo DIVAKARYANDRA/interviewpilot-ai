@@ -22,6 +22,10 @@ def start_interview(data):
 
         "difficulty": data.difficulty,
 
+        "projects": data.projects,
+
+        "interview_type": data.interview_type,
+
         # -----------------------
         # Current Interview State
         # -----------------------

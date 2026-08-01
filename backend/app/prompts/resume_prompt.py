@@ -18,12 +18,14 @@ Resume:
 Return ONLY a valid JSON object matching this exact structure:
 
 {{
-  "name": "",
-  "experience": "",
-  "skills": [],
-  "projects": [],
-  "education": "",
-  "summary": ""
+  "name":"",
+  "experience":0,
+  "current_company":"",
+  "suggested_role":"",
+  "skills":[],
+  "projects":[],
+  "education":"",
+  "summary":""
 }}
 
 Do not include markdown formatting, backticks, code fences (such as ```json), or explanatory text.

@@ -7,6 +7,10 @@ class ResumeAnalysisResponse(BaseModel):
 
     experience: int
 
+    current_company: str | None = None
+
+    suggested_role: str | None = None
+
     skills: list[str]
 
     projects: list[str]

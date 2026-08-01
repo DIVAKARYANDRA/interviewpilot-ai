@@ -17,9 +17,11 @@ class PromptBuilder:
             state.get("previous_questions", [])
         )
 
-        skills = ", ".join(
-            state.get("skills", [])
-        )
+        Projects:
+        {", ".join(state.get("projects", []))}
+
+        Skills:
+        {", ".join(state.get("skills", []))}
 
         interview_rules = {
 
@@ -54,6 +56,15 @@ class PromptBuilder:
             "Resume": """
 - Ask questions based on the candidate's projects, experience and listed skills.
 - Dive deeper into project architecture and implementation.
+
+1. Start with one of the candidate's projects.
+2. Ask about architecture.
+3. Ask why technologies were chosen.
+4. Ask challenges faced.
+5. Ask improvements.
+6. Ask follow-up questions naturally.
+7. Only move to skills if projects are exhausted.
+
 """
 
         }

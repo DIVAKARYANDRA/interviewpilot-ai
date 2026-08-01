@@ -16,3 +16,5 @@ class StartInterviewRequest(BaseModel):
     difficulty: str
 
     interview_type: str
+
+    projects: list[str] = []
