@@ -25,11 +25,16 @@ def interview(
 
     return start_interview(request)
 
-    
+
 @router.post(
     "/submit-answer",
     response_model=SubmitAnswerResponse
 )
+def submit_answer_api(
+    request: SubmitAnswerRequest
+):
+
+    return submit_answer(request)
 
 
 @router.post("/end")
