@@ -1,0 +1,57 @@
+.report-container{
+
+    width:100%;
+
+    max-width:1000px;
+
+    margin:auto;
+
+    padding:30px;
+
+}
+
+
+.overall-score{
+
+    text-align:center;
+
+    margin:40px 0;
+
+}
+
+
+.overall-score h1{
+
+    font-size:70px;
+
+}
+
+
+
+.score-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(
+        auto-fit,
+        minmax(220px,1fr)
+    );
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+
+.readiness{
+
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:16px;
+
+    margin-top:30px;
+
+}

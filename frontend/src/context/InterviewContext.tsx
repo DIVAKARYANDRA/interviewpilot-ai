@@ -18,6 +18,10 @@ interface InterviewContextType {
 
   setTotalQuestions:(value:number)=>void;
 
+  report: any;
+
+  setReport: (report: any) => void;
+
   evaluation: any;
 
   setSessionId: (id: string) => void;
@@ -46,6 +50,8 @@ export function InterviewProvider({
 
   const [currentQuestion,setCurrentQuestion]=useState(1);
 
+  const [report, setReport] = useState<any>(null);
+
   const [totalQuestions,setTotalQuestions]=useState(10);
 
   return (
@@ -63,6 +69,8 @@ export function InterviewProvider({
         setQuestion,
         setAnswer,
         setEvaluation,
+        report,
+        setReport
       }}
     >
       {children}

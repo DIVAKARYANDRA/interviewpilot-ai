@@ -1,0 +1,16 @@
+.list-card{
+
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:16px;
+
+}
+
+
+.list-card li{
+
+    margin-bottom:10px;
+
+}

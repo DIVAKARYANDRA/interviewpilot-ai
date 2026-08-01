@@ -1,0 +1,17 @@
+.score-card{
+
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+}
+
+.score-card h1{
+
+    font-size:40px;
+
+}

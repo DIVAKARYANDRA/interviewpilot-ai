@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "../hooks/useAuth";
 import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
 import InterviewPage from "../pages/Interview/InterviewPage";
+import ReportPage from "../pages/Report/ReportPage";
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,11 @@ export default function AppRoutes() {
         <Route
             path="/interview"
             element={<InterviewPage/>}
+        />
+
+        <Route
+            path="/report"
+            element={<ReportPage/>}
         />
       </Routes>
     </BrowserRouter>

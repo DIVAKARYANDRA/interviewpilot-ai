@@ -5,7 +5,9 @@ import MainLayout from "../../layouts/MainLayout";
 import { useInterview } from "../../context/InterviewContext";
 
 import { submitAnswer } from "../../services/interviewService";
+import { useNavigate } from "react-router-dom";
 
+import { endInterview } from "../../services/reportService";
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
 import Progress from "../../components/interview/Progress/Progress";
 import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
@@ -32,11 +34,15 @@ export default function InterviewPage() {
 
         currentQuestion,
 
-        setCurrentQuestion
+        setCurrentQuestion,
+
+        setReport
 
     } = useInterview();
 
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     async function handleSubmit() {
 
@@ -60,21 +66,37 @@ export default function InterviewPage() {
 
             });
 
-            setQuestion(response.question);
-
             setEvaluation(response.evaluation);
-
-            setCurrentQuestion(currentQuestion + 1);
 
             setAnswer("");
 
-        } catch (error) {
+            if (response.interview_completed) {
+
+                const report = await endInterview(sessionId);
+
+                setReport(report);
+
+                navigate("/report");
+
+                return;
+
+            }
+
+            setQuestion(response.question);
+
+            setCurrentQuestion(response.question_number);
+
+        }
+
+        catch (error) {
 
             console.error(error);
 
             alert("Failed to submit answer.");
 
-        } finally {
+        }
+
+        finally {
 
             setLoading(false);
 
