@@ -1,0 +1,29 @@
+.setup-form{
+
+    max-width:700px;
+
+    margin:60px auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.setup-form input,
+.setup-form textarea,
+.setup-form select{
+
+    padding:15px;
+
+    background:#334155;
+
+    border:none;
+
+    color:white;
+
+    border-radius:10px;
+
+}

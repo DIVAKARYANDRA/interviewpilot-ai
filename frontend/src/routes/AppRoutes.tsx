@@ -3,6 +3,10 @@ import RegisterPage from "../pages/Register/RegisterPage";
 import LandingPage from "../pages/Landing/LandingPage";
 import LoginPage from "../pages/Login/LoginPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
+import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "../hooks/useAuth";
+import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
+import InterviewPage from "../pages/Interview/InterviewPage";
 
 export default function AppRoutes() {
   return (
@@ -10,10 +14,31 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route
+            path="/dashboard"
+            element={
+                isAuthenticated()
+
+                    ?
+
+                    <DashboardPage/>
+
+                    :
+
+                    <Navigate to="/login"/>
+            }
+        />
         <Route
             path="/register"
             element={<RegisterPage />}
+        />
+        <Route
+            path="/interview/setup"
+            element={<InterviewSetupPage/>}
+        />
+        <Route
+            path="/interview"
+            element={<InterviewPage/>}
         />
       </Routes>
     </BrowserRouter>

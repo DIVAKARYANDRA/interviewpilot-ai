@@ -14,3 +14,15 @@ export async function login(
 
   return response;
 }
+
+export function logout() {
+  localStorage.removeItem(
+    "interviewpilot_token"
+  );
+}
+
+export function isAuthenticated() {
+  return !!localStorage.getItem(
+    "interviewpilot_token"
+  );
+}
