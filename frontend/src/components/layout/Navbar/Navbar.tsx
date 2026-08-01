@@ -23,11 +23,15 @@ export default function Navbar() {
 
       </nav>
 
-      <button>
+      <Link to="/register">
 
-        Get Started
+        <button>
 
-      </button>
+            Get Started
+
+        </button>
+
+    </Link>
 
     </header>
   );
