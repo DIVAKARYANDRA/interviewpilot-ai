@@ -1,0 +1,27 @@
+.question-card{
+
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    margin-bottom:30px;
+
+}
+
+.question-label{
+
+    color:#818cf8;
+
+    font-size:14px;
+
+}
+
+.question-card h2{
+
+    margin-top:15px;
+
+    line-height:1.6;
+
+}

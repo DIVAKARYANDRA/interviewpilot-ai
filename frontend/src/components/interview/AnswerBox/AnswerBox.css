@@ -1,0 +1,19 @@
+.answer-box{
+
+    width:100%;
+
+    padding:20px;
+
+    background:#334155;
+
+    color:white;
+
+    border:none;
+
+    border-radius:15px;
+
+    resize:none;
+
+    font-size:16px;
+
+}
