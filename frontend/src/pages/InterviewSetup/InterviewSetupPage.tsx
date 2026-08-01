@@ -10,22 +10,20 @@ export default function InterviewSetupPage() {
 
     const navigate = useNavigate();
 
-    const [loading,setLoading]=useState(false);
+    const {
+        setSessionId,
+        setQuestion
+    } = useInterview();
 
-    const [form,setForm]=useState({
+    const [loading, setLoading] = useState(false);
 
-        name:"Divakar",
-
-        company:"OpenAI",
-
-        role:"AI Engineer",
-
-        experience:3,
-
-        difficulty:"Easy",
-
-        skills:"Python, FastAPI, LangGraph"
-
+    const [form, setForm] = useState({
+        name: "Divakar",
+        company: "OpenAI",
+        role: "AI Engineer",
+        experience: 3,
+        difficulty: "Easy",
+        skills: "Python, FastAPI, LangGraph"
     });
 
     async function handleStart(e:React.FormEvent){
@@ -48,19 +46,10 @@ export default function InterviewSetupPage() {
 
             });
 
-            const {
-                setSessionId,
-                setQuestion
-            } = useInterview();
-
+      
             setSessionId(response.session_id);
 
             setQuestion(response.question);
-
-            sessionStorage.setItem(
-                "question",
-                response.question
-            );
 
             navigate("/interview");
 
