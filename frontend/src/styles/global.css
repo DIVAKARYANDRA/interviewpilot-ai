@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Inter, Arial, sans-serif;
+}
+
+button {
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+a {
+  text-decoration: none;
+}
