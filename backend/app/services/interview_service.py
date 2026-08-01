@@ -22,7 +22,21 @@ def start_interview(data):
 
         "difficulty": data.difficulty,
 
+        # -----------------------
+        # Current Interview State
+        # -----------------------
+
         "current_question": "",
+
+        "current_question_number": 1,
+
+        "total_questions": 10,
+
+        "interview_completed": False,
+
+        # -----------------------
+        # History
+        # -----------------------
 
         "previous_questions": [],
 
@@ -30,9 +44,7 @@ def start_interview(data):
 
         "evaluations": [],
 
-        "skill_scores": {},
-
-        "interview_completed": False
+        "skill_scores": {}
     }
 
     graph = InterviewGraph()
@@ -85,8 +97,19 @@ def submit_answer(request):
         SessionManager.update(state)
 
         return {
+
+            "session_id": state["session_id"],
+
             "question": state["current_question"],
+
             "difficulty": state["difficulty"],
+
+            "question_number": state["current_question_number"],
+
+            "total_questions": state["total_questions"],
+
+            "interview_completed": state["interview_completed"],
+
             "evaluation": state["evaluations"][-1]
         }
 

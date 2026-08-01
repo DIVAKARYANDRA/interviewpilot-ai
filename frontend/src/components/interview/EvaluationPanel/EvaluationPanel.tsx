@@ -1,24 +1,24 @@
-interface Props{
+import "./EvaluationPanel.css";
 
-    evaluation:any;
-
+interface Props {
+    evaluation: any;
 }
 
 export default function EvaluationPanel({
 
     evaluation
 
-}:Props){
+}: Props) {
 
-    if(!evaluation){
+    if (!evaluation) {
 
         return null;
 
     }
 
-    return(
+    return (
 
-        <div>
+        <div className="evaluation-card">
 
             <h2>
 
@@ -26,29 +26,59 @@ export default function EvaluationPanel({
 
             </h2>
 
-            <p>
+            <div className="scores">
 
-                Technical :
+                <div>
 
-                {evaluation.technical_score}
+                    <strong>Technical</strong>
 
-            </p>
+                    <p>{evaluation.technical_score}</p>
 
-            <p>
+                </div>
 
-                Communication :
+                <div>
 
-                {evaluation.communication_score}
+                    <strong>Communication</strong>
 
-            </p>
+                    <p>{evaluation.communication_score}</p>
 
-            <p>
+                </div>
 
-                Confidence :
+                <div>
 
-                {evaluation.confidence_score}
+                    <strong>Confidence</strong>
 
-            </p>
+                    <p>{evaluation.confidence_score}</p>
+
+                </div>
+
+            </div>
+
+            <h3>Strengths</h3>
+
+            <ul>
+
+                {evaluation.strengths.map((item: string) => (
+
+                    <li key={item}>{item}</li>
+
+                ))}
+
+            </ul>
+
+            <h3>Weaknesses</h3>
+
+            <ul>
+
+                {evaluation.weaknesses.map((item: string) => (
+
+                    <li key={item}>{item}</li>
+
+                ))}
+
+            </ul>
+
+            <h3>Feedback</h3>
 
             <p>
 
@@ -56,8 +86,16 @@ export default function EvaluationPanel({
 
             </p>
 
+            <h3>Recommended Next Topic</h3>
+
+            <p>
+
+                {evaluation.next_topic}
+
+            </p>
+
         </div>
 
-    )
+    );
 
 }

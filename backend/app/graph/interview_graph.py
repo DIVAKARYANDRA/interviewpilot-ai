@@ -24,6 +24,11 @@ class InterviewGraph:
 
         state = self.decision.execute(state)
 
+        # Stop interview if completed
+        if state["interview_completed"]:
+
+            return state
+
         state = self.memory.execute(state)
 
         state = self.interviewer.execute(state)

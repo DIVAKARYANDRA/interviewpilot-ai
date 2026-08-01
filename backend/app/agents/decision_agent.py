@@ -7,6 +7,10 @@ class DecisionAgent(BaseAgent):
 
         latest = state["evaluations"][-1]
 
+        # --------------------------
+        # Adaptive Difficulty
+        # --------------------------
+
         if latest["technical_score"] >= 80:
 
             state["difficulty"] = "Hard"
@@ -18,5 +22,19 @@ class DecisionAgent(BaseAgent):
         else:
 
             state["difficulty"] = "Easy"
+
+        # --------------------------
+        # Interview Progress
+        # --------------------------
+
+        state["current_question_number"] += 1
+
+        # --------------------------
+        # Interview Completion
+        # --------------------------
+
+        if state["current_question_number"] > state["total_questions"]:
+
+            state["interview_completed"] = True
 
         return state

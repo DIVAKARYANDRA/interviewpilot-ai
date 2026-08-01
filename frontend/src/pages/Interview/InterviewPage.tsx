@@ -1,9 +1,16 @@
 import { useState } from "react";
+
 import MainLayout from "../../layouts/MainLayout";
 
 import { useInterview } from "../../context/InterviewContext";
 
 import { submitAnswer } from "../../services/interviewService";
+
+import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
+import Progress from "../../components/interview/Progress/Progress";
+import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
+import AnswerBox from "../../components/interview/AnswerBox/AnswerBox";
+import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
 
 export default function InterviewPage() {
 
@@ -13,143 +20,117 @@ export default function InterviewPage() {
 
         question,
 
+        answer,
+
+        setAnswer,
+
         setQuestion,
 
         evaluation,
 
-        setEvaluation
+        setEvaluation,
+
+        currentQuestion,
+
+        setCurrentQuestion
 
     } = useInterview();
 
-    const [answer,setAnswer]=useState("");
+    const [loading, setLoading] = useState(false);
 
-    const [loading,setLoading]=useState(false);
+    async function handleSubmit() {
 
-    async function handleSubmit(){
+        if (!answer.trim()) {
+
+            alert("Please enter your answer.");
+
+            return;
+
+        }
 
         setLoading(true);
 
-        const response=await submitAnswer({
+        try {
 
-            session_id:sessionId,
+            const response = await submitAnswer({
 
-            answer
+                session_id: sessionId,
 
-        });
+                answer
 
-        setQuestion(response.question);
+            });
 
-        setEvaluation(response.evaluation);
+            setQuestion(response.question);
 
-        setAnswer("");
+            setEvaluation(response.evaluation);
 
-        setLoading(false);
+            setCurrentQuestion(currentQuestion + 1);
+
+            setAnswer("");
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to submit answer.");
+
+        } finally {
+
+            setLoading(false);
+
+        }
 
     }
 
-    return(
+    return (
 
         <MainLayout>
 
-            <h1>
+            <InterviewLayout>
 
-                AI Interview
+                <Progress />
 
-            </h1>
+                <QuestionCard
+                    question={question}
+                />
 
-            <br/>
+                <AnswerBox
+                    answer={answer}
+                    setAnswer={setAnswer}
+                />
 
-            <h2>
+                <br />
 
-                {question}
+                <button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                >
 
-            </h2>
+                    {
 
-            <br/>
+                        loading
 
-            <textarea
+                            ?
 
-                rows={8}
+                            "Submitting..."
 
-                value={answer}
+                            :
 
-                onChange={(e)=>setAnswer(e.target.value)}
+                            "Submit Answer"
 
-            />
+                    }
 
-            <br/>
+                </button>
 
-            <button
+                <br />
 
-                onClick={handleSubmit}
+                <br />
 
-            >
+                <EvaluationPanel
+                    evaluation={evaluation}
+                />
 
-                {
-
-                    loading
-
-                    ?
-
-                    "Submitting..."
-
-                    :
-
-                    "Submit Answer"
-
-                }
-
-            </button>
-
-            {
-
-                evaluation &&
-
-                <>
-
-                    <hr/>
-
-                    <h2>
-
-                        AI Evaluation
-
-                    </h2>
-
-                    <p>
-
-                        Technical :
-
-                        {evaluation.technical_score}
-
-                    </p>
-
-                    <p>
-
-                        Communication :
-
-                        {evaluation.communication_score}
-
-                    </p>
-
-                    <p>
-
-                        Confidence :
-
-                        {evaluation.confidence_score}
-
-                    </p>
-
-                    <p>
-
-                        Feedback :
-
-                        {evaluation.feedback}
-
-                    </p>
-
-                </>
-
-            }
+            </InterviewLayout>
 
         </MainLayout>
 
