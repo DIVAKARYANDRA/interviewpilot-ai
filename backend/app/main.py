@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.api.auth_api import router as auth_router
 from app.api.interview_api import router as interview_router
-
+from app.models import activity
 from app.database.db import Base, engine
+from app.api.resume_api import router as resume_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -35,7 +35,7 @@ app.add_middleware(
 # -----------------------------
 app.include_router(auth_router)
 app.include_router(interview_router)
-
+app.include_router(resume_router)
 # -----------------------------
 # Health
 # -----------------------------

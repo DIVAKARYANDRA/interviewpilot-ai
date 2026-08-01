@@ -14,3 +14,5 @@ class StartInterviewRequest(BaseModel):
     skills: list[str]
 
     difficulty: str
+
+    interview_type: str

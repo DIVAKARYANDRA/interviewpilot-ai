@@ -1,7 +1,7 @@
+import json
 import os
 
 from dotenv import load_dotenv
-
 from google import genai
 
 load_dotenv()
@@ -22,3 +22,19 @@ class GeminiService:
         )
 
         return response.text
+
+    @staticmethod
+    def generate_json(prompt: str):
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=prompt
+        )
+
+        text = response.text.strip()
+
+        if text.startswith("```json"):
+            text = text.replace("```json", "")
+            text = text.replace("```", "")
+
+        return json.loads(text)

@@ -18,13 +18,20 @@ export default function InterviewSetupPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const [form, setForm] = useState({
-        name: "Divakar",
-        company: "OpenAI",
-        role: "AI Engineer",
-        experience: 3,
-        difficulty: "Easy",
-        skills: "Python, FastAPI, LangGraph"
+    const [form,setForm]=useState({
+
+        company:"",
+
+        role:"",
+
+        experience:3,
+
+        difficulty:"Easy",
+
+        interview_type:"Technical",
+
+        skills:""
+
     });
 
     async function handleStart(e:React.FormEvent){
@@ -110,6 +117,77 @@ export default function InterviewSetupPage() {
                     <option>Hard</option>
                 </select>
 
+                <textarea
+                    rows={5}
+                    value={form.skills}
+                    onChange={(e)=>
+                        setForm({...form,skills:e.target.value})
+                    }
+                />
+
+
+                <h3>
+
+                    Interview Type
+
+                    </h3>
+
+                    <select
+
+                        value={form.interview_type}
+
+                        onChange={(e)=>
+
+                            setForm({
+
+                                ...form,
+
+                                interview_type:e.target.value
+
+                            })
+
+                        }
+
+                    >
+
+                        <option>
+
+                            Technical
+
+                        </option>
+
+                        <option>
+
+                            HR
+
+                        </option>
+
+                        <option>
+
+                            Behavioral
+
+                        </option>
+
+                        <option>
+
+                            System Design
+
+                        </option>
+
+                        <option>
+
+                            DSA
+
+                        </option>
+
+                        <option>
+
+                            Resume
+
+                        </option>
+
+                    </select>
+
                 <h3>
 
                     Interview Mode
@@ -145,14 +223,7 @@ export default function InterviewSetupPage() {
 
                     </select>
 
-                <textarea
-                    rows={5}
-                    value={form.skills}
-                    onChange={(e)=>
-                        setForm({...form,skills:e.target.value})
-                    }
-                />
-
+                
                 <button>
 
                     {

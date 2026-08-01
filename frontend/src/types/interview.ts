@@ -37,6 +37,7 @@ export interface StartInterviewRequest {
   experience: number;
   skills: string[];
   difficulty: string;
+  interview_type:string;
 }
 
 export interface StartInterviewResponse {
