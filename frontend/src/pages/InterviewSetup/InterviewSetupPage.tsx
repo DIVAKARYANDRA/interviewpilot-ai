@@ -20,6 +20,8 @@ export default function InterviewSetupPage() {
 
     const [form,setForm]=useState({
 
+        name: "",
+
         company:"",
 
         role:"",
