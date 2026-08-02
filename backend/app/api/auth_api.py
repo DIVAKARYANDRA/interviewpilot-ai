@@ -34,10 +34,18 @@ def register(
             "user_id": created_user.id
         }
 
-    except ValueError as e:
+    # except ValueError as e:
+
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail=str(e)
+    #     )
+    except Exception as e:
+
+        print("REGISTER ERROR:", str(e))
 
         raise HTTPException(
-            status_code=400,
+            status_code=500,
             detail=str(e)
         )
 
