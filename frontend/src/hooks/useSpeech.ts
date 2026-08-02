@@ -1,4 +1,10 @@
-export function speak(text:string){
+export function speak(
+
+    text: string,
+
+    onEnd?: () => void
+
+) {
 
     const speech = new SpeechSynthesisUtterance(text);
 
@@ -7,6 +13,16 @@ export function speak(text:string){
     speech.pitch = 1;
 
     speech.lang = "en-US";
+
+    speech.onend = () => {
+
+        if (onEnd) {
+
+            onEnd();
+
+        }
+
+    };
 
     window.speechSynthesis.cancel();
 

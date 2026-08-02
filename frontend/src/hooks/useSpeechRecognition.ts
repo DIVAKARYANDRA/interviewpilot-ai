@@ -4,19 +4,25 @@ declare global {
 
     interface Window {
 
-        SpeechRecognition: any;
-
         webkitSpeechRecognition: any;
+
+        SpeechRecognition: any;
 
     }
 
 }
 
-export function useSpeechRecognition() {
+export function useSpeechRecognition(
+
+    onFinished?: (text: string) => void
+
+) {
 
     const recognitionRef = useRef<any>(null);
 
-    const [isListening, setIsListening] = useState(false);
+    const transcriptRef = useRef("");
+
+    const [listening, setListening] = useState(false);
 
     const [transcript, setTranscript] = useState("");
 
@@ -31,7 +37,9 @@ export function useSpeechRecognition() {
         if (!SpeechRecognition) {
 
             console.warn(
-                "Speech Recognition not supported."
+
+                "Speech Recognition is not supported in this browser."
+
             );
 
             return;
@@ -44,47 +52,71 @@ export function useSpeechRecognition() {
 
         recognition.continuous = false;
 
-        recognition.interimResults = true;
+        recognition.interimResults = false;
+
+        recognition.maxAlternatives = 1;
 
         recognition.onstart = () => {
 
-            setIsListening(true);
+            setListening(true);
 
-        };
+            setTranscript("");
 
-        recognition.onend = () => {
-
-            setIsListening(false);
+            transcriptRef.current = "";
 
         };
 
         recognition.onresult = (event: any) => {
 
-            let finalTranscript = "";
+            const text =
 
-            for (
+                event.results[0][0].transcript;
 
-                let i = 0;
+            transcriptRef.current = text;
 
-                i < event.results.length;
+            setTranscript(text);
 
-                i++
+        };
+
+        recognition.onerror = (event: any) => {
+
+            console.error(
+
+                "Speech Recognition Error:",
+
+                event.error
+
+            );
+
+            setListening(false);
+
+        };
+
+        recognition.onend = () => {
+
+            setListening(false);
+
+            const finalTranscript =
+
+                transcriptRef.current.trim();
+
+            if (
+
+                finalTranscript &&
+
+                onFinished
 
             ) {
 
-                finalTranscript +=
-
-                    event.results[i][0].transcript;
+                onFinished(finalTranscript);
 
             }
-
-            setTranscript(finalTranscript);
 
         };
 
         recognitionRef.current = recognition;
 
-    }, []);
+    }, [onFinished]);
 
     function startListening() {
 
@@ -102,11 +134,13 @@ export function useSpeechRecognition() {
 
         transcript,
 
-        isListening,
+        listening,
 
         startListening,
 
-        stopListening
+        stopListening,
+
+        setTranscript
 
     };
 

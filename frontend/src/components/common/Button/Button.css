@@ -1,0 +1,25 @@
+.app-button{
+
+    background:var(--primary);
+
+    color:white;
+
+    border:none;
+
+    border-radius:var(--radius);
+
+    padding:14px 24px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+.app-button:hover{
+
+    background:var(--primary-dark);
+
+}

@@ -1,3 +1,5 @@
+import "./Progress.css";
+
 import { useInterview } from "../../../context/InterviewContext";
 
 export default function Progress() {
@@ -10,14 +12,38 @@ export default function Progress() {
 
     } = useInterview();
 
-    return(
+    const percentage =
 
-        <p>
+        (currentQuestion / totalQuestions) * 100;
 
-            Question {currentQuestion} of {totalQuestions}
+    return (
 
-        </p>
+        <div>
 
-    )
+            <p>
+
+                Question {currentQuestion} of {totalQuestions}
+
+            </p>
+
+            <div className="progress-track">
+
+                <div
+
+                    className="progress-fill"
+
+                    style={{
+
+                        width: `${percentage}%`
+
+                    }}
+
+                />
+
+            </div>
+
+        </div>
+
+    );
 
 }

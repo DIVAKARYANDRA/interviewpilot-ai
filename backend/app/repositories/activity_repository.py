@@ -21,3 +21,24 @@ class ActivityRepository:
         db.refresh(activity)
 
         return activity
+
+    @staticmethod
+    def get_all(
+
+        db: Session,
+
+        user_id: int
+
+    ):
+
+        return (
+
+            db.query(Activity)
+
+            .filter(Activity.user_id == user_id)
+
+            .order_by(Activity.created_at.desc())
+
+            .all()
+
+        )

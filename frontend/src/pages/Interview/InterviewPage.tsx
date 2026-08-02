@@ -7,7 +7,11 @@ import { useInterview } from "../../context/InterviewContext";
 
 import { submitAnswer } from "../../services/interviewService";
 import { endInterview } from "../../services/reportService";
+import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
+import VoiceButton from "../../components/interview/VoiceButton/VoiceButton";
+import Transcript from "../../components/interview/Transcript/Transcript";
+import ListeningIndicator from "../../components/interview/ListeningIndicator/ListeningIndicator";
 import { speak } from "../../hooks/useSpeech";
 
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
@@ -46,11 +50,41 @@ export default function InterviewPage() {
 
     const [loading, setLoading] = useState(false);
 
+    const {
+
+    transcript,
+
+            listening,
+
+            startListening,
+
+            setTranscript
+
+        } = useSpeechRecognition(
+
+            async (text) => {
+
+                setAnswer(text);
+
+            }
+
+        );
+
     /*
      --------------------------------
      Voice Mode
      --------------------------------
     */
+
+     useEffect(() => {
+
+        if (transcript) {
+
+            setAnswer(transcript);
+
+        }
+
+    }, [transcript]);
 
     useEffect(() => {
 
@@ -66,7 +100,17 @@ export default function InterviewPage() {
 
             window.speechSynthesis.cancel();
 
-            speak(question);
+            speak(
+
+                question,
+
+                () => {
+
+                    startListening();
+
+                }
+
+            );
 
         }
 
@@ -83,6 +127,34 @@ export default function InterviewPage() {
         interviewMode
 
     ]);
+
+    useEffect(() => {
+
+    if (
+
+        interviewMode !== "voice"
+
+    ) {
+
+        return;
+
+    }
+
+    if (
+
+        answer.trim()
+
+    ) {
+
+        handleSubmit();
+
+    }
+
+}, [
+
+    answer
+
+]);
 
 
 

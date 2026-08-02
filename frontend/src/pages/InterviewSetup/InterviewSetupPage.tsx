@@ -12,6 +12,14 @@ import ResumeSummary from "../../components/resume/ResumeSummary/ResumeSummary";
 
 import type { ResumeAnalysis } from "../../types/resume";
 
+import Card from "../../components/common/Card/Card";
+import Input from "../../components/common/Input/Input";
+import Select from "../../components/common/Select/Select";
+import TextArea from "../../components/common/TextArea/TextArea";
+import Button from "../../components/common/Button/Button";
+import PageHeader from "../../components/common/PageHeader/PageHeader";
+import Section from "../../components/common/Section/Section";
+
 import "./InterviewSetupPage.css";
 
 export default function InterviewSetupPage() {
@@ -23,6 +31,8 @@ export default function InterviewSetupPage() {
         setSessionId,
 
         setQuestion,
+
+        interviewMode,
 
         setInterviewMode
 
@@ -80,13 +90,9 @@ export default function InterviewSetupPage() {
 
                 });
 
-            setSessionId(
-                response.session_id
-            );
+            setSessionId(response.session_id);
 
-            setQuestion(
-                response.question
-            );
+            setQuestion(response.question);
 
             navigate("/interview");
 
@@ -96,9 +102,7 @@ export default function InterviewSetupPage() {
 
             console.error(error);
 
-            alert(
-                "Failed to start interview."
-            );
+            alert("Failed to start interview.");
 
         }
 
@@ -119,299 +123,329 @@ export default function InterviewSetupPage() {
                 onSubmit={handleStart}
             >
 
-                <h1>
+                <PageHeader
 
-                    Configure Interview
+                    title="Configure Interview"
 
-                </h1>
+                    subtitle="Prepare your personalized AI interview."
 
-                <ResumeUploader
+                />
 
-                    onResumeParsed={(data) => {
+                <Section>
 
-                        setResume(data);
+                    <Card>
 
-                        setForm({
+                        <ResumeUploader
 
-                            ...form,
+                            onResumeParsed={(data) => {
 
-                            name: data.name,
+                                setResume(data);
 
-                            company:
-                                data.current_company || "",
+                                setForm({
 
-                            role:
-                                data.suggested_role || "",
+                                    ...form,
 
-                            experience:
-                                data.experience,
+                                    name: data.name,
 
-                            skills:
-                                data.skills.join(","),
+                                    company: data.current_company || "",
 
-                            projects:
-                                data.projects.join(","),
+                                    role: data.suggested_role || "",
 
-                            interview_type:
+                                    experience: data.experience,
+
+                                    skills: data.skills.join(","),
+
+                                    projects: data.projects.join(","),
+
+                                    interview_type: "Resume"
+
+                                });
+
+                            }}
+
+                        />
+
+                        {
+
+                            resume &&
+
+                            <ResumeSummary
+                                resume={resume}
+                            />
+
+                        }
+
+                    </Card>
+
+                </Section>
+
+                <Section>
+
+                    <Card>
+
+                        <Input
+
+                            value={form.name}
+
+                            placeholder="Candidate Name"
+
+                            onChange={(value) =>
+
+                                setForm({
+
+                                    ...form,
+
+                                    name: value
+
+                                })
+
+                            }
+
+                        />
+
+                        <br />
+
+                        <Input
+
+                            value={form.company}
+
+                            placeholder="Target Company"
+
+                            onChange={(value) =>
+
+                                setForm({
+
+                                    ...form,
+
+                                    company: value
+
+                                })
+
+                            }
+
+                        />
+
+                        <br />
+
+                        <Input
+
+                            value={form.role}
+
+                            placeholder="Target Role"
+
+                            onChange={(value) =>
+
+                                setForm({
+
+                                    ...form,
+
+                                    role: value
+
+                                })
+
+                            }
+
+                        />
+
+                        <br />
+
+                        <Input
+
+                            value={String(form.experience)}
+
+                            type="number"
+
+                            placeholder="Years of Experience"
+
+                            onChange={(value) =>
+
+                                setForm({
+
+                                    ...form,
+
+                                    experience: Number(value)
+
+                                })
+
+                            }
+
+                        />
+
+                        <br />
+
+                        <Select
+
+                            value={form.difficulty}
+
+                            options={[
+
+                                "Easy",
+
+                                "Medium",
+
+                                "Hard"
+
+                            ]}
+
+                            onChange={(value) =>
+
+                                setForm({
+
+                                    ...form,
+
+                                    difficulty: value
+
+                                })
+
+                            }
+
+                        />
+
+                        <br />
+
+                        <Select
+
+                            value={form.interview_type}
+
+                            options={[
+
+                                "Technical",
+
+                                "HR",
+
+                                "Behavioral",
+
+                                "System Design",
+
+                                "DSA",
+
                                 "Resume"
 
-                        });
+                            ]}
 
-                    }}
+                            onChange={(value) =>
 
-                />
+                                setForm({
 
-                {
+                                    ...form,
 
-                    resume &&
+                                    interview_type: value
 
-                    <ResumeSummary
-                        resume={resume}
-                    />
+                                })
 
-                }
+                            }
 
-                <hr />
+                        />
 
-                <input
+                        <br />
 
-                    placeholder="Candidate Name"
+                        <TextArea
 
-                    value={form.name}
+                            rows={4}
 
-                    onChange={(e) =>
+                            value={form.skills}
 
-                        setForm({
+                            placeholder="Skills (comma separated)"
 
-                            ...form,
+                            onChange={(value) =>
 
-                            name: e.target.value
+                                setForm({
 
-                        })
+                                    ...form,
 
-                    }
+                                    skills: value
 
-                />
+                                })
 
-                <input
+                            }
 
-                    placeholder="Target Company"
+                        />
 
-                    value={form.company}
+                        <br />
 
-                    onChange={(e) =>
+                        <TextArea
 
-                        setForm({
+                            rows={4}
 
-                            ...form,
+                            value={form.projects}
 
-                            company: e.target.value
+                            placeholder="Projects (comma separated)"
 
-                        })
+                            onChange={(value) =>
 
-                    }
+                                setForm({
 
-                />
+                                    ...form,
 
-                <input
+                                    projects: value
 
-                    placeholder="Target Role"
+                                })
 
-                    value={form.role}
+                            }
 
-                    onChange={(e) =>
+                        />
 
-                        setForm({
+                        <br />
 
-                            ...form,
+                        <Select
 
-                            role: e.target.value
+                            value={interviewMode}
 
-                        })
+                            options={[
 
-                    }
+                                "text",
 
-                />
+                                "voice"
 
-                <input
+                            ]}
 
-                    type="number"
+                            onChange={(value) =>
 
-                    placeholder="Experience"
+                                setInterviewMode(
 
-                    value={form.experience}
+                                    value as
 
-                    onChange={(e) =>
+                                    "text"
 
-                        setForm({
+                                    |
 
-                            ...form,
+                                    "voice"
 
-                            experience:
-                                Number(e.target.value)
+                                )
 
-                        })
+                            }
 
-                    }
+                        />
 
-                />
+                        <br />
 
-                <select
+                        <Button
 
-                    value={form.difficulty}
+                            type="submit"
 
-                    onChange={(e) =>
+                            disabled={loading}
 
-                        setForm({
+                        >
 
-                            ...form,
+                            {
 
-                            difficulty:
-                                e.target.value
+                                loading
 
-                        })
+                                    ?
 
-                    }
+                                    "Starting Interview..."
 
-                >
+                                    :
 
-                    <option>Easy</option>
+                                    "Start Interview"
 
-                    <option>Medium</option>
+                            }
 
-                    <option>Hard</option>
+                        </Button>
 
-                </select>
+                    </Card>
 
-                <select
-
-                    value={form.interview_type}
-
-                    onChange={(e) =>
-
-                        setForm({
-
-                            ...form,
-
-                            interview_type:
-                                e.target.value
-
-                        })
-
-                    }
-
-                >
-
-                    <option>Technical</option>
-
-                    <option>HR</option>
-
-                    <option>Behavioral</option>
-
-                    <option>System Design</option>
-
-                    <option>DSA</option>
-
-                    <option>Resume</option>
-
-                </select>
-
-                <textarea
-
-                    rows={4}
-
-                    placeholder="Skills (comma separated)"
-
-                    value={form.skills}
-
-                    onChange={(e) =>
-
-                        setForm({
-
-                            ...form,
-
-                            skills:
-                                e.target.value
-
-                        })
-
-                    }
-
-                />
-
-                <textarea
-
-                    rows={4}
-
-                    placeholder="Projects (comma separated)"
-
-                    value={form.projects}
-
-                    onChange={(e) =>
-
-                        setForm({
-
-                            ...form,
-
-                            projects:
-                                e.target.value
-
-                        })
-
-                    }
-
-                />
-
-                <select
-
-                    defaultValue="text"
-
-                    onChange={(e) =>
-
-                        setInterviewMode(
-
-                            e.target.value as
-                                "text" | "voice"
-
-                        )
-
-                    }
-
-                >
-
-                    <option value="text">
-
-                        Text Interview
-
-                    </option>
-
-                    <option value="voice">
-
-                        Voice Interview
-
-                    </option>
-
-                </select>
-
-                <button
-                    disabled={loading}
-                >
-
-                    {
-
-                        loading
-
-                            ?
-
-                            "Starting Interview..."
-
-                            :
-
-                            "Start Interview"
-
-                    }
-
-                </button>
+                </Section>
 
             </form>
 

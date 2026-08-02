@@ -1,27 +1,28 @@
+import Card from "../../common/Card/Card";
 import "./QuestionCard.css";
 
 interface Props {
-  question: string;
+    question: string;
 }
 
 export default function QuestionCard({
-  question,
+    question
 }: Props) {
-  return (
-    <div className="question-card">
 
-      <span className="question-label">
+    return (
 
-        🤖 InterviewPilot AI
+        <Card>
 
-      </span>
+            <h3>💬 Interview Question</h3>
 
-      <h2>
+            <p className="question-text">
 
-        {question}
+                {question}
 
-      </h2>
+            </p>
 
-    </div>
-  );
+        </Card>
+
+    );
+
 }
