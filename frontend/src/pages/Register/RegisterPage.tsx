@@ -1,133 +1,399 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import MainLayout from "../../layouts/MainLayout";
+import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
+
 import { registerUser } from "../../services/authService";
 
 import "./RegisterPage.css";
 
+
 export default function RegisterPage() {
+
 
     const navigate = useNavigate();
 
-    const [form,setForm]=useState({
+
+    const [form,setForm] = useState({
+
         name:"",
         email:"",
         password:"",
-        experience:0
+        confirmPassword:"",
+        experience:0,
+        current_company:"",
+        target_company:"",
+        target_role:""
+
     });
 
-    const [loading,setLoading]=useState(false);
 
-    const [error,setError]=useState("");
+    const [loading,setLoading] = useState(false);
 
-    async function handleSubmit(e:React.FormEvent){
+    const [error,setError] = useState("");
 
-        e.preventDefault();
 
-        try{
 
-            setLoading(true);
+    function updateField(
+        field:string,
+        value:any
+    ){
 
-            setError("");
+        setForm({
 
-            await registerUser(form);
+            ...form,
 
-            alert("Registration Successful!");
+            [field]:value
 
-            navigate("/login");
-
-        }catch{
-
-            setError("Registration Failed");
-
-        }finally{
-
-            setLoading(false);
-
-        }
+        });
 
     }
 
-    return(
 
-        <MainLayout>
 
-            <div className="register-container">
+    async function handleSubmit(
+        e:React.FormEvent
+    ){
 
-                <form
-                    className="register-card"
-                    onSubmit={handleSubmit}
-                >
+        e.preventDefault();
 
-                    <h1>Create Account</h1>
 
-                    <input
-                        placeholder="Full Name"
-                        value={form.name}
-                        onChange={(e)=>setForm({...form,name:e.target.value})}
-                    />
+        setError("");
 
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={form.email}
-                        onChange={(e)=>setForm({...form,email:e.target.value})}
-                    />
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={form.password}
-                        onChange={(e)=>setForm({...form,password:e.target.value})}
-                    />
 
-                    <input
-                        type="number"
-                        placeholder="Experience (Years)"
-                        value={form.experience}
-                        onChange={(e)=>setForm({...form,experience:Number(e.target.value)})}
-                    />
+        if(!form.name ||
+           !form.email ||
+           !form.password ||
+           !form.confirmPassword){
 
-                    {error &&
+            setError(
+                "Please fill all required fields."
+            );
 
-                        <span className="error">
+            return;
 
-                            {error}
+        }
 
-                        </span>
+
+        if(form.password !== form.confirmPassword){
+
+            setError(
+                "Passwords do not match."
+            );
+
+            return;
+
+        }
+
+
+        if(form.password.length < 8){
+
+            setError(
+                "Password must contain minimum 8 characters."
+            );
+
+            return;
+
+        }
+
+
+
+        try{
+
+
+            setLoading(true);
+
+
+
+            await registerUser({
+
+                name:form.name,
+
+                email:form.email,
+
+                password:form.password,
+
+                experience:form.experience,
+
+                current_company:
+                    form.current_company,
+
+                target_company:
+                    form.target_company,
+
+                target_role:
+                    form.target_role
+
+            });
+
+
+            navigate("/login");
+
+
+        }
+
+        catch(error:any){
+
+
+            setError(
+
+                error?.response?.data?.detail
+
+                ||
+
+                "Registration failed."
+
+            );
+
+
+        }
+
+        finally{
+
+
+            setLoading(false);
+
+
+        }
+
+
+    }
+
+
+
+    return (
+
+        <AuthLayout>
+
+
+            <form
+
+                className="auth-card"
+
+                onSubmit={handleSubmit}
+
+            >
+
+
+                <h1>
+                    Create Account
+                </h1>
+
+
+                <p>
+                    Join InterviewPilot AI
+                </p>
+
+
+
+                <label>
+                    Full Name *
+                </label>
+
+                <input
+
+                    value={form.name}
+
+                    onChange={
+                        e=>updateField(
+                            "name",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Email *
+                </label>
+
+                <input
+
+                    type="email"
+
+                    value={form.email}
+
+                    onChange={
+                        e=>updateField(
+                            "email",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Password *
+                </label>
+
+
+                <input
+
+                    type="password"
+
+                    value={form.password}
+
+                    onChange={
+                        e=>updateField(
+                            "password",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Confirm Password *
+                </label>
+
+
+                <input
+
+                    type="password"
+
+                    value={form.confirmPassword}
+
+                    onChange={
+                        e=>updateField(
+                            "confirmPassword",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Experience
+                </label>
+
+                <input
+
+                    type="number"
+
+                    value={form.experience}
+
+                    onChange={
+                        e=>updateField(
+                            "experience",
+                            Number(e.target.value)
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Current Company
+                </label>
+
+                <input
+
+                    value={form.current_company}
+
+                    onChange={
+                        e=>updateField(
+                            "current_company",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Target Company
+                </label>
+
+                <input
+
+                    value={form.target_company}
+
+                    onChange={
+                        e=>updateField(
+                            "target_company",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                <label>
+                    Target Role
+                </label>
+
+                <input
+
+                    value={form.target_role}
+
+                    onChange={
+                        e=>updateField(
+                            "target_role",
+                            e.target.value
+                        )
+                    }
+
+                />
+
+
+
+                {
+
+                    error &&
+
+                    <div className="auth-error">
+
+                        {error}
+
+                    </div>
+
+                }
+
+
+
+                <button disabled={loading}>
+
+                    {
+
+                    loading
+
+                    ?
+
+                    "Creating..."
+
+                    :
+
+                    "Register"
 
                     }
 
-                    <button>
+                </button>
 
-                        {
 
-                            loading
 
-                            ?
+                <Link to="/login">
 
-                            "Creating..."
+                    Already have an account? Login
 
-                            :
+                </Link>
 
-                            "Register"
 
-                        }
+            </form>
 
-                    </button>
 
-                    <Link to="/login">
-
-                        Already have an account?
-
-                    </Link>
-
-                </form>
-
-            </div>
-
-        </MainLayout>
+        </AuthLayout>
 
     );
 
