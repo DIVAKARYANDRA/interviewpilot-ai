@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 import {
     isAuthenticated,
     logout,
     getCurrentUser
 } from "../../../hooks/useAuth";
+import {useEffect,useState} from "react";
 
+import {
+getUser,
+logout,
+isAuthenticated
+}
+from "../../../hooks/useAuth";
 
 import { scrollToSection } from "../../../utils/scroll";
 
@@ -25,6 +31,24 @@ export default function Navbar(){
 
     const user =
         getCurrentUser();
+
+    const [user,setUser]=useState<any>(null);
+
+
+      useEffect(()=>{
+
+      if(isAuthenticated()){
+
+      getUser()
+      .then(data=>{
+
+      setUser(data);
+
+      });
+
+      }
+
+      },[]);
 
 
 
@@ -105,7 +129,7 @@ setOpen(!open)
 
 👤
 {
-user?.email
+user?.name
 ||
 "Profile"
 }

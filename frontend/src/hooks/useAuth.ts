@@ -1,45 +1,43 @@
-import { loginUser } from "../services/authService";
-import { saveToken } from "../utils/token";
+import {
+ loginUser,
+ getCurrentUser as fetchUser
+}
+from "../services/authService";
+
+import {
+ saveToken
+}
+from "../utils/token";
 
 
 export async function login(
-    email:string,
-    password:string
+email:string,
+password:string
 ){
 
-    const response = await loginUser({
+const response =
+await loginUser({
 
-        email,
+email,
+password
 
-        password,
-
-    });
-
-
-    saveToken(
-        response.access_token
-    );
+});
 
 
-    /*
-      Store basic user information
-      for navbar/profile display
-    */
-
-    localStorage.setItem(
-
-        "interviewpilot_user",
-
-        JSON.stringify({
-
-            email
-
-        })
-
-    );
+saveToken(
+response.access_token
+);
 
 
-    return response;
+return response;
+
+}
+
+
+
+export async function getUser(){
+
+return await fetchUser();
 
 }
 
@@ -47,17 +45,11 @@ export async function login(
 
 export function logout(){
 
-    localStorage.removeItem(
-        "interviewpilot_token"
-    );
+localStorage.removeItem(
+"interviewpilot_token"
+);
 
-
-    localStorage.removeItem(
-        "interviewpilot_user"
-    );
-
-
-    window.location.href="/";
+window.location.href="/";
 
 }
 
@@ -65,24 +57,8 @@ export function logout(){
 
 export function isAuthenticated(){
 
-    return !!localStorage.getItem(
-        "interviewpilot_token"
-    );
-
-}
-
-
-
-export function getCurrentUser(){
-
-    const user =
-        localStorage.getItem(
-            "interviewpilot_user"
-        );
-
-
-    return user
-        ? JSON.parse(user)
-        : null;
+return !!localStorage.getItem(
+"interviewpilot_token"
+);
 
 }
