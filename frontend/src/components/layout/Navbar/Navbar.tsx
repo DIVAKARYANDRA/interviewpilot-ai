@@ -55,15 +55,6 @@ export default function Navbar() {
                     </button>
 
 
-                    <button
-                        onClick={() =>
-                            scrollToSection("pricing")
-                        }
-                    >
-                        Pricing
-                    </button>
-
-
                 </nav>
 
 
