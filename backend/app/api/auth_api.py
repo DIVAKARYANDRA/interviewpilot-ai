@@ -7,10 +7,22 @@ from app.utils.auth_dependency import get_current_user
 from app.services.auth_service import get_current_user_service
 from app.database.db import get_db
 from app.schemas.user_schema import UserLogin
-from app.services.auth_service import login_user
 from app.schemas.user_schema import UserRegister
 from fastapi import HTTPException
-from app.services.auth_service import register_user
+
+from app.schemas.profile_schema import (
+    UpdateProfileRequest,
+    UpdatePasswordRequest
+)
+
+from app.services.auth_service import (
+    update_profile,
+    update_password,
+    register_user,
+    login_user
+)
+
+from app.utils.auth_dependency import get_current_user
 
 router = APIRouter(
     prefix="/auth",
@@ -124,5 +136,63 @@ def get_me(
         "name": user.name,
 
         "email": user.email
+
+    }
+
+@router.put("/profile")
+def profile_update(
+
+    request:UpdateProfileRequest,
+
+    db:Session=Depends(get_db),
+
+    current_user=Depends(get_current_user)
+
+):
+
+    user = update_profile(
+
+        db,
+
+        current_user["user_id"],
+
+        request.name
+
+    )
+
+
+    return {
+
+        "message":"Profile updated",
+
+        "name":user.name
+
+    }
+
+@router.put("/password")
+def password_update(
+
+    request:UpdatePasswordRequest,
+
+    db:Session=Depends(get_db),
+
+    current_user=Depends(get_current_user)
+
+):
+
+    update_password(
+
+        db,
+
+        current_user["user_id"],
+
+        request.password
+
+    )
+
+
+    return {
+
+        "message":"Password updated"
 
     }
