@@ -1,5 +1,3 @@
-export default api;
-
 import axios from "axios";
 
 import { getToken } from "../utils/token";
@@ -18,7 +16,6 @@ api.interceptors.request.use(
 
     (config)=>{
 
-
         const token = getToken();
 
 
@@ -33,6 +30,7 @@ api.interceptors.request.use(
         return config;
 
     },
+
 
     (error)=>{
 
