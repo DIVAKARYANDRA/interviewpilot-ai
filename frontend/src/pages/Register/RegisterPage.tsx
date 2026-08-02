@@ -20,10 +20,10 @@ export default function RegisterPage() {
         email:"",
         password:"",
         confirmPassword:"",
-        experience:0,
-        current_company:"",
-        target_company:"",
-        target_role:""
+        // experience:0,
+        // current_company:"",
+        // target_company:"",
+        // target_role:""
 
     });
 
@@ -114,16 +114,16 @@ export default function RegisterPage() {
 
                 password:form.password,
 
-                experience:form.experience,
+                // experience:form.experience,
 
-                current_company:
-                    form.current_company,
+                // current_company:
+                //     form.current_company,
 
-                target_company:
-                    form.target_company,
+                // target_company:
+                //     form.target_company,
 
-                target_role:
-                    form.target_role
+                // target_role:
+                //     form.target_role
 
             });
 
@@ -270,7 +270,7 @@ export default function RegisterPage() {
                 />
 
 
-
+{/* 
                 <label>
                     Experience
                 </label>
@@ -347,7 +347,7 @@ export default function RegisterPage() {
 
                 />
 
-
+ */}
 
                 {
 
