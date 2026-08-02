@@ -12,6 +12,59 @@ from app.utils.security import (
     hash_password,
 )
 
+def update_profile(
+    db: Session,
+    user_id: int,
+    name: str
+):
+
+    user = get_user_by_id(
+        db,
+        user_id
+    )
+
+
+    if not user:
+        raise ValueError(
+            "User not found"
+        )
+
+
+    user.name = name
+
+    db.commit()
+
+    db.refresh(user)
+
+    return user
+
+
+
+def update_password(
+    db: Session,
+    user_id: int,
+    password: str
+):
+
+    user = get_user_by_id(
+        db,
+        user_id
+    )
+
+
+    if not user:
+        raise ValueError(
+            "User not found"
+        )
+
+
+    user.password = hash_password(
+        password
+    )
+
+    db.commit()
+
+    return True
 
 def register_user(db: Session, user_data):
 
