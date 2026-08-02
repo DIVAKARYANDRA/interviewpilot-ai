@@ -9,9 +9,6 @@ import { submitAnswer } from "../../services/interviewService";
 import { endInterview } from "../../services/reportService";
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
-import VoiceButton from "../../components/interview/VoiceButton/VoiceButton";
-import Transcript from "../../components/interview/Transcript/Transcript";
-import ListeningIndicator from "../../components/interview/ListeningIndicator/ListeningIndicator";
 import { speak } from "../../hooks/useSpeech";
 
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
@@ -54,11 +51,9 @@ export default function InterviewPage() {
 
     transcript,
 
-            listening,
 
             startListening,
 
-            setTranscript
 
         } = useSpeechRecognition(
 

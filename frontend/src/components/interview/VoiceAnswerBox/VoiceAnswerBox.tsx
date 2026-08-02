@@ -22,7 +22,7 @@ export default function VoiceAnswerBox({
 
         transcript,
 
-        isListening,
+        listening,
 
         startListening,
 
@@ -60,7 +60,7 @@ export default function VoiceAnswerBox({
 
                 onClick={
 
-                    isListening
+                    listening
 
                         ? stopListening
 
@@ -72,7 +72,7 @@ export default function VoiceAnswerBox({
 
                 {
 
-                    isListening
+                    listening
 
                         ?
 
