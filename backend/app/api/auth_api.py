@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Depends
+from app.models.user import User
 
 from sqlalchemy.orm import Session
 
@@ -66,3 +67,25 @@ def login(
             status_code=401,
             detail=str(e)
         )
+
+
+
+@router.get("/users")
+def get_users(
+    db: Session = Depends(get_db)
+):
+
+    users = db.query(User).all()
+
+    return [
+
+        {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "company": user.current_company
+        }
+
+        for user in users
+
+    ]
