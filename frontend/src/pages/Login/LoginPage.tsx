@@ -1,144 +1,198 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import MainLayout from "../../layouts/MainLayout";
+import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
+
 import { login } from "../../hooks/useAuth";
 
 import "./LoginPage.css";
 
+
 export default function LoginPage() {
 
-  const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
-  const [password, setPassword] = useState("");
 
-  const [loading, setLoading] = useState(false);
+    const [email,setEmail] = useState("");
 
-  const [error, setError] = useState("");
+    const [password,setPassword] = useState("");
 
-  async function handleLogin(e: React.FormEvent) {
+    const [loading,setLoading] = useState(false);
 
-    e.preventDefault();
+    const [error,setError] = useState("");
 
-    try {
 
-      setLoading(true);
 
-      setError("");
+    async function handleLogin(
+        e:React.FormEvent
+    ){
 
-      await login(email, password);
+        e.preventDefault();
 
-      navigate("/dashboard");
 
-    } catch {
+        if(!email || !password){
 
-      setError("Invalid email or password");
+            setError(
+                "Email and password are required."
+            );
 
-    } finally {
+            return;
 
-      setLoading(false);
+        }
+
+
+        try{
+
+            setLoading(true);
+
+            setError("");
+
+
+            await login(
+                email,
+                password
+            );
+
+
+            navigate("/dashboard");
+
+
+        }
+        catch{
+
+            setError(
+                "Invalid email or password."
+            );
+
+        }
+        finally{
+
+            setLoading(false);
+
+        }
 
     }
 
-  }
 
-  return (
 
-    <MainLayout>
+    return (
 
-      <div className="login-container">
+        <AuthLayout>
 
-        <form
-          className="login-card"
-          onSubmit={handleLogin}
-        >
 
-          <h1>Welcome Back</h1>
+            <form
 
-          <p>
+                className="auth-card"
 
-            Login to continue your AI interview journey.
+                onSubmit={handleLogin}
 
-          </p>
+            >
 
-          <label>
-            Email *
-            </label>
 
-            <input
+                <h1>
+                    Welcome Back
+                </h1>
 
-            type="email"
 
-            value={email}
+                <p>
+                    Login to continue your AI interview journey.
+                </p>
 
-            onChange={
-            e=>setEmail(e.target.value)
-            }
 
-            />
 
-          <label>
-            Password *
-            </label>
+                <label>
+                    Email *
+                </label>
 
-            <input
 
-            type="password"
+                <input
 
-            value={password}
+                    type="email"
 
-            onChange={
-            e=>setPassword(e.target.value)
-            }
+                    value={email}
 
-            />
+                    onChange={
+                        e=>setEmail(
+                            e.target.value
+                        )
+                    }
 
-          {
+                />
 
-            error &&
 
-            <span className="error">
 
-              {error}
+                <label>
+                    Password *
+                </label>
 
-            </span>
 
-          }
+                <input
 
-          <button
-            type="submit"
-          >
+                    type="password"
 
-            {
+                    value={password}
 
-              loading
+                    onChange={
+                        e=>setPassword(
+                            e.target.value
+                        )
+                    }
 
-                ?
+                />
 
-                "Signing In..."
 
-                :
 
-                "Login"
+                {
 
-            }
+                    error &&
 
-          </button>
+                    <div className="auth-error">
 
-          <Link to="/register">
+                        {error}
 
-            Don't have an account? Register
+                    </div>
 
-          </Link>
+                }
 
-        </form>
 
-      </div>
 
-    </MainLayout>
+                <button
+                    type="submit"
+                    disabled={loading}
+                >
 
-  );
+                    {
+
+                        loading
+
+                        ?
+
+                        "Signing In..."
+
+                        :
+
+                        "Login"
+
+                    }
+
+
+                </button>
+
+
+
+                <Link to="/register">
+
+                    Don't have an account? Register
+
+                </Link>
+
+
+            </form>
+
+
+        </AuthLayout>
+
+    );
 
 }
