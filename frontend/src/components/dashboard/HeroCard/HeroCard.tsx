@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./HeroCard.css";
 
 import { useEffect,useState } from "react";
-import { getUser } from "../../hooks/useAuth";
+import { getUser } from "../../../hooks/useAuth";
 
 export default function HeroCard() {
 
@@ -13,7 +13,7 @@ export default function HeroCard() {
         useEffect(()=>{
 
             getUser()
-            .then(data=>{
+            .then((data:any)=>{
 
                 setUser(data);
 
