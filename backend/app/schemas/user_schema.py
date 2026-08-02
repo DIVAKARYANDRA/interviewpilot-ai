@@ -7,10 +7,10 @@ class UserRegister(BaseModel):
     email: EmailStr
     password: str
 
-    experience: int
-    current_company: Optional[str] = None
-    target_company: Optional[str] = None
-    target_role: Optional[str] = None
+    # experience: int
+    # current_company: Optional[str] = None
+    # target_company: Optional[str] = None
+    # target_role: Optional[str] = None
 
 
 class UserLogin(BaseModel):
