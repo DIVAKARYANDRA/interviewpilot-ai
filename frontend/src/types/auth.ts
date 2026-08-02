@@ -6,13 +6,13 @@ export interface RegisterRequest {
 
     password:string;
 
-    experience:number;
+    // experience:number;
 
-    current_company:string;
+    // current_company:string;
 
-    target_company:string;
+    // target_company:string;
 
-    target_role:string;
+    // target_role:string;
 
 }
 
