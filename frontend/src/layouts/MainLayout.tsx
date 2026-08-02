@@ -12,11 +12,16 @@ export default function MainLayout({ children }: Props) {
       <Navbar />
 
       <main
+
         style={{
-          minHeight: "calc(100vh - 140px)",
-          padding: "40px"
+
+            minHeight:"calc(100vh - 140px)",
+
+            padding:"100px 40px 40px"
+
         }}
-      >
+
+        >
         {children}
       </main>
 

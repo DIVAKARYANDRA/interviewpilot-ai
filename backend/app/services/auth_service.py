@@ -5,6 +5,7 @@ from app.models.user import User
 from app.repositories.user_repository import (
     get_user_by_email,
     create_user,
+    get_user_by_id
 )
 
 from app.utils.security import (
@@ -65,3 +66,24 @@ def login_user(db: Session, email: str, password: str):
     )
 
     return token
+
+
+def get_current_user_service(
+    db: Session,
+    user_id:int
+):
+
+    user = get_user_by_id(
+        db,
+        user_id
+    )
+
+
+    if not user:
+
+        raise ValueError(
+            "User not found"
+        )
+
+
+    return user

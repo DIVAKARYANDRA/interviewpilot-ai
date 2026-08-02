@@ -1,22 +1,14 @@
-from fastapi import Depends
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException
 
-from fastapi.security import HTTPAuthorizationCredentials
-from fastapi.security import HTTPBearer
+from fastapi.security import (
+    HTTPAuthorizationCredentials,
+    HTTPBearer
+)
 
-from jose import jwt
+from app.utils.security import verify_access_token
 
-import os
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 security = HTTPBearer()
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-
-ALGORITHM = "HS256"
 
 
 def get_current_user(
@@ -27,21 +19,11 @@ def get_current_user(
 
     token = credentials.credentials
 
-    try:
 
-        payload = jwt.decode(
+    payload = verify_access_token(token)
 
-            token,
 
-            SECRET_KEY,
-
-            algorithms=[ALGORITHM]
-
-        )
-
-        return payload
-
-    except Exception:
+    if not payload:
 
         raise HTTPException(
 
@@ -50,3 +32,6 @@ def get_current_user(
             detail="Invalid token."
 
         )
+
+
+    return payload

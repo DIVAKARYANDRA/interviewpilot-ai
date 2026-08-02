@@ -3,7 +3,8 @@ from fastapi import Depends
 from app.models.user import User
 
 from sqlalchemy.orm import Session
-
+from app.utils.auth_dependency import get_current_user
+from app.services.auth_service import get_current_user_service
 from app.database.db import get_db
 from app.schemas.user_schema import UserLogin
 from app.services.auth_service import login_user
@@ -91,9 +92,37 @@ def get_users(
             "id": user.id,
             "name": user.name,
             "email": user.email,
-            "company": user.current_company
         }
 
         for user in users
 
     ]
+
+
+@router.get("/me")
+def get_me(
+
+    db: Session = Depends(get_db),
+
+    current_user = Depends(get_current_user)
+
+):
+
+    user = get_current_user_service(
+
+        db,
+
+        current_user["user_id"]
+
+    )
+
+
+    return {
+
+        "id": user.id,
+
+        "name": user.name,
+
+        "email": user.email
+
+    }
