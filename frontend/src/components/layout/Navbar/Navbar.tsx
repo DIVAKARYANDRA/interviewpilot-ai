@@ -1,38 +1,107 @@
 import { Link } from "react-router-dom";
+
+import { scrollToSection } from "../../../utils/scroll";
+
 import "./Navbar.css";
 
+
 export default function Navbar() {
-  return (
-    <header className="navbar">
 
-      <div className="logo">
+    return (
 
-        Interview<span>Pilot</span>
+        <header className="navbar">
 
-      </div>
 
-      <nav>
+            <div className="navbar-container">
 
-        <a href="#features">Features</a>
 
-        <a href="#how-it-works">How it Works</a>
+                <div className="logo">
 
-        <a href="#pricing">Pricing</a>
+                    Interview
+                    <span>
+                        Pilot AI
+                    </span>
 
-        <Link to="/login">Login</Link>
+                </div>
 
-      </nav>
 
-      <Link to="/register">
+                <nav className="nav-links">
 
-        <button>
 
-            Get Started
+                    <button
+                        onClick={() =>
+                            scrollToSection("features")
+                        }
+                    >
+                        Features
+                    </button>
 
-        </button>
 
-    </Link>
+                    <button
+                        onClick={() =>
+                            scrollToSection("how-it-works")
+                        }
+                    >
+                        How It Works
+                    </button>
 
-    </header>
-  );
+
+                    <button
+                        onClick={() =>
+                            scrollToSection("ai-demo")
+                        }
+                    >
+                        AI Coach
+                    </button>
+
+
+                    <button
+                        onClick={() =>
+                            scrollToSection("pricing")
+                        }
+                    >
+                        Pricing
+                    </button>
+
+
+                </nav>
+
+
+
+                <div className="nav-actions">
+
+
+                    <Link to="/login">
+
+                        <button className="login-btn">
+
+                            Login
+
+                        </button>
+
+                    </Link>
+
+
+
+                    <Link to="/register">
+
+                        <button className="register-btn">
+
+                            Register
+
+                        </button>
+
+                    </Link>
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+    );
+
 }

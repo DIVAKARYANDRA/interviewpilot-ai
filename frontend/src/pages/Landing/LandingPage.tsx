@@ -7,15 +7,19 @@ import HowItWorks from "../../components/landing/HowItWorks/HowItWorks";
 export default function LandingPage() {
   return (
     <MainLayout>
-
       <Hero />
 
-      <Features />
+      <section id="features">
+        <Features />
+      </section>
 
-      <HowItWorks />
-      
-      <LiveDemo />
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
 
+      <div id="ai-demo">
+        <LiveDemo />
+      </div>
     </MainLayout>
   );
 }
