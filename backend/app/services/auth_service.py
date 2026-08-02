@@ -26,10 +26,10 @@ def register_user(db: Session, user_data):
         name=user_data.name,
         email=user_data.email,
         password=hash_password(user_data.password),
-        experience=user_data.experience,
-        current_company=user_data.current_company,
-        target_company=user_data.target_company,
-        target_role=user_data.target_role
+        # experience=user_data.experience,
+        # current_company=user_data.current_company,
+        # target_company=user_data.target_company,
+        # target_role=user_data.target_role
     )
 
     return create_user(db, user)
