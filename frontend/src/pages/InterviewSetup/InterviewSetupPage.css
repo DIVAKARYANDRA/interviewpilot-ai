@@ -1,29 +1,123 @@
-.setup-form{
+.setup-form {
 
-    max-width:700px;
+    max-width: 850px;
 
-    margin:60px auto;
+    margin: 40px auto;
 
-    display:flex;
+    display: flex;
 
-    flex-direction:column;
+    flex-direction: column;
 
-    gap:18px;
+    gap: 28px;
 
 }
 
+
+
+.setup-form label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    margin-top: 18px;
+
+    color: #e2e8f0;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+
 .setup-form input,
+
 .setup-form textarea,
-.setup-form select{
 
-    padding:15px;
+.setup-form select {
 
-    background:#334155;
+    width: 100%;
 
-    border:none;
+    box-sizing: border-box;
 
-    color:white;
+    padding: 14px 16px;
 
-    border-radius:10px;
+    background: #334155;
+
+    border: 1px solid #475569;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 15px;
+
+}
+
+
+
+.setup-form input:focus,
+
+.setup-form textarea:focus,
+
+.setup-form select:focus {
+
+    outline: none;
+
+    border-color: #6366f1;
+
+    box-shadow: 0 0 0 3px rgba(99,102,241,.20);
+
+}
+
+
+
+.setup-form textarea {
+
+    resize: vertical;
+
+}
+
+
+
+.setup-form button {
+
+    margin-top: 25px;
+
+}
+
+
+
+.resume-section {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+
+.form-section {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+
+.mode-description {
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-top: 6px;
 
 }

@@ -183,33 +183,40 @@ export default function InterviewSetupPage() {
 
                     <Card>
 
-                        <Input
+                        <label>
 
-                            value={form.name}
+    Candidate Name *
 
-                            placeholder="Candidate Name"
+</label>
 
-                            onChange={(value) =>
+<Input
 
-                                setForm({
+    value={form.name}
 
-                                    ...form,
+    placeholder="Enter your name"
 
-                                    name: value
+    onChange={(value)=>
 
-                                })
+        setForm({
 
-                            }
+            ...form,
 
-                        />
+            name:value
 
-                        <br />
+        })
+
+    }
+
+/>
+
+
+                        <label> Target Company * </label>
 
                         <Input
 
                             value={form.company}
 
-                            placeholder="Target Company"
+                            placeholder="Enter Your Target Company Name"
 
                             onChange={(value) =>
 
@@ -225,13 +232,14 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
+
+                        <label> Target Role * </label>
 
                         <Input
 
                             value={form.role}
 
-                            placeholder="Target Role"
+                            placeholder="Enter Your Target Role"
 
                             onChange={(value) =>
 
@@ -247,7 +255,6 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
 
                         <Input
 
@@ -271,7 +278,6 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
 
                         <Select
 
@@ -301,7 +307,6 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
 
                         <Select
 
@@ -337,7 +342,6 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
 
                         <TextArea
 
@@ -361,7 +365,6 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
 
                         <TextArea
 
@@ -385,7 +388,12 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
+
+                        <label>
+
+    Interview Mode
+
+</label>
 
                         <Select
 
@@ -417,7 +425,12 @@ export default function InterviewSetupPage() {
 
                         />
 
-                        <br />
+                        <p className="mode-description">
+
+Choose <b>Voice</b> for AI voice interview or <b>Text</b> for typing your answers.
+
+</p>
+
 
                         <Button
 

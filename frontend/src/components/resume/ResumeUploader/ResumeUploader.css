@@ -1,0 +1,53 @@
+.resume-upload {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+
+.upload-box {
+
+    border: 2px dashed #6366f1;
+
+    border-radius: 14px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background: rgba(99,102,241,.08);
+
+}
+
+
+
+.upload-box h3 {
+
+    color: white;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+.upload-box p {
+
+    color: #94a3b8;
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.upload-box input {
+
+    cursor: pointer;
+
+}

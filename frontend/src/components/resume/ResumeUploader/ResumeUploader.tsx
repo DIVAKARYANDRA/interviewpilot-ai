@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { analyzeResume } from "../../../services/resumeService";
 import type { ResumeAnalysis } from "../../../types/resume";
-
+import "./ResumeUploader.css";
 interface Props{
 
     onResumeParsed:(data:ResumeAnalysis)=>void;
@@ -53,7 +53,21 @@ export default function ResumeUploader({
 
     return(
 
-        <div>
+    <div className="resume-upload">
+
+        <div className="upload-box">
+
+            <h3>
+
+                📄 Upload Resume
+
+            </h3>
+
+            <p>
+
+                Upload your latest PDF resume to let InterviewPilot AI pre-fill your profile and personalize the interview.
+
+            </p>
 
             <input
 
@@ -65,20 +79,22 @@ export default function ResumeUploader({
 
             />
 
-            {
-
-                loading &&
-
-                <p>
-
-                    AI is analysing your resume...
-
-                </p>
-
-            }
-
         </div>
 
-    );
+        {
+
+            loading &&
+
+            <p>
+
+                🤖 AI is analysing your resume...
+
+            </p>
+
+        }
+
+    </div>
+
+);
 
 }
