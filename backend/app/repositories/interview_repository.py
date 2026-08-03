@@ -54,3 +54,31 @@ def update_interview(
     db.commit()
     db.refresh(interview)
     return interview
+
+
+def get_user_interviews(
+    db: Session,
+    user_id: int
+):
+
+    return (
+
+        db.query(Interview)
+
+        .filter(
+
+            Interview.user_id == user_id,
+
+            Interview.status == "COMPLETED"
+
+        )
+
+        .order_by(
+
+            Interview.completed_at.desc()
+
+        )
+
+        .all()
+
+    )

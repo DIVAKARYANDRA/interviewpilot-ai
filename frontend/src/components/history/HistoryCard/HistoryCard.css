@@ -1,0 +1,41 @@
+.history-card{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    padding:22px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+    transition:.3s;
+
+    cursor:pointer;
+
+}
+
+.history-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#6366f1;
+
+}
+
+.history-score{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#818cf8;
+
+}

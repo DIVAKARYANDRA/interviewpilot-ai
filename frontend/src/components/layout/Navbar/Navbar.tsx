@@ -105,50 +105,119 @@ export default function Navbar(){
             <div className="navbar-container">
 
 
-                <div className="logo">
+                <Link
 
-                    Interview
-                    <span>
-                        Pilot AI
-                    </span>
+to={
 
-                </div>
+loggedIn
 
+?
 
+"/dashboard"
 
-                <nav className="nav-links">
+:
 
+"/"
 
-                    <button
-                    onClick={() =>
-                        scrollToSection("features")
-                    }
-                    >
-                        Features
-                    </button>
+}
 
+className="logo"
 
+>
 
-                    <button
-                    onClick={() =>
-                        scrollToSection("how-it-works")
-                    }
-                    >
-                        How It Works
-                    </button>
+Interview
+
+<span>
+
+Pilot AI
+
+</span>
+
+</Link>
 
 
 
-                    <button
-                    onClick={() =>
-                        scrollToSection("ai-demo")
-                    }
-                    >
-                        AI Coach
-                    </button>
+               <nav className="nav-links">
 
+{
 
-                </nav>
+loggedIn
+
+?
+
+<>
+
+<Link to="/dashboard">
+
+Dashboard
+
+</Link>
+
+<Link to="/history">
+
+History
+
+</Link>
+
+</>
+
+:
+
+<>
+
+<button
+onClick={()=>
+
+scrollToSection(
+
+"features"
+
+)
+
+}
+>
+
+Features
+
+</button>
+
+<button
+onClick={()=>
+
+scrollToSection(
+
+"how-it-works"
+
+)
+
+}
+>
+
+How It Works
+
+</button>
+
+<button
+onClick={()=>
+
+scrollToSection(
+
+"ai-demo"
+
+)
+
+}
+>
+
+AI Coach
+
+</button>
+
+</>
+
+}
+
+</nav>
 
 
 

@@ -1,12 +1,64 @@
+import { useEffect, useState } from "react";
+
 import MainLayout from "../../layouts/MainLayout";
 
 import HeroCard from "../../components/dashboard/HeroCard/HeroCard";
 import StatsCard from "../../components/dashboard/StatsCard/StatsCard";
 import QuickActions from "../../components/dashboard/QuickActions/QuickActions";
 
+import { getDashboard } from "../../services/dashboardService";
+
+import type { DashboardStats } from "../../types/dashboard";
+
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
+
+    const [
+
+        stats,
+
+        setStats
+
+    ] = useState<DashboardStats | null>(null);
+
+    const [
+
+        loading,
+
+        setLoading
+
+    ] = useState(true);
+
+    useEffect(() => {
+
+        getDashboard()
+
+        .then(data => {
+
+            setStats(data);
+
+        })
+
+        .catch(error => {
+
+            console.error(
+
+                "Failed to load dashboard",
+
+                error
+
+            );
+
+        })
+
+        .finally(() => {
+
+            setLoading(false);
+
+        });
+
+    }, []);
 
     return (
 
@@ -22,7 +74,23 @@ export default function DashboardPage() {
 
                         title="Interviews"
 
-                        value="0"
+                        value={
+
+                            loading
+
+                            ?
+
+                            "..."
+
+                            :
+
+                            String(
+
+                                stats?.total_interviews ?? 0
+
+                            )
+
+                        }
 
                     />
 
@@ -30,7 +98,19 @@ export default function DashboardPage() {
 
                         title="Average Score"
 
-                        value="0%"
+                        value={
+
+                            loading
+
+                            ?
+
+                            "..."
+
+                            :
+
+                            `${stats?.average_score ?? 0}%`
+
+                        }
 
                     />
 
@@ -38,16 +118,33 @@ export default function DashboardPage() {
 
                         title="Best Score"
 
-                        value="0%"
+                        value={
+
+                            loading
+
+                            ?
+
+                            "..."
+
+                            :
+
+                            `${stats?.best_score ?? 0}%`
+
+                        }
 
                     />
 
-                    
-
                 </div>
 
-                <QuickActions />
-                
+                <QuickActions
+
+                    interviews={
+
+                        stats?.recent_interviews ?? []
+
+                    }
+
+                />
 
             </div>
 

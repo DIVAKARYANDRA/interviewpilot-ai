@@ -8,6 +8,8 @@ import { isAuthenticated } from "../hooks/useAuth";
 import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
 import InterviewPage from "../pages/Interview/InterviewPage";
 import ReportPage from "../pages/Report/ReportPage";
+import InterviewHistoryPage
+from "./pages/history/InterviewHistoryPage";
 
 export default function AppRoutes() {
   return (
@@ -45,6 +47,14 @@ export default function AppRoutes() {
         <Route
             path="/report"
             element={<ReportPage/>}
+        />
+
+        <Route
+
+            path="/history"
+
+            element={<InterviewHistoryPage/>}
+
         />
       </Routes>
     </BrowserRouter>
