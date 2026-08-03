@@ -1,30 +1,164 @@
-.settings-error {
+.modal-overlay {
 
-    background:#7f1d1d;
+    position: fixed;
 
-    color:#fecaca;
+    inset: 0;
 
-    padding:12px;
+    background: rgba(0, 0, 0, 0.65);
 
-    border-radius:10px;
+    display: flex;
 
-    font-size:14px;
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 2000;
+
+    backdrop-filter: blur(4px);
 
 }
 
 
 
-.settings-success {
+.settings-modal {
 
-    background:#065f46;
+    width: 420px;
 
-    color:#d1fae5;
+    max-width: 90%;
 
-    padding:12px;
+    background: #1e293b;
 
-    border-radius:10px;
+    color: white;
 
-    font-size:14px;
+    padding: 35px;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,0.45);
+
+}
+
+
+
+.settings-modal h2 {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    margin-bottom: 15px;
+
+}
+
+
+
+.settings-modal label {
+
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+
+.settings-modal input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border-radius: 10px;
+
+    border: 1px solid #475569;
+
+    background: #334155;
+
+    color: white;
+
+    font-size: 15px;
+
+}
+
+
+
+.settings-modal input::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+
+.settings-modal input:focus {
+
+    outline: none;
+
+    border-color: #6366f1;
+
+    box-shadow:
+    0 0 0 2px rgba(99,102,241,0.25);
+
+}
+
+
+
+.settings-modal button {
+
+    margin-top: 8px;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    background: #6366f1;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+}
+
+
+
+.settings-modal button:hover {
+
+    background: #4f46e5;
+
+    transform: translateY(-1px);
+
+}
+
+
+
+.settings-modal hr {
+
+    width: 100%;
+
+    border: none;
+
+    border-top: 1px solid #475569;
+
+    margin: 18px 0;
 
 }
 
@@ -32,8 +166,46 @@
 
 .settings-modal small {
 
-    color:#94a3b8;
+    color: #94a3b8;
 
-    font-size:12px;
+    font-size: 12px;
+
+    line-height: 18px;
+
+}
+
+
+
+.settings-error {
+
+    background: #7f1d1d;
+
+    color: #fecaca;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    border: 1px solid #991b1b;
+
+}
+
+
+
+.close-btn {
+
+    background: #475569 !important;
+
+    margin-top: 15px;
+
+}
+
+
+
+.close-btn:hover {
+
+    background: #64748b !important;
 
 }
