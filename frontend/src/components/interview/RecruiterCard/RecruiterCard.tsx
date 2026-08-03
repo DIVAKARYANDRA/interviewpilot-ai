@@ -42,7 +42,7 @@ export default function RecruiterCard({
 
                 <img
 
-    src="/recruiter.png"
+    src="/recruiter.jpg"
 
     alt="AI Recruiter"
 
