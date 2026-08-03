@@ -97,6 +97,8 @@ from app.utils.security import (
 
 def login_user(db: Session, email: str, password: str):
 
+  
+
     user = get_user_by_email(
         db,
         email
@@ -104,6 +106,20 @@ def login_user(db: Session, email: str, password: str):
 
     if not user:
         raise ValueError("Invalid email or password.")
+
+    print("USER FOUND:", user.email)
+
+    print("LOGIN EMAIL:", email)
+
+    print("USER FROM DB:", user)
+
+    print(
+        "PASSWORD CHECK:",
+        verify_password(
+            password,
+            user.password
+        )
+    )
 
     if not verify_password(
         password,

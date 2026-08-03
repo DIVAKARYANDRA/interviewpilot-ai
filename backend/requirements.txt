@@ -10,3 +10,4 @@ email-validator
 bcrypt==4.2.0
 google-genai
 PyMuPDF
+psycopg2-binary
