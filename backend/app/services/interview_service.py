@@ -154,15 +154,15 @@ def end_interview(
 
         interview.status = "COMPLETED"
 
-        interview.overall_score = report.overall_score
+        interview.overall_score = report["overall_score"]
 
-        interview.technical_score = report.technical_score
+        interview.technical_score = report["technical_score"]
 
-        interview.communication_score = report.communication_score
+        interview.communication_score = report["communication_score"]
 
-        interview.confidence_score = report.confidence_score
+        interview.confidence_score = report["confidence_score"]
 
-        interview.summary = report.summary
+        interview.summary = report["summary"]
 
         interview.completed_at = datetime.utcnow()
 
