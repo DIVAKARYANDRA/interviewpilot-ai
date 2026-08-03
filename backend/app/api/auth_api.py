@@ -17,7 +17,7 @@ from app.schemas.profile_schema import (
 
 from app.services.auth_service import (
     update_profile,
-    update_password,
+    change_password,
     register_user,
     login_user
 )
@@ -168,7 +168,7 @@ def profile_update(
 
     }
 
-    
+
 @router.put("/password")
 def change_password_api(
 
