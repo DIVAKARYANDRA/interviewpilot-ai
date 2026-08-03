@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.database.db import get_db
 
-from app.dependencies.auth_dependency import (
+from app.utils.auth_dependency import (
     get_current_user
 )
 
