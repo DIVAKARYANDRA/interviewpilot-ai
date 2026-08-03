@@ -6,6 +6,18 @@ import {
 } from "react";
 import type { ReportResponse } from "../types/report";
 
+export type InterviewStage =
+
+    | "connecting"
+
+    | "greeting"
+
+    | "interview"
+
+    | "closing"
+
+    | "report";
+
 interface InterviewContextType {
   sessionId: string;
   question: string;
@@ -26,6 +38,10 @@ interface InterviewContextType {
   evaluation: any;
 
   interviewMode: "text" | "voice";
+
+  stage:InterviewStage;
+
+  setStage:(stage:InterviewStage)=>void;
 
   setInterviewMode: (
       mode: "text" | "voice"
@@ -65,6 +81,12 @@ export function InterviewProvider({
 
   const [interviewMode, setInterviewMode] = useState<"text" | "voice">("text");
 
+  const [stage,setStage]=useState<InterviewStage>(
+
+"connecting"
+
+);
+
   return (
     <InterviewContext.Provider
       value={{
@@ -83,6 +105,8 @@ export function InterviewProvider({
         report,
         setReport,
         interviewMode,
+        stage,
+        setStage,
         setInterviewMode
       }}
     >

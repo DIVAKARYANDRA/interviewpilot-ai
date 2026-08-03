@@ -1,39 +1,16 @@
-.live-room{
+.meeting-room{
 
-    max-width:1200px;
+    width:min(1280px,95%);
 
-    margin:35px auto;
+    margin:30px auto;
 
-    background:white;
+    background:#ffffff;
 
-    border-radius:22px;
+    border-radius:24px;
 
     overflow:hidden;
 
-    box-shadow:0 20px 60px rgba(0,0,0,.12);
-
-}
-
-.live-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    background:#111827;
-
-    color:white;
-
-    padding:18px 30px;
-
-}
-
-.live-header span{
-
-    color:#22c55e;
-
-    font-weight:bold;
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.12);
 
 }

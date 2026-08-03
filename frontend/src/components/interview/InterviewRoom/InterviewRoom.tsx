@@ -2,9 +2,11 @@ import "./InterviewRoom.css";
 
 interface Props{
 
+    header:React.ReactNode;
+
     recruiter:React.ReactNode;
 
-    conversation:React.ReactNode;
+    transcript:React.ReactNode;
 
     status:React.ReactNode;
 
@@ -16,9 +18,11 @@ interface Props{
 
 export default function InterviewRoom({
 
+    header,
+
     recruiter,
 
-    conversation,
+    transcript,
 
     status,
 
@@ -30,27 +34,13 @@ export default function InterviewRoom({
 
     return(
 
-        <div className="live-room">
+        <div className="meeting-room">
 
-            <div className="live-header">
-
-                <h2>
-
-                    InterviewPilot Live
-
-                </h2>
-
-                <span>
-
-                    ● LIVE
-
-                </span>
-
-            </div>
+            {header}
 
             {recruiter}
 
-            {conversation}
+            {transcript}
 
             {status}
 

@@ -1,22 +1,52 @@
 import "./InterviewHeader.css";
 
-export default function InterviewHeader() {
+interface Props{
 
-    return (
+    company:string;
 
-        <div className="interview-header">
+    role:string;
+
+}
+
+export default function InterviewHeader({
+
+    company,
+
+    role
+
+}:Props){
+
+    return(
+
+        <header className="meeting-header">
 
             <div>
 
-                <h1>AI Technical Interview</h1>
+                <h2>
 
-                <p>
-                    Powered by InterviewPilot AI
-                </p>
+                    InterviewPilot Live
+
+                </h2>
+
+                <small>
+
+                    {company}
+
+                    {" • "}
+
+                    {role}
+
+                </small>
 
             </div>
 
-        </div>
+            <div className="meeting-live">
+
+                ● LIVE
+
+            </div>
+
+        </header>
 
     );
 

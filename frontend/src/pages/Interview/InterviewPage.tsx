@@ -8,7 +8,8 @@ import { useInterview } from "../../context/InterviewContext";
 import { submitAnswer } from "../../services/interviewService";
 import { endInterview } from "../../services/reportService";
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
-
+import useInterviewStage
+from "../../hooks/useInterviewStage";
 import { speak } from "../../hooks/useSpeech";
 import "./InterviewPage.css";
 // import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
@@ -18,9 +19,14 @@ import EvaluationPanel from "../../components/interview/EvaluationPanel/Evaluati
 import InterviewHeader from "../../components/interview/InterviewHeader/InterviewHeader";
 import InterviewRoom
 from "../../components/interview/InterviewRoom/InterviewRoom";
+import { greetingMessage }
 
-import RecruiterCard
-from "../../components/interview/RecruiterCard/RecruiterCard";
+from "../../constants/interviewGreeting";
+import InterviewStage
+from "../../components/interview/InterviewStage/InterviewStage";
+
+import ConnectingScreen
+from "../../components/interview/ConnectingScreen/ConnectingScreen";
 
 import Conversation
 from "../../components/interview/Conversation/Conversation";
@@ -54,13 +60,24 @@ export default function InterviewPage() {
 
         setReport,
 
-        interviewMode
+        currentQuestion,
 
+        totalQuestions,
+
+        interviewMode,
+
+        stage
     } = useInterview();
+
+    useInterviewStage();
 
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+
+    const [recruiterState, setRecruiterState] = useState<
+    "idle" | "speaking" | "listening" | "thinking"
+>("idle");
 
     const {
 
@@ -95,32 +112,73 @@ export default function InterviewPage() {
         }
 
     }, [transcript]);
+useEffect(() => {
 
-    useEffect(() => {
+    if (interviewMode !== "voice") {
 
-        if (
+        return;
 
-            interviewMode === "voice"
+    }
 
-            &&
+    const textToSpeak =
 
-            question
+        stage === "greeting"
 
-        ) {
+            ? greetingMessage
 
-            window.speechSynthesis.cancel();
+            : question;
 
-            speak(
+    if (!textToSpeak) {
 
-                question,
+        return;
 
-                () => {
+    }
 
-                    startListening();
+    setRecruiterState("speaking");
 
-                }
+    window.speechSynthesis.cancel();
 
-            );
+    speak(
+
+        textToSpeak,
+
+        () => {
+
+            if (stage === "interview") {
+
+                setRecruiterState("listening");
+
+                startListening();
+
+            } else {
+
+                setRecruiterState("idle");
+
+            }
+
+        }
+
+    );
+
+    return () => {
+
+        window.speechSynthesis.cancel();
+
+    };
+
+}, [
+
+    question,
+
+    interviewMode,
+
+    stage,
+
+    startListening
+
+]);
+
+           
 
         }
 
@@ -167,7 +225,6 @@ export default function InterviewPage() {
 ]);
 
 
-
     async function handleSubmit() {
 
         if (loading) {
@@ -203,6 +260,7 @@ export default function InterviewPage() {
         }
 
         setLoading(true);
+        setRecruiterState("thinking");
 
         try {
 
@@ -288,6 +346,8 @@ export default function InterviewPage() {
 
             );
 
+            setRecruiterState("speaking");
+
             setCurrentQuestion(
 
                 response.question_number
@@ -317,102 +377,145 @@ export default function InterviewPage() {
         }
 
     }
+if (stage === "connecting") {
 
-    return(
+    return (
 
-<MainLayout>
+        <MainLayout>
 
-<InterviewRoom>
+            <ConnectingScreen />
 
-<RecruiterCard
+        </MainLayout>
 
-state={
-
-interviewMode==="voice"
-
-?
-
-(
-
-loading
-
-?
-
-"speaking"
-
-:
-
-"listening"
-
-)
-
-:
-
-"idle"
+    );
 
 }
 
-company="Amazon Backend Interview"
+const recruiterMessage =
 
-question={question}
+    stage === "greeting"
 
-/>
+        ? greetingMessage
 
-<Conversation
+        : question;
 
-question={question}
+return (
 
-answer={answer}
+    <MainLayout>
 
-/>
+        <InterviewRoom
 
-<InterviewStatus
+            header={
 
-current={currentQuestion}
+                <InterviewHeader
 
-total={totalQuestions}
+                    company="Amazon"
 
-listening={
+                    role="Backend Engineer"
 
-interviewMode==="voice"
+                />
 
-}
+            }
 
-/>
+            recruiter={
 
-{
+                <InterviewStage
 
-interviewMode==="text"
+                    recruiterName="Divakar AI"
 
-&&
+                    recruiterTitle="AI Technical Interviewer"
 
-<InterviewInput
+                    company="InterviewPilot Live"
 
-answer={answer}
+                    state={recruiterState}
 
-setAnswer={setAnswer}
+                    message={recruiterMessage}
 
-/>
+                />
 
-}
+            }
 
-<InterviewControls
+            transcript={
+
+                <Conversation
+
+                    question={recruiterMessage}
+
+                    answer={answer}
+
+                />
+
+            }
+
+            status={
+
+                <InterviewStatus
+
+                    current={currentQuestion}
+
+                    total={totalQuestions}
+
+                    listening={
+
+                        interviewMode === "voice"
+
+                    }
+
+                />
+
+            }
+
+            controls={
+
+                <>
+
+                    {
+
+                        interviewMode === "text"
+
+                        &&
+
+                        <InterviewInput
+
+                            answer={answer}
+
+                            setAnswer={setAnswer}
+
+                        />
+
+                    }
+
+                    <InterviewControls
 
 loading={loading}
 
 onSubmit={handleSubmit}
 
+voiceMode={
+
+interviewMode==="voice"
+
+}
+
 />
 
-<EvaluationPanel
+                </>
 
-evaluation={evaluation}
+            }
 
-/>
+            evaluation={
 
-</InterviewRoom>
+                <EvaluationPanel
 
-</MainLayout>
+                    evaluation={evaluation}
+
+                />
+
+            }
+
+        />
+
+    </MainLayout>
 
 );
 

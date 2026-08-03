@@ -6,15 +6,25 @@ interface Props{
 
     loading:boolean;
 
+    voiceMode:boolean;
+
 }
 
 export default function InterviewControls({
 
     onSubmit,
 
-    loading
+    loading,
+
+    voiceMode
 
 }:Props){
+
+    if(voiceMode){
+
+        return null;
+
+    }
 
     return(
 
