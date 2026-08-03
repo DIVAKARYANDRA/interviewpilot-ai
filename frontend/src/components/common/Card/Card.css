@@ -1,28 +1,14 @@
-.app-card{
+.app-card {
 
-    background:var(--surface);
-
-    border-radius:var(--radius);
-
-    padding:24px;
-
-    box-shadow:var(--shadow);
-
-    border:1px solid var(--border);
-
-}
-
-.card {
-
-    background:#1e293b;
+    background:#172033;
 
     border-radius:20px;
 
-    padding:30px;
+    padding:32px;
 
     box-shadow:
     0 20px 50px rgba(0,0,0,0.25);
 
-    border:1px solid #334155;
+    border:1px solid #26334d;
 
 }

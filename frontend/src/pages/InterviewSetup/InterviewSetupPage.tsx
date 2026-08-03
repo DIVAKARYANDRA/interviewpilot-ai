@@ -116,364 +116,483 @@ export default function InterviewSetupPage() {
 
     return (
 
-        <MainLayout>
+<MainLayout>
 
-            <form
-                className="setup-form"
-                onSubmit={handleStart}
-            >
 
-                <PageHeader
+<form
 
-                    title="Configure Interview"
+className="setup-form"
 
-                    subtitle="Prepare your personalized AI interview."
+onSubmit={handleStart}
 
-                />
+>
 
-                <Section>
 
-                    <Card>
+<PageHeader
 
-                        <ResumeUploader
+title="Configure Interview"
 
-                            onResumeParsed={(data) => {
-
-                                setResume(data);
-
-                                setForm({
-
-                                    ...form,
-
-                                    name: data.name,
-
-                                    company: data.current_company || "",
-
-                                    role: data.suggested_role || "",
-
-                                    experience: data.experience,
-
-                                    skills: data.skills.join(","),
-
-                                    projects: data.projects.join(","),
-
-                                    interview_type: "Resume"
-
-                                });
-
-                            }}
-
-                        />
-
-                        {
-
-                            resume &&
-
-                            <ResumeSummary
-                                resume={resume}
-                            />
-
-                        }
-
-                    </Card>
-
-                </Section>
-
-                <Section>
-
-                    <Card>
-
-                        <label>
-
-    Candidate Name *
-
-</label>
-
-<Input
-
-    value={form.name}
-
-    placeholder="Enter your name"
-
-    onChange={(value)=>
-
-        setForm({
-
-            ...form,
-
-            name:value
-
-        })
-
-    }
+subtitle="Prepare your personalized AI interview."
 
 />
 
 
-                        <label> Target Company * </label>
 
-                        <Input
+<Section>
 
-                            value={form.company}
+<Card>
 
-                            placeholder="Enter Your Target Company Name"
 
-                            onChange={(value) =>
+<div className="setup-section">
 
-                                setForm({
 
-                                    ...form,
+<h2>
+📄 Resume Analysis
+</h2>
 
-                                    company: value
 
-                                })
+<ResumeUploader
 
-                            }
 
-                        />
+onResumeParsed={(data)=>{
 
 
-                        <label> Target Role * </label>
+setResume(data);
 
-                        <Input
 
-                            value={form.role}
+setForm({
 
-                            placeholder="Enter Your Target Role"
+...form,
 
-                            onChange={(value) =>
+name:data.name,
 
-                                setForm({
+company:data.current_company || "",
 
-                                    ...form,
+role:data.suggested_role || "",
 
-                                    role: value
+experience:data.experience,
 
-                                })
+skills:data.skills.join(","),
 
-                            }
+projects:data.projects.join(","),
 
-                        />
+interview_type:"Resume"
 
-                        <label>Current Experience </label>
 
+});
 
-                        <Input
 
-                            value={String(form.experience)}
+}}
 
-                            type="number"
 
-                            placeholder="Years of Experience"
+/>
 
-                            onChange={(value) =>
 
-                                setForm({
 
-                                    ...form,
+{
 
-                                    experience: Number(value)
+resume &&
 
-                                })
+<ResumeSummary
 
-                            }
+resume={resume}
 
-                        />
+/>
 
-                        <label> Difficulty of Interview </label>
+}
 
 
-                        <Select
+</div>
 
-                            value={form.difficulty}
 
-                            options={[
+</Card>
 
-                                "Easy",
+</Section>
 
-                                "Medium",
 
-                                "Hard"
 
-                            ]}
 
-                            onChange={(value) =>
 
-                                setForm({
+<Section>
 
-                                    ...form,
+<Card>
 
-                                    difficulty: value
 
-                                })
+<div className="setup-section">
 
-                            }
 
-                        />
+<h2>
+👤 Candidate Details
+</h2>
 
-                        <label>Interview Type </label>
 
 
-                        <Select
-
-                            value={form.interview_type}
-
-                            options={[
-
-                                "Technical",
-
-                                "HR",
-
-                                "Behavioral",
-
-                                "System Design",
-
-                                "DSA",
-
-                                "Resume"
-
-                            ]}
-
-                            onChange={(value) =>
-
-                                setForm({
-
-                                    ...form,
-
-                                    interview_type: value
-
-                                })
-
-                            }
-
-                        />
-
-                        <label>Skills (optional) </label>
-
-
-                        <TextArea
-
-                            rows={4}
-
-                            value={form.skills}
-
-                            placeholder="Skills (comma separated)"
-
-                            onChange={(value) =>
-
-                                setForm({
-
-                                    ...form,
-
-                                    skills: value
-
-                                })
-
-                            }
-
-                        />
-
-                        <label>Projects (optional)</label>
-
-
-                        <TextArea
-
-                            rows={4}
-
-                            value={form.projects}
-
-                            placeholder="Projects (comma separated)"
-
-                            onChange={(value) =>
-
-                                setForm({
-
-                                    ...form,
-
-                                    projects: value
-
-                                })
-
-                            }
-
-                        />
-
-
-                        <label>
-
-    Interview Mode
-
+<label>
+Candidate Name *
 </label>
 
-                        <Select
 
-                            value={interviewMode}
+<Input
 
-                            options={[
+value={form.name}
 
-                                "text",
+placeholder="Enter your name"
 
-                                "voice"
+onChange={(value)=>
 
-                            ]}
+setForm({
 
-                            onChange={(value) =>
+...form,
 
-                                setInterviewMode(
+name:value
 
-                                    value as
+})
 
-                                    "text"
+}
 
-                                    |
+/>
 
-                                    "voice"
 
-                                )
 
-                            }
 
-                        />
+<label>
+Target Company *
+</label>
 
-                        <p className="mode-description">
 
-Choose <b>Voice</b> for AI voice interview or <b>Text</b> for typing your answers.
+<Input
+
+value={form.company}
+
+placeholder="Example: Google, Microsoft"
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+company:value
+
+})
+
+}
+
+/>
+
+
+
+
+<label>
+Target Role *
+</label>
+
+
+<Input
+
+value={form.role}
+
+placeholder="Example: Software Engineer"
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+role:value
+
+})
+
+}
+
+/>
+
+
+
+</div>
+
+
+
+
+
+<div className="setup-section">
+
+
+<h2>
+⚙ Interview Configuration
+</h2>
+
+
+
+
+<label>
+Experience (Years)
+</label>
+
+
+<Input
+
+value={String(form.experience)}
+
+type="number"
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+experience:Number(value)
+
+})
+
+}
+
+/>
+
+
+
+
+<label>
+Difficulty Level
+</label>
+
+
+<Select
+
+value={form.difficulty}
+
+options={[
+
+"Easy",
+
+"Medium",
+
+"Hard"
+
+]}
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+difficulty:value
+
+})
+
+}
+
+/>
+
+
+
+
+<label>
+Interview Type
+</label>
+
+
+<Select
+
+value={form.interview_type}
+
+options={[
+
+"Technical",
+
+"HR",
+
+"Behavioral",
+
+"System Design",
+
+"DSA",
+
+"Resume"
+
+]}
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+interview_type:value
+
+})
+
+}
+
+/>
+
+
+
+<label>
+Interview Mode
+</label>
+
+
+<Select
+
+value={interviewMode}
+
+options={[
+
+"text",
+
+"voice"
+
+]}
+
+onChange={(value)=>
+
+setInterviewMode(
+
+value as "text"|"voice"
+
+)
+
+}
+
+/>
+
+
+<p className="mode-description">
+
+Choose Voice for AI voice interview or Text for typing answers.
 
 </p>
 
 
-                        <Button
 
-                            type="submit"
+</div>
 
-                            disabled={loading}
 
-                        >
 
-                            {
 
-                                loading
 
-                                    ?
 
-                                    "Starting Interview..."
 
-                                    :
+<div className="setup-section">
 
-                                    "Start Interview"
 
-                            }
+<h2>
+🧠 Skills & Projects
+</h2>
 
-                        </Button>
 
-                    </Card>
 
-                </Section>
+<label>
+Skills
+</label>
 
-            </form>
 
-        </MainLayout>
+<TextArea
 
-    );
+rows={4}
+
+value={form.skills}
+
+placeholder="Java, Python, AWS"
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+skills:value
+
+})
+
+}
+
+/>
+
+
+
+
+<label>
+Projects
+</label>
+
+
+<TextArea
+
+rows={4}
+
+value={form.projects}
+
+placeholder="AI Interview Platform, E-commerce App"
+
+onChange={(value)=>
+
+setForm({
+
+...form,
+
+projects:value
+
+})
+
+}
+
+/>
+
+
+
+</div>
+
+
+
+
+
+
+<Button
+
+type="submit"
+
+disabled={loading}
+
+>
+
+
+{
+
+loading
+
+?
+
+"Starting Interview..."
+
+:
+
+"🚀 Start Interview"
+
+}
+
+
+</Button>
+
+
+
+</Card>
+
+
+</Section>
+
+
+
+</form>
+
+
+</MainLayout>
+
+);
+
 
 }

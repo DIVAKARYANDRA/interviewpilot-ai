@@ -1,123 +1,113 @@
-.setup-form {
+.setup-form{
 
-    max-width: 850px;
+max-width:850px;
 
-    margin: 40px auto;
+margin:40px auto;
 
-    display: flex;
+display:flex;
 
-    flex-direction: column;
+flex-direction:column;
 
-    gap: 28px;
-
-}
-
-
-
-.setup-form label {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    margin-top: 18px;
-
-    color: #e2e8f0;
-
-    font-size: 14px;
-
-    font-weight: 600;
+gap:25px;
 
 }
 
 
 
-.setup-form input,
+.setup-form .card{
 
-.setup-form textarea,
-
-.setup-form select {
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 14px 16px;
-
-    background: #334155;
-
-    border: 1px solid #475569;
-
-    border-radius: 10px;
-
-    color: white;
-
-    font-size: 15px;
+background:#172033;
 
 }
 
 
 
-.setup-form input:focus,
+.setup-section{
 
-.setup-form textarea:focus,
+display:flex;
 
-.setup-form select:focus {
+flex-direction:column;
 
-    outline: none;
-
-    border-color: #6366f1;
-
-    box-shadow: 0 0 0 3px rgba(99,102,241,.20);
+gap:14px;
 
 }
 
 
 
-.setup-form textarea {
+.setup-section h2{
 
-    resize: vertical;
+color:white;
 
-}
+font-size:22px;
 
-
-
-.setup-form button {
-
-    margin-top: 25px;
+margin-bottom:15px;
 
 }
 
 
 
-.resume-section {
+.setup-section label{
 
-    display: flex;
+color:#cbd5e1;
 
-    flex-direction: column;
+font-weight:600;
 
-    gap: 15px;
+font-size:14px;
 
-}
-
-
-
-.form-section {
-
-    display: flex;
-
-    flex-direction: column;
+margin-top:8px;
 
 }
 
 
 
-.mode-description {
+.setup-section input,
+.setup-section textarea,
+.setup-section select{
 
-    color: #94a3b8;
+width:100%;
 
-    font-size: 13px;
+background:#0f172a;
 
-    margin-top: 6px;
+border:1px solid #334155;
+
+color:white;
+
+border-radius:12px;
+
+padding:14px;
+
+}
+
+
+
+.setup-section input:focus,
+.setup-section textarea:focus,
+.setup-section select:focus{
+
+outline:none;
+
+border-color:#6366f1;
+
+}
+
+
+
+.mode-description{
+
+color:#94a3b8;
+
+font-size:13px;
+
+}
+
+
+
+.setup-form button{
+
+margin-top:25px;
+
+height:50px;
+
+font-size:16px;
 
 }
