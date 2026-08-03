@@ -168,24 +168,27 @@ def profile_update(
 
     }
 
+    
 @router.put("/password")
-def password_update(
+def change_password_api(
 
-    request:UpdatePasswordRequest,
+    request: UpdatePasswordRequest,
 
-    db:Session=Depends(get_db),
+    db: Session = Depends(get_db),
 
-    current_user=Depends(get_current_user)
+    current_user = Depends(get_current_user)
 
 ):
 
-    update_password(
+    change_password(
 
         db,
 
         current_user["user_id"],
 
-        request.password
+        request.current_password,
+
+        request.new_password
 
     )
 
