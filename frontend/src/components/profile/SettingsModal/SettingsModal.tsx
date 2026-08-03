@@ -10,10 +10,10 @@ import {
 from "../../../services/authService";
 
 
+import Toast from "../../common/Toast/Toast";
+
 import "./SettingsModal.css";
 
-
-import Toast from "../../common/Toast/Toast";
 
 interface Props {
 
@@ -42,42 +42,63 @@ export default function SettingsModal({
     const [
         currentPassword,
         setCurrentPassword
-    ]=useState("");
+    ] = useState("");
 
 
     const [
         newPassword,
         setNewPassword
-    ]=useState("");
+    ] = useState("");
 
 
-    const [error,setError]=useState("");
 
-    const [success,setSuccess]=useState("");
+    const [
+        error,
+        setError
+    ] = useState("");
 
-    const [toast,setToast]=useState<{
-    message:string;
-    type:"success"|"error";
-} | null>(null);
+
+
+    const [
+        toast,
+        setToast
+    ] = useState<{
+
+        message:string;
+
+        type:"success" | "error";
+
+    } | null>(null);
+
+
+
 
     function showToast(
-    message:string,
-    type:"success"|"error"
-){
 
-    setToast({
-        message,
-        type
-    });
+        message:string,
+
+        type:"success" | "error"
+
+    ){
+
+        setToast({
+
+            message,
+
+            type
+
+        });
 
 
-    setTimeout(()=>{
+        setTimeout(()=>{
 
-        setToast(null);
+            setToast(null);
 
-    },3000);
+        },3000);
 
-}
+    }
+
+
 
 
 
@@ -95,24 +116,29 @@ export default function SettingsModal({
 
 
 
+
+
     async function saveProfile(){
 
         try{
 
+
             setError("");
 
-            setSuccess("");
 
 
             if(!name.trim()){
+
 
                 setError(
                     "Name cannot be empty."
                 );
 
+
                 return;
 
             }
+
 
 
             await updateProfile(
@@ -120,19 +146,24 @@ export default function SettingsModal({
             );
 
 
+
             showToast(
-            "Profile updated successfully",
-            "success"
+                "Profile updated successfully",
+                "success"
             );
 
 
         }
 
+
         catch(error:any){
 
-            setError(
-                "Failed to update profile."
+
+            showToast(
+                "Failed to update profile",
+                "error"
             );
+
 
         }
 
@@ -149,8 +180,6 @@ export default function SettingsModal({
 
             setError("");
 
-            setSuccess();
-
 
 
             if(!currentPassword.trim()){
@@ -160,9 +189,11 @@ export default function SettingsModal({
                     "Current password is required."
                 );
 
+
                 return;
 
             }
+
 
 
 
@@ -173,9 +204,11 @@ export default function SettingsModal({
                     "New password is required."
                 );
 
+
                 return;
 
             }
+
 
 
 
@@ -194,6 +227,7 @@ export default function SettingsModal({
 
 
 
+
             await updatePassword(
 
                 currentPassword,
@@ -204,10 +238,15 @@ export default function SettingsModal({
 
 
 
+
             showToast(
-            "Password changed successfully",
-            "success"
+
+                "Password changed successfully",
+
+                "success"
+
             );
+
 
 
             setCurrentPassword("");
@@ -226,8 +265,12 @@ export default function SettingsModal({
                 error?.response?.data?.detail
             ){
 
-                setError(
-                    error.response.data.detail
+                showToast(
+
+                    error.response.data.detail,
+
+                    "error"
+
                 );
 
             }
@@ -235,8 +278,12 @@ export default function SettingsModal({
             else{
 
 
-                setError(
-                    "Failed to change password."
+                showToast(
+
+                    "Failed to change password",
+
+                    "error"
+
                 );
 
 
@@ -249,7 +296,12 @@ export default function SettingsModal({
 
 
 
+
+
     return (
+
+        <>
+
 
         <div className="modal-overlay">
 
@@ -264,24 +316,12 @@ export default function SettingsModal({
 
 
                 {
+
                     error &&
 
                     <div className="settings-error">
 
                         {error}
-
-                    </div>
-
-                }
-
-
-
-                {
-                    success &&
-
-                    <div className="settings-success">
-
-                        {success}
 
                     </div>
 
@@ -295,18 +335,20 @@ export default function SettingsModal({
                 </label>
 
 
+
                 <input
 
                     value={name}
 
                     onChange={
-                        e=>
+                        e =>
                         setName(
                             e.target.value
                         )
                     }
 
                 />
+
 
 
                 <button
@@ -319,13 +361,17 @@ export default function SettingsModal({
 
 
 
+
                 <hr />
+
+
 
 
 
                 <label>
                     Current Password
                 </label>
+
 
 
                 <input
@@ -335,7 +381,7 @@ export default function SettingsModal({
                     value={currentPassword}
 
                     onChange={
-                        e=>
+                        e =>
                         setCurrentPassword(
                             e.target.value
                         )
@@ -346,9 +392,12 @@ export default function SettingsModal({
 
 
 
+
                 <label>
                     New Password
                 </label>
+
+
 
 
                 <input
@@ -358,7 +407,7 @@ export default function SettingsModal({
                     value={newPassword}
 
                     onChange={
-                        e=>
+                        e =>
                         setNewPassword(
                             e.target.value
                         )
@@ -367,10 +416,14 @@ export default function SettingsModal({
                 />
 
 
+
                 <small>
+
                     Minimum 8 characters with uppercase,
                     lowercase and number.
+
                 </small>
+
 
 
 
@@ -383,6 +436,7 @@ export default function SettingsModal({
                     Change Password
 
                 </button>
+
 
 
 
@@ -403,21 +457,29 @@ export default function SettingsModal({
 
             </div>
 
-            {
-toast &&
-
-<Toast
-
-message={toast.message}
-
-type={toast.type}
-
-/>
-
-}
-
 
         </div>
+
+
+
+
+        {
+
+            toast &&
+
+            <Toast
+
+                message={toast.message}
+
+                type={toast.type}
+
+            />
+
+        }
+
+
+
+        </>
 
     );
 
