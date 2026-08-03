@@ -1,27 +1,22 @@
 from uuid import uuid4
+from datetime import datetime
 
 from app.graph.interview_graph import InterviewGraph
 from app.graph.session_manager import SessionManager
+
 from app.models.interview import Interview
-from app.repositories.interview_repository import create_interview
-from datetime import datetime
 
 from app.repositories.interview_repository import (
-
+    create_interview,
     get_interview,
-
     update_interview
-
 )
 
-def def start_interview(
 
+def start_interview(
     db,
-
     user_id,
-
     data
-
 ):
 
     state = {
@@ -69,6 +64,10 @@ def def start_interview(
         "skill_scores": {}
     }
 
+    # ----------------------------------
+    # Create Interview Record in Database
+    # ----------------------------------
+
     interview = Interview(
 
         user_id=user_id,
@@ -93,35 +92,42 @@ def def start_interview(
 
     )
 
-    
+    # Store DB interview id inside session
+
+    state["interview_db_id"] = interview.id
 
     graph = InterviewGraph()
 
     try:
-        state = graph.start(state)
 
-        state["interview_db_id"] = interview.id
+        state = graph.start(state)
 
         SessionManager.create(state)
 
         return {
+
             "session_id": state["session_id"],
+
             "question": state["current_question"]
+
         }
 
     except Exception as e:
+
         print("\n========== START INTERVIEW ERROR ==========")
+
         print(type(e))
+
         print(str(e))
+
         print("===========================================\n")
+
         raise
 
-def def end_interview(
 
+def end_interview(
     db,
-
     request
-
 ):
 
     state = SessionManager.get(request.session_id)
@@ -134,45 +140,49 @@ def def end_interview(
 
     state = graph.finish(state)
 
-    interview = get_interview(
-
-    db,
-
-    state["interview_db_id"]
-
-    )
-
     report = state["report"]
 
-    interview.status = "COMPLETED"
-
-    interview.overall_score = report.overall_score
-
-    interview.technical_score = report.technical_score
-
-    interview.communication_score = report.communication_score
-
-    interview.confidence_score = report.confidence_score
-
-    interview.summary = report.summary
-
-    interview.completed_at = datetime.utcnow()
-
-    update_interview(
+    interview = get_interview(
 
         db,
 
-        interview
+        state["interview_db_id"]
 
     )
 
-    return state["report"]
+    if interview:
+
+        interview.status = "COMPLETED"
+
+        interview.overall_score = report.overall_score
+
+        interview.technical_score = report.technical_score
+
+        interview.communication_score = report.communication_score
+
+        interview.confidence_score = report.confidence_score
+
+        interview.summary = report.summary
+
+        interview.completed_at = datetime.utcnow()
+
+        update_interview(
+
+            db,
+
+            interview
+
+        )
+
+    return report
+
 
 def submit_answer(request):
 
     state = SessionManager.get(request.session_id)
 
     if not state:
+
         raise ValueError("Interview session not found.")
 
     state["previous_answers"].append(request.answer)
@@ -180,6 +190,7 @@ def submit_answer(request):
     graph = InterviewGraph()
 
     try:
+
         state = graph.next(state)
 
         SessionManager.update(state)
@@ -199,11 +210,17 @@ def submit_answer(request):
             "interview_completed": state["interview_completed"],
 
             "evaluation": state["evaluations"][-1]
+
         }
 
     except Exception as e:
+
         print("\n========== SUBMIT ANSWER ERROR ==========")
+
         print(type(e))
+
         print(str(e))
+
         print("=========================================\n")
+
         raise

@@ -16,6 +16,8 @@ import Progress from "../../components/interview/Progress/Progress";
 import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
 import InterviewInput from "../../components/interview/InterviewInput/InterviewInput";
 import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
+import InterviewHeader from "../../components/interview/InterviewHeader/InterviewHeader";
+
 
 export default function InterviewPage() {
 
