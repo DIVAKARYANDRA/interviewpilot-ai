@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 
 from app.database.db import get_db
-from app.dependencies.auth_dependency import get_current_user
+from app.utils.auth_dependency import get_current_user
 
 @router.post(
     "/submit-answer",
