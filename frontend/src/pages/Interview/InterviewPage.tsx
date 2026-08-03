@@ -7,36 +7,24 @@ import { useInterview } from "../../context/InterviewContext";
 
 import { submitAnswer } from "../../services/interviewService";
 import { endInterview } from "../../services/reportService";
+
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
-import useInterviewStage
-from "../../hooks/useInterviewStage";
+import useInterviewStage from "../../hooks/useInterviewStage";
 import { speak } from "../../hooks/useSpeech";
+
 import "./InterviewPage.css";
-// import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
-// import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
+
+import InterviewRoom from "../../components/interview/InterviewRoom/InterviewRoom";
+import InterviewHeader from "../../components/interview/InterviewHeader/InterviewHeader";
+import InterviewStage from "../../components/interview/InterviewStage/InterviewStage";
+import Conversation from "../../components/interview/Conversation/Conversation";
+import InterviewStatus from "../../components/interview/InterviewStatus/InterviewStatus";
+import InterviewControls from "../../components/interview/InterviewControls/InterviewControls";
 import InterviewInput from "../../components/interview/InterviewInput/InterviewInput";
 import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
-import InterviewHeader from "../../components/interview/InterviewHeader/InterviewHeader";
-import InterviewRoom
-from "../../components/interview/InterviewRoom/InterviewRoom";
-import { greetingMessage }
+import ConnectingScreen from "../../components/interview/ConnectingScreen/ConnectingScreen";
 
-from "../../constants/interviewGreeting";
-import InterviewStage
-from "../../components/interview/InterviewStage/InterviewStage";
-
-import ConnectingScreen
-from "../../components/interview/ConnectingScreen/ConnectingScreen";
-
-import Conversation
-from "../../components/interview/Conversation/Conversation";
-
-import InterviewStatus
-from "../../components/interview/InterviewStatus/InterviewStatus";
-
-import InterviewControls
-from "../../components/interview/InterviewControls/InterviewControls";
-
+import { greetingMessage } from "../../constants/interviewGreeting";
 
 export default function InterviewPage() {
 
@@ -56,17 +44,18 @@ export default function InterviewPage() {
 
         setEvaluation,
 
-        setCurrentQuestion,
-
-        setReport,
-
         currentQuestion,
 
         totalQuestions,
 
+        setCurrentQuestion,
+
+        setReport,
+
         interviewMode,
 
         stage
+
     } = useInterview();
 
     useInterviewStage();
@@ -76,34 +65,32 @@ export default function InterviewPage() {
     const [loading, setLoading] = useState(false);
 
     const [recruiterState, setRecruiterState] = useState<
-    "idle" | "speaking" | "listening" | "thinking"
->("idle");
+        "idle" | "speaking" | "listening" | "thinking"
+    >("idle");
 
     const {
 
-    transcript,
+        transcript,
 
+        startListening
 
-            startListening,
+    } = useSpeechRecognition(
 
+        async (text) => {
 
-        } = useSpeechRecognition(
+            setAnswer(text);
 
-            async (text) => {
+        }
 
-                setAnswer(text);
-
-            }
-
-        );
+    );
 
     /*
-     --------------------------------
-     Voice Mode
-     --------------------------------
+    ------------------------------------
+    Live Transcript
+    ------------------------------------
     */
 
-     useEffect(() => {
+    useEffect(() => {
 
         if (transcript) {
 
@@ -112,75 +99,62 @@ export default function InterviewPage() {
         }
 
     }, [transcript]);
-useEffect(() => {
 
-    if (interviewMode !== "voice") {
+    /*
+    ------------------------------------
+    AI Speech
+    ------------------------------------
+    */
 
-        return;
+    useEffect(() => {
 
-    }
+        if (interviewMode !== "voice") {
 
-    const textToSpeak =
-
-        stage === "greeting"
-
-            ? greetingMessage
-
-            : question;
-
-    if (!textToSpeak) {
-
-        return;
-
-    }
-
-    setRecruiterState("speaking");
-
-    window.speechSynthesis.cancel();
-
-    speak(
-
-        textToSpeak,
-
-        () => {
-
-            if (stage === "interview") {
-
-                setRecruiterState("listening");
-
-                startListening();
-
-            } else {
-
-                setRecruiterState("idle");
-
-            }
+            return;
 
         }
 
-    );
+        const textToSpeak =
 
-    return () => {
+            stage === "greeting"
+
+                ? greetingMessage
+
+                : question;
+
+        if (!textToSpeak) {
+
+            return;
+
+        }
+
+        setRecruiterState("speaking");
 
         window.speechSynthesis.cancel();
 
-    };
+        speak(
 
-}, [
+            textToSpeak,
 
-    question,
+            () => {
 
-    interviewMode,
+                if (stage === "interview") {
 
-    stage,
+                    setRecruiterState("listening");
 
-    startListening
+                    startListening();
 
-]);
+                }
 
-           
+                else {
 
-        }
+                    setRecruiterState("idle");
+
+                }
+
+            }
+
+        );
 
         return () => {
 
@@ -192,38 +166,45 @@ useEffect(() => {
 
         question,
 
-        interviewMode
+        interviewMode,
+
+        stage,
+
+        startListening
 
     ]);
 
+    /*
+    ------------------------------------
+    Voice Auto Submit
+    ------------------------------------
+    */
+
     useEffect(() => {
 
-    if (
+        if (interviewMode !== "voice") {
 
-        interviewMode !== "voice"
+            return;
 
-    ) {
+        }
 
-        return;
+        if (answer.trim()) {
 
-    }
+            handleSubmit();
 
-    if (
+        }
 
-        answer.trim()
+    }, [
 
-    ) {
+        answer
 
-        handleSubmit();
+    ]);
 
-    }
-
-}, [
-
-    answer
-
-]);
-
+    /*
+    ------------------------------------
+    Submit Answer
+    ------------------------------------
+    */
 
     async function handleSubmit() {
 
@@ -249,17 +230,12 @@ useEffect(() => {
 
         if (!answer.trim()) {
 
-            alert(
-
-                "Please enter your answer."
-
-            );
-
             return;
 
         }
 
         setLoading(true);
+
         setRecruiterState("thinking");
 
         try {
@@ -273,7 +249,9 @@ useEffect(() => {
             });
 
             /*
-             Save evaluation first
+            ------------------------------------
+            Save Evaluation
+            ------------------------------------
             */
 
             setEvaluation(
@@ -283,7 +261,9 @@ useEffect(() => {
             );
 
             /*
-             Interview Finished
+            ------------------------------------
+            Interview Completed
+            ------------------------------------
             */
 
             if (
@@ -291,6 +271,8 @@ useEffect(() => {
                 response.interview_completed
 
             ) {
+
+                setRecruiterState("thinking");
 
                 try {
 
@@ -300,17 +282,9 @@ useEffect(() => {
 
                     );
 
-                    setReport(
+                    setReport(report);
 
-                        report
-
-                    );
-
-                    navigate(
-
-                        "/report"
-
-                    );
+                    navigate("/report");
 
                 }
 
@@ -337,16 +311,10 @@ useEffect(() => {
             }
 
             /*
-             Continue Interview
+            ------------------------------------
+            Next Question
+            ------------------------------------
             */
-
-            setQuestion(
-
-                response.question
-
-            );
-
-            setRecruiterState("speaking");
 
             setCurrentQuestion(
 
@@ -354,7 +322,19 @@ useEffect(() => {
 
             );
 
+            setQuestion(
+
+                response.question
+
+            );
+
             setAnswer("");
+
+            /*
+            Recruiter state will automatically
+            change to SPEAKING inside useEffect()
+            when question changes.
+            */
 
         }
 
@@ -377,146 +357,170 @@ useEffect(() => {
         }
 
     }
-if (stage === "connecting") {
+
+    /*
+    ------------------------------------
+    Connecting Screen
+    ------------------------------------
+    */
+
+    if (
+
+        stage === "connecting"
+
+    ) {
+
+        return (
+
+            <MainLayout>
+
+                <ConnectingScreen />
+
+            </MainLayout>
+
+        );
+
+    }
+
+    /*
+    ------------------------------------
+    Greeting / Question
+    ------------------------------------
+    */
+
+    const recruiterMessage =
+
+        stage === "greeting"
+
+            ? greetingMessage
+
+            : question;
+
+
+    /*
+    ------------------------------------
+    Interview Room
+    ------------------------------------
+    */
 
     return (
 
         <MainLayout>
 
-            <ConnectingScreen />
+            <InterviewRoom
+
+                header={
+
+                    <InterviewHeader
+
+                        company="Amazon"
+
+                        role="Backend Engineer"
+
+                    />
+
+                }
+
+                recruiter={
+
+                    <InterviewStage
+
+                        recruiterName="Divakar AI"
+
+                        recruiterTitle="AI Technical Interviewer"
+
+                        company="InterviewPilot Live"
+
+                        state={recruiterState}
+
+                        message={recruiterMessage}
+
+                    />
+
+                }
+
+                transcript={
+
+                    <Conversation
+
+                        question={recruiterMessage}
+
+                        answer={answer}
+
+                    />
+
+                }
+
+                status={
+
+                    <InterviewStatus
+
+                        current={currentQuestion}
+
+                        total={totalQuestions}
+
+                        listening={
+
+                            recruiterState === "listening"
+
+                        }
+
+                    />
+
+                }
+
+                controls={
+
+                    <>
+
+                        {
+
+                            interviewMode === "text"
+
+                            &&
+
+                            <InterviewInput
+
+                                answer={answer}
+
+                                setAnswer={setAnswer}
+
+                            />
+
+                        }
+
+                        <InterviewControls
+
+                            loading={loading}
+
+                            onSubmit={handleSubmit}
+
+                            voiceMode={
+
+                                interviewMode === "voice"
+
+                            }
+
+                        />
+
+                    </>
+
+                }
+
+                evaluation={
+
+                    <EvaluationPanel
+
+                        evaluation={evaluation}
+
+                    />
+
+                }
+
+            />
 
         </MainLayout>
 
     );
-
-}
-
-const recruiterMessage =
-
-    stage === "greeting"
-
-        ? greetingMessage
-
-        : question;
-
-return (
-
-    <MainLayout>
-
-        <InterviewRoom
-
-            header={
-
-                <InterviewHeader
-
-                    company="Amazon"
-
-                    role="Backend Engineer"
-
-                />
-
-            }
-
-            recruiter={
-
-                <InterviewStage
-
-                    recruiterName="Divakar AI"
-
-                    recruiterTitle="AI Technical Interviewer"
-
-                    company="InterviewPilot Live"
-
-                    state={recruiterState}
-
-                    message={recruiterMessage}
-
-                />
-
-            }
-
-            transcript={
-
-                <Conversation
-
-                    question={recruiterMessage}
-
-                    answer={answer}
-
-                />
-
-            }
-
-            status={
-
-                <InterviewStatus
-
-                    current={currentQuestion}
-
-                    total={totalQuestions}
-
-                    listening={
-
-                        interviewMode === "voice"
-
-                    }
-
-                />
-
-            }
-
-            controls={
-
-                <>
-
-                    {
-
-                        interviewMode === "text"
-
-                        &&
-
-                        <InterviewInput
-
-                            answer={answer}
-
-                            setAnswer={setAnswer}
-
-                        />
-
-                    }
-
-                    <InterviewControls
-
-loading={loading}
-
-onSubmit={handleSubmit}
-
-voiceMode={
-
-interviewMode==="voice"
-
-}
-
-/>
-
-                </>
-
-            }
-
-            evaluation={
-
-                <EvaluationPanel
-
-                    evaluation={evaluation}
-
-                />
-
-            }
-
-        />
-
-    </MainLayout>
-
-);
 
 }
