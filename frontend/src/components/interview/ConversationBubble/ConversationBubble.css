@@ -1,0 +1,51 @@
+.bubble{
+
+    margin-bottom:18px;
+
+    max-width:80%;
+
+}
+
+.ai{
+
+    margin-right:auto;
+
+}
+
+.user{
+
+    margin-left:auto;
+
+}
+
+.bubble-header{
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.bubble-message{
+
+    padding:18px;
+
+    border-radius:18px;
+
+    line-height:1.7;
+
+}
+
+.ai .bubble-message{
+
+    background:#eef2ff;
+
+}
+
+.user .bubble-message{
+
+    background:#6366f1;
+
+    color:white;
+
+}

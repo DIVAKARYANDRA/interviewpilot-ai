@@ -1,0 +1,39 @@
+.live-room{
+
+    max-width:1200px;
+
+    margin:35px auto;
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.12);
+
+}
+
+.live-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#111827;
+
+    color:white;
+
+    padding:18px 30px;
+
+}
+
+.live-header span{
+
+    color:#22c55e;
+
+    font-weight:bold;
+
+}

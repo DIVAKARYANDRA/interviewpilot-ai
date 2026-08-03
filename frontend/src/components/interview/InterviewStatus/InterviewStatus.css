@@ -1,0 +1,23 @@
+.interview-status{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 35px;
+
+    background:#111827;
+
+    color:white;
+
+}
+
+.live{
+
+    color:#22c55e;
+
+    font-weight:bold;
+
+}

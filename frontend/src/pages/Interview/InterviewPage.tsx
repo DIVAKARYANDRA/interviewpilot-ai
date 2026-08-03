@@ -11,12 +11,25 @@ import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 import { speak } from "../../hooks/useSpeech";
 import "./InterviewPage.css";
-import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
-import Progress from "../../components/interview/Progress/Progress";
-import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
+// import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
+// import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
 import InterviewInput from "../../components/interview/InterviewInput/InterviewInput";
 import EvaluationPanel from "../../components/interview/EvaluationPanel/EvaluationPanel";
 import InterviewHeader from "../../components/interview/InterviewHeader/InterviewHeader";
+import InterviewRoom
+from "../../components/interview/InterviewRoom/InterviewRoom";
+
+import RecruiterCard
+from "../../components/interview/RecruiterCard/RecruiterCard";
+
+import Conversation
+from "../../components/interview/Conversation/Conversation";
+
+import InterviewStatus
+from "../../components/interview/InterviewStatus/InterviewStatus";
+
+import InterviewControls
+from "../../components/interview/InterviewControls/InterviewControls";
 
 
 export default function InterviewPage() {
@@ -305,72 +318,102 @@ export default function InterviewPage() {
 
     }
 
-    return (
+    return(
 
-        <MainLayout>
+<MainLayout>
 
-            <InterviewLayout>
+<InterviewRoom>
 
-                <InterviewHeader/>
+<RecruiterCard
 
-                <Progress />
+state={
 
-                <QuestionCard
+interviewMode==="voice"
 
-                    question={question}
+?
 
-                />
+(
 
-                <InterviewInput
+loading
 
-                    answer={answer}
+?
 
-                    setAnswer={setAnswer}
+"speaking"
 
-                />
+:
 
-                <br />
+"listening"
 
-                <button
+)
 
-className="submit-answer-btn"
+:
 
-onClick={handleSubmit}
+"idle"
 
-disabled={loading}
+}
 
->
+company="Amazon Backend Interview"
 
-                    {
+question={question}
 
-                        loading
+/>
 
-                            ?
+<Conversation
 
-                            "Submitting..."
+question={question}
 
-                            :
+answer={answer}
 
-                            "Submit Answer"
+/>
 
-                    }
+<InterviewStatus
 
-                </button>
+current={currentQuestion}
 
-                <br />
+total={totalQuestions}
 
-                <br />
+listening={
 
-                <EvaluationPanel
+interviewMode==="voice"
 
-                    evaluation={evaluation}
+}
 
-                />
+/>
 
-            </InterviewLayout>
+{
 
-        </MainLayout>
+interviewMode==="text"
 
-    );
+&&
+
+<InterviewInput
+
+answer={answer}
+
+setAnswer={setAnswer}
+
+/>
+
+}
+
+<InterviewControls
+
+loading={loading}
+
+onSubmit={handleSubmit}
+
+/>
+
+<EvaluationPanel
+
+evaluation={evaluation}
+
+/>
+
+</InterviewRoom>
+
+</MainLayout>
+
+);
 
 }

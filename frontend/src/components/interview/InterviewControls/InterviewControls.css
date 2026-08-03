@@ -1,0 +1,33 @@
+.interview-controls{
+
+    padding:25px;
+
+    text-align:center;
+
+}
+
+.submit-btn{
+
+    background:#6366f1;
+
+    color:white;
+
+    border:none;
+
+    padding:16px 36px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    transition:.3s;
+
+}
+
+.submit-btn:hover{
+
+    background:#4f46e5;
+
+}

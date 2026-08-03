@@ -1,0 +1,41 @@
+.conversation{
+
+    padding:30px;
+
+}
+
+.ai-message,
+
+.user-message{
+
+    padding:20px;
+
+    border-radius:16px;
+
+    margin-bottom:20px;
+
+}
+
+.ai-message{
+
+    background:#eef2ff;
+
+}
+
+.user-message{
+
+    background:#f9fafb;
+
+}
+
+.ai-message strong{
+
+    color:#4f46e5;
+
+}
+
+.user-message strong{
+
+    color:#059669;
+
+}
