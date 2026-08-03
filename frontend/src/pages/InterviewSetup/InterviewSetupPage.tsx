@@ -255,6 +255,8 @@ export default function InterviewSetupPage() {
 
                         />
 
+                        <label>Current Experience </label>
+
 
                         <Input
 
@@ -277,6 +279,8 @@ export default function InterviewSetupPage() {
                             }
 
                         />
+
+                        <label> Difficulty of Interview </label>
 
 
                         <Select
@@ -306,6 +310,8 @@ export default function InterviewSetupPage() {
                             }
 
                         />
+
+                        <label>Interview Type </label>
 
 
                         <Select
@@ -342,6 +348,8 @@ export default function InterviewSetupPage() {
 
                         />
 
+                        <label>Skills (optional) </label>
+
 
                         <TextArea
 
@@ -364,6 +372,8 @@ export default function InterviewSetupPage() {
                             }
 
                         />
+
+                        <label>Projects (optional)</label>
 
 
                         <TextArea

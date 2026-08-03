@@ -9,26 +9,24 @@
 }
 
 
-
 .upload-box {
 
-    border: 2px dashed #6366f1;
+    border:2px dashed #6366f1;
 
-    border-radius: 14px;
+    border-radius:14px;
 
-    padding: 35px;
+    padding:35px;
 
-    text-align: center;
+    text-align:center;
 
-    background: rgba(99,102,241,.08);
+    background:#111827;
 
 }
 
 
-
 .upload-box h3 {
 
-    color: white;
+        color:#f8fafc;
 
     margin-bottom: 8px;
 
@@ -38,16 +36,23 @@
 
 .upload-box p {
 
-    color: #94a3b8;
+    color:#94a3b8;
 
     margin-bottom: 20px;
 
 }
 
 
+.upload-box input[type="file"] {
 
-.upload-box input {
+    width:100%;
 
-    cursor: pointer;
+    padding:12px;
+
+    background:#334155;
+
+    border-radius:10px;
+
+    color:white;
 
 }
