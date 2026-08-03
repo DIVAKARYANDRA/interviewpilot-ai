@@ -13,6 +13,7 @@ from "../../../services/authService";
 import "./SettingsModal.css";
 
 
+import Toast from "../../common/Toast/Toast";
 
 interface Props {
 
@@ -50,35 +51,199 @@ export default function SettingsModal({
     ]=useState("");
 
 
+    const [error,setError]=useState("");
 
-    async function saveProfile(){
+    const [success,setSuccess]=useState("");
 
-        await updateProfile(
-            name
-        );
+    const [toast,setToast]=useState<{
+    message:string;
+    type:"success"|"error";
+} | null>(null);
 
-        alert(
-            "Profile updated"
-        );
+    function showToast(
+    message:string,
+    type:"success"|"error"
+){
+
+    setToast({
+        message,
+        type
+    });
+
+
+    setTimeout(()=>{
+
+        setToast(null);
+
+    },3000);
+
+}
+
+
+
+    function validatePassword(
+        password:string
+    ){
+
+        const regex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+
+        return regex.test(password);
 
     }
 
 
 
+    async function saveProfile(){
+
+        try{
+
+            setError("");
+
+            setSuccess("");
+
+
+            if(!name.trim()){
+
+                setError(
+                    "Name cannot be empty."
+                );
+
+                return;
+
+            }
+
+
+            await updateProfile(
+                name
+            );
+
+
+            showToast(
+            "Profile updated successfully",
+            "success"
+            );
+
+
+        }
+
+        catch(error:any){
+
+            setError(
+                "Failed to update profile."
+            );
+
+        }
+
+    }
+
+
+
+
+
     async function savePassword(){
 
-        await updatePassword(
-
-            currentPassword,
-
-            newPassword
-
-        );
+        try{
 
 
-        alert(
-            "Password updated"
-        );
+            setError("");
+
+            setSuccess();
+
+
+
+            if(!currentPassword.trim()){
+
+
+                setError(
+                    "Current password is required."
+                );
+
+                return;
+
+            }
+
+
+
+            if(!newPassword.trim()){
+
+
+                setError(
+                    "New password is required."
+                );
+
+                return;
+
+            }
+
+
+
+            if(!validatePassword(newPassword)){
+
+
+                setError(
+                    "Password must contain minimum 8 characters, one uppercase letter, one lowercase letter and one number."
+                );
+
+
+                return;
+
+            }
+
+
+
+
+            await updatePassword(
+
+                currentPassword,
+
+                newPassword
+
+            );
+
+
+
+            showToast(
+            "Password changed successfully",
+            "success"
+            );
+
+
+            setCurrentPassword("");
+
+            setNewPassword("");
+
+
+
+        }
+
+
+        catch(error:any){
+
+
+            if(
+                error?.response?.data?.detail
+            ){
+
+                setError(
+                    error.response.data.detail
+                );
+
+            }
+
+            else{
+
+
+                setError(
+                    "Failed to change password."
+                );
+
+
+            }
+
+
+        }
 
     }
 
@@ -97,16 +262,46 @@ export default function SettingsModal({
                 </h2>
 
 
+
+                {
+                    error &&
+
+                    <div className="settings-error">
+
+                        {error}
+
+                    </div>
+
+                }
+
+
+
+                {
+                    success &&
+
+                    <div className="settings-success">
+
+                        {success}
+
+                    </div>
+
+                }
+
+
+
+
                 <label>
                     Change Name
                 </label>
+
 
                 <input
 
                     value={name}
 
                     onChange={
-                        e=>setName(
+                        e=>
+                        setName(
                             e.target.value
                         )
                     }
@@ -117,7 +312,9 @@ export default function SettingsModal({
                 <button
                     onClick={saveProfile}
                 >
+
                     Save Name
+
                 </button>
 
 
@@ -125,21 +322,28 @@ export default function SettingsModal({
                 <hr />
 
 
+
                 <label>
                     Current Password
                 </label>
+
 
                 <input
 
                     type="password"
 
+                    value={currentPassword}
+
                     onChange={
-                        e=>setCurrentPassword(
+                        e=>
+                        setCurrentPassword(
                             e.target.value
                         )
                     }
 
                 />
+
+
 
 
                 <label>
@@ -151,8 +355,11 @@ export default function SettingsModal({
 
                     type="password"
 
+                    value={newPassword}
+
                     onChange={
-                        e=>setNewPassword(
+                        e=>
+                        setNewPassword(
                             e.target.value
                         )
                     }
@@ -160,9 +367,17 @@ export default function SettingsModal({
                 />
 
 
+                <small>
+                    Minimum 8 characters with uppercase,
+                    lowercase and number.
+                </small>
+
+
 
                 <button
+
                     onClick={savePassword}
+
                 >
 
                     Change Password
@@ -171,9 +386,13 @@ export default function SettingsModal({
 
 
 
+
                 <button
+
                     className="close-btn"
+
                     onClick={onClose}
+
                 >
 
                     Close
@@ -181,7 +400,21 @@ export default function SettingsModal({
                 </button>
 
 
+
             </div>
+
+            {
+toast &&
+
+<Toast
+
+message={toast.message}
+
+type={toast.type}
+
+/>
+
+}
 
 
         </div>
