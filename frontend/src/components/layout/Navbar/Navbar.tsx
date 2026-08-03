@@ -9,13 +9,13 @@ import {
 
 import { scrollToSection } from "../../../utils/scroll";
 
-import "./Navbar.css";
-
 import ProfileModal 
 from "../../profile/ProfileModal/ProfileModal";
 
 import SettingsModal 
 from "../../profile/SettingsModal/SettingsModal";
+
+import "./Navbar.css";
 
 
 export default function Navbar(){
@@ -25,9 +25,11 @@ export default function Navbar(){
 
     const [user,setUser] = useState<any>(null);
 
-    const [showProfile,setShowProfile]=useState(false);
+    const [showProfile,setShowProfile] =
+        useState(false);
 
-const [showSettings,setShowSettings]=useState(false);
+    const [showSettings,setShowSettings] =
+        useState(false);
 
 
 
@@ -41,12 +43,14 @@ const [showSettings,setShowSettings]=useState(false);
         if(loggedIn){
 
             getUser()
-            .then(data=>{
+
+            .then((data:any)=>{
 
                 setUser(data);
 
             })
-            .catch(error=>{
+
+            .catch((error)=>{
 
                 console.error(
                     "Failed to fetch user",
@@ -61,210 +65,274 @@ const [showSettings,setShowSettings]=useState(false);
 
 
 
+    function handleProfile(){
+
+        setOpen(false);
+
+        setShowProfile(true);
+
+    }
+
+
+
+    function handleSettings(){
+
+        setOpen(false);
+
+        setShowSettings(true);
+
+    }
+
+
+
+    function handleLogout(){
+
+        setOpen(false);
+
+        logout();
+
+    }
+
+
+
     return (
 
-<header className="navbar">
+        <>
 
+        <header className="navbar">
 
-<div className="navbar-container">
 
+            <div className="navbar-container">
 
-<div className="logo">
 
-Interview
-<span>
-Pilot AI
-</span>
+                <div className="logo">
 
-</div>
+                    Interview
+                    <span>
+                        Pilot AI
+                    </span>
 
+                </div>
 
 
-<nav className="nav-links">
 
+                <nav className="nav-links">
 
-<button
-onClick={() =>
-scrollToSection("features")
-}
->
-Features
-</button>
 
+                    <button
+                    onClick={() =>
+                        scrollToSection("features")
+                    }
+                    >
+                        Features
+                    </button>
 
-<button
-onClick={() =>
-scrollToSection("how-it-works")
-}
->
-How It Works
-</button>
 
 
-<button
-onClick={() =>
-scrollToSection("ai-demo")
-}
->
-AI Coach
-</button>
+                    <button
+                    onClick={() =>
+                        scrollToSection("how-it-works")
+                    }
+                    >
+                        How It Works
+                    </button>
 
 
-</nav>
 
+                    <button
+                    onClick={() =>
+                        scrollToSection("ai-demo")
+                    }
+                    >
+                        AI Coach
+                    </button>
 
 
-<div className="nav-actions">
+                </nav>
 
 
-{
 
-loggedIn
 
-?
 
-<div className="profile-wrapper">
+                <div className="nav-actions">
 
 
-<button
+                {
 
-className="profile-btn"
+                loggedIn
 
-onClick={() =>
-setOpen(!open)
-}
+                ?
 
->
+                <div className="profile-wrapper">
 
-👤
-{
-user?.name
-||
-"Profile"
-}
 
-</button>
+                    <button
 
+                    className="profile-btn"
 
+                    onClick={() =>
+                        setOpen(!open)
+                    }
 
-{
+                    >
 
-open &&
+                    👤
 
-<div className="profile-menu">
+                    {
+                        user?.name
+                        ||
+                        "Profile"
+                    }
 
-<button
-onClick={() =>
-    setShowProfile(true)
-}
->
-Profile
-</button>
 
+                    </button>
 
-<button
-onClick={() =>
-    setShowSettings(true)
-}
->
-Settings
-</button>
 
 
-<button
 
-onClick={logout}
 
->
+                    {
 
-Logout
+                    open &&
 
-</button>
+                    <div className="profile-menu">
 
 
-</div>
+                        <button
 
-}
+                        onClick={handleProfile}
 
+                        >
 
-</div>
+                            Profile
 
+                        </button>
 
-:
 
-<>
 
+                        <button
 
-<Link to="/login">
+                        onClick={handleSettings}
 
-<button className="login-btn">
+                        >
 
-Login
+                            Settings
 
-</button>
+                        </button>
 
-</Link>
 
 
 
-<Link to="/register">
+                        <button
 
-<button className="register-btn">
+                        onClick={handleLogout}
 
-Register
+                        >
 
-</button>
+                            Logout
 
-</Link>
+                        </button>
 
 
-</>
 
+                    </div>
 
-}
+                    }
 
 
-</div>
 
+                </div>
 
 
-</div>
+                :
 
+                <>
 
-</header>
 
-{
-showProfile &&
+                <Link to="/login">
 
-<ProfileModal
+                    <button className="login-btn">
 
-user={user}
+                        Login
 
-onClose={()=>
-setShowProfile(false)
-}
+                    </button>
 
-/>
+                </Link>
 
-}
 
 
-{
-showSettings &&
 
-<SettingsModal
+                <Link to="/register">
 
-user={user}
+                    <button className="register-btn">
 
-onClose={()=>
-setShowSettings(false)
-}
+                        Register
 
-/>
+                    </button>
 
-}
+                </Link>
 
 
-);
+                </>
+
+
+                }
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+        </header>
+
+
+
+
+
+        {
+
+        showProfile &&
+
+        <ProfileModal
+
+            user={user}
+
+            onClose={() =>
+                setShowProfile(false)
+            }
+
+        />
+
+        }
+
+
+
+
+
+        {
+
+        showSettings &&
+
+        <SettingsModal
+
+            user={user}
+
+            onClose={() =>
+                setShowSettings(false)
+            }
+
+        />
+
+        }
+
+
+
+        </>
+
+    );
 
 }
