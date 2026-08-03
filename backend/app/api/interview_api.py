@@ -18,13 +18,11 @@ router = APIRouter(
 )
 
 
-@router.post("/start")
-def interview(
-    request: StartInterviewRequest
-):
+from sqlalchemy.orm import Session
+from fastapi import Depends
 
-    return start_interview(request)
-
+from app.database.db import get_db
+from app.dependencies.auth_dependency import get_current_user
 
 @router.post(
     "/submit-answer",
@@ -37,7 +35,43 @@ def submit_answer_api(
     return submit_answer(request)
 
 
-@router.post("/end")
-def end(request: EndInterviewRequest):
+@router.post("/start")
+def interview(
 
-    return end_interview(request)
+    request: StartInterviewRequest,
+
+    db: Session = Depends(get_db),
+
+    current_user=Depends(get_current_user)
+
+):
+
+    return start_interview(
+
+        db,
+
+        current_user["user_id"],
+
+        request
+
+    )
+
+
+@router.post("/end")
+def end(
+
+    request: EndInterviewRequest,
+
+    db: Session = Depends(get_db),
+
+    current_user=Depends(get_current_user)
+
+):
+
+    return end_interview(
+
+        db,
+
+        request
+
+    )

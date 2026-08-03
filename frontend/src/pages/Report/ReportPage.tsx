@@ -61,22 +61,31 @@ export default function ReportPage(){
 
                 <div className="overall-score">
 
+    <p>
 
-                    <h2>
+        Interview Completed 🎉
 
-                        Overall Score
+    </p>
 
-                    </h2>
+    <h2>
 
+        Overall Performance
 
-                    <h1>
+    </h2>
 
-                        {report.overall_score}%
+    <div className="overall-circle">
 
-                    </h1>
+        {report.overall_score}
 
+        <span>
 
-                </div>
+            %
+
+        </span>
+
+    </div>
+
+</div>
 
 
 
@@ -112,6 +121,22 @@ export default function ReportPage(){
 
 
                 </div>
+
+                <div className="summary-card">
+
+    <h2>
+
+        🤖 AI Summary
+
+    </h2>
+
+    <p>
+
+        {report.summary}
+
+    </p>
+
+</div>
 
 
 

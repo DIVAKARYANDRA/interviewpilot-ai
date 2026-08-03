@@ -2,9 +2,27 @@ from uuid import uuid4
 
 from app.graph.interview_graph import InterviewGraph
 from app.graph.session_manager import SessionManager
+from app.models.interview import Interview
+from app.repositories.interview_repository import create_interview
+from datetime import datetime
 
+from app.repositories.interview_repository import (
 
-def start_interview(data):
+    get_interview,
+
+    update_interview
+
+)
+
+def def start_interview(
+
+    db,
+
+    user_id,
+
+    data
+
+):
 
     state = {
 
@@ -51,10 +69,38 @@ def start_interview(data):
         "skill_scores": {}
     }
 
+    interview = Interview(
+
+        user_id=user_id,
+
+        company=data.company,
+
+        role=data.role,
+
+        interview_type=data.interview_type,
+
+        difficulty=data.difficulty,
+
+        status="IN_PROGRESS"
+
+    )
+
+    interview = create_interview(
+
+        db,
+
+        interview
+
+    )
+
+    
+
     graph = InterviewGraph()
 
     try:
         state = graph.start(state)
+
+        state["interview_db_id"] = interview.id
 
         SessionManager.create(state)
 
@@ -70,7 +116,13 @@ def start_interview(data):
         print("===========================================\n")
         raise
 
-def end_interview(request):
+def def end_interview(
+
+    db,
+
+    request
+
+):
 
     state = SessionManager.get(request.session_id)
 
@@ -81,6 +133,38 @@ def end_interview(request):
     graph = InterviewGraph()
 
     state = graph.finish(state)
+
+    interview = get_interview(
+
+    db,
+
+    state["interview_db_id"]
+
+    )
+
+    report = state["report"]
+
+    interview.status = "COMPLETED"
+
+    interview.overall_score = report.overall_score
+
+    interview.technical_score = report.technical_score
+
+    interview.communication_score = report.communication_score
+
+    interview.confidence_score = report.confidence_score
+
+    interview.summary = report.summary
+
+    interview.completed_at = datetime.utcnow()
+
+    update_interview(
+
+        db,
+
+        interview
+
+    )
 
     return state["report"]
 

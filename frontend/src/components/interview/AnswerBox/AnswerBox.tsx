@@ -22,6 +22,9 @@ export default function AnswerBox({
 
             className="answer-box"
 
+            placeholder="Type your answer here..."
+
+
             rows={8}
 
             value={answer}

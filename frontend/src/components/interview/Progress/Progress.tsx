@@ -12,21 +12,60 @@ export default function Progress() {
 
     } = useInterview();
 
+
     const percentage =
 
         (currentQuestion / totalQuestions) * 100;
 
+
+    const remainingQuestions =
+
+        totalQuestions - currentQuestion;
+
+
+    const estimatedMinutes =
+
+        Math.max(1, remainingQuestions);
+
+
     return (
 
-        <div>
+        <div className="progress-container">
 
-            <p>
 
-                Question {currentQuestion} of {totalQuestions}
+            <div className="progress-top">
 
-            </p>
+
+                <div>
+
+                    <h3>
+
+                        AI Technical Interview
+
+                    </h3>
+
+                    <p>
+
+                        Question {currentQuestion} of {totalQuestions}
+
+                    </p>
+
+                </div>
+
+
+                <div className="progress-percentage">
+
+                    {Math.round(percentage)}%
+
+                </div>
+
+
+            </div>
+
+
 
             <div className="progress-track">
+
 
                 <div
 
@@ -41,6 +80,31 @@ export default function Progress() {
                 />
 
             </div>
+
+
+
+            <div className="progress-bottom">
+
+                <span>
+
+                    Estimated remaining:
+                    {" "}
+                    {estimatedMinutes}
+                    {" "}
+                    min
+
+                </span>
+
+                <span>
+
+                    {remainingQuestions}
+                    {" "}
+                    questions left
+
+                </span>
+
+            </div>
+
 
         </div>
 

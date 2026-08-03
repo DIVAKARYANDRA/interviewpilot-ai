@@ -10,7 +10,7 @@ import { endInterview } from "../../services/reportService";
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 import { speak } from "../../hooks/useSpeech";
-
+import "./InterviewPage.css";
 import InterviewLayout from "../../components/interview/InterviewLayout/InterviewLayout";
 import Progress from "../../components/interview/Progress/Progress";
 import QuestionCard from "../../components/interview/QuestionCard/QuestionCard";
@@ -309,6 +309,8 @@ export default function InterviewPage() {
 
             <InterviewLayout>
 
+                <InterviewHeader/>
+
                 <Progress />
 
                 <QuestionCard
@@ -329,11 +331,13 @@ export default function InterviewPage() {
 
                 <button
 
-                    onClick={handleSubmit}
+className="submit-answer-btn"
 
-                    disabled={loading}
+onClick={handleSubmit}
 
-                >
+disabled={loading}
+
+>
 
                     {
 

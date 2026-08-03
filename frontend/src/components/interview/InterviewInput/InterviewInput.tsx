@@ -3,6 +3,9 @@ import { useInterview } from "../../../context/InterviewContext";
 import AnswerBox from "../AnswerBox/AnswerBox";
 import VoiceAnswerBox from "../VoiceAnswerBox/VoiceAnswerBox";
 
+import "./InterviewInput.css";
+
+
 interface Props{
 
     answer:string;
@@ -10,6 +13,7 @@ interface Props{
     setAnswer:(value:string)=>void;
 
 }
+
 
 export default function InterviewInput({
 
@@ -19,15 +23,25 @@ export default function InterviewInput({
 
 }:Props){
 
+
     const{
 
         interviewMode
 
     }=useInterview();
 
-    if(interviewMode==="voice"){
 
-        return(
+
+    return (
+
+        <div className="interview-input">
+
+
+        {
+
+            interviewMode==="voice"
+
+            ?
 
             <VoiceAnswerBox
 
@@ -37,19 +51,20 @@ export default function InterviewInput({
 
             />
 
-        );
+            :
 
-    }
+            <AnswerBox
 
-    return(
+                answer={answer}
 
-        <AnswerBox
+                setAnswer={setAnswer}
 
-            answer={answer}
+            />
 
-            setAnswer={setAnswer}
+        }
 
-        />
+
+        </div>
 
     );
 

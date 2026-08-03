@@ -1,98 +1,238 @@
 import "./EvaluationPanel.css";
 
 interface Props {
-    evaluation: any;
+
+    evaluation:any;
+
 }
 
 export default function EvaluationPanel({
 
     evaluation
 
-}: Props) {
+}:Props){
 
-    if (!evaluation) {
+    if(!evaluation){
 
         return null;
 
     }
 
-    return (
+    const overall = Math.round(
+
+        (
+
+            evaluation.technical_score +
+
+            evaluation.communication_score +
+
+            evaluation.confidence_score
+
+        ) / 3
+
+    );
+
+    return(
 
         <div className="evaluation-card">
 
-            <h2>
-
-                AI Evaluation
-
-            </h2>
-
-            <div className="scores">
+            <div className="evaluation-header">
 
                 <div>
 
-                    <strong>Technical</strong>
+                    <h2>
 
-                    <p>{evaluation.technical_score}</p>
+                        🤖 AI Performance Feedback
+
+                    </h2>
+
+                    <p>
+
+                        Here's how you performed in this question.
+
+                    </p>
 
                 </div>
 
-                <div>
+                <div className="overall-score">
 
-                    <strong>Communication</strong>
+                    {overall}
 
-                    <p>{evaluation.communication_score}</p>
-
-                </div>
-
-                <div>
-
-                    <strong>Confidence</strong>
-
-                    <p>{evaluation.confidence_score}</p>
+                    <span>/100</span>
 
                 </div>
 
             </div>
 
-            <h3>Strengths</h3>
+            <div className="score-grid">
 
-            <ul>
+                <div className="score-card">
 
-                {evaluation.strengths.map((item: string) => (
+                    <span>
 
-                    <li key={item}>{item}</li>
+                        💻
 
-                ))}
+                    </span>
 
-            </ul>
+                    <h4>
 
-            <h3>Weaknesses</h3>
+                        Technical
 
-            <ul>
+                    </h4>
 
-                {evaluation.weaknesses.map((item: string) => (
+                    <h3>
 
-                    <li key={item}>{item}</li>
+                        {evaluation.technical_score}
 
-                ))}
+                    </h3>
 
-            </ul>
+                </div>
 
-            <h3>Feedback</h3>
+                <div className="score-card">
 
-            <p>
+                    <span>
 
-                {evaluation.feedback}
+                        💬
 
-            </p>
+                    </span>
 
-            <h3>Recommended Next Topic</h3>
+                    <h4>
 
-            <p>
+                        Communication
 
-                {evaluation.next_topic}
+                    </h4>
 
-            </p>
+                    <h3>
+
+                        {evaluation.communication_score}
+
+                    </h3>
+
+                </div>
+
+                <div className="score-card">
+
+                    <span>
+
+                        🚀
+
+                    </span>
+
+                    <h4>
+
+                        Confidence
+
+                    </h4>
+
+                    <h3>
+
+                        {evaluation.confidence_score}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div className="feedback-grid">
+
+                <div className="feedback-box strengths">
+
+                    <h3>
+
+                        ✅ Strengths
+
+                    </h3>
+
+                    <ul>
+
+                        {
+
+                            evaluation.strengths.map(
+
+                                (item:string)=>(
+
+                                    <li key={item}>
+
+                                        {item}
+
+                                    </li>
+
+                                )
+
+                            )
+
+                        }
+
+                    </ul>
+
+                </div>
+
+                <div className="feedback-box weaknesses">
+
+                    <h3>
+
+                        📈 Areas to Improve
+
+                    </h3>
+
+                    <ul>
+
+                        {
+
+                            evaluation.weaknesses.map(
+
+                                (item:string)=>(
+
+                                    <li key={item}>
+
+                                        {item}
+
+                                    </li>
+
+                                )
+
+                            )
+
+                        }
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div className="ai-feedback">
+
+                <h3>
+
+                    💡 AI Recommendation
+
+                </h3>
+
+                <p>
+
+                    {evaluation.feedback}
+
+                </p>
+
+            </div>
+
+            <div className="next-topic">
+
+                <strong>
+
+                    🎯 Recommended Next Topic
+
+                </strong>
+
+                <p>
+
+                    {evaluation.next_topic}
+
+                </p>
+
+            </div>
 
         </div>
 

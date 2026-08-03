@@ -1,9 +1,62 @@
+.question-card{
+
+    margin-top:20px;
+
+}
+
+
+.question-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+
+.question-header span{
+
+    font-size:28px;
+
+}
+
+
+
+.question-header h3{
+
+    color:white;
+
+    font-size:22px;
+
+}
+
+
+
+.question-label{
+
+    margin-top:20px;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+
 .question-text{
 
-    font-size:1.1rem;
+    margin-top:12px;
+
+    color:#f8fafc;
+
+    font-size:18px;
 
     line-height:1.8;
-
-    margin-top:16px;
 
 }
