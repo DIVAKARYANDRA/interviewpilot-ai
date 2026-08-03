@@ -558,6 +558,8 @@ type="submit"
 
 disabled={loading}
 
+className="start-interview-btn"
+
 >
 
 

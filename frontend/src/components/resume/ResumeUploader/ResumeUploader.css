@@ -56,3 +56,79 @@
     color:white;
 
 }
+
+
+.upload-button {
+
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    width:220px;
+
+
+    padding:14px 20px;
+
+
+    background:#6366f1;
+
+
+    color:white;
+
+
+    border-radius:12px;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    transition:0.3s;
+
+
+}
+
+
+
+.upload-button:hover {
+
+
+    background:#4f46e5;
+
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+.upload-button input {
+
+
+    display:none;
+
+
+}
+
+
+
+.file-name {
+
+
+    color:#34d399;
+
+
+    font-size:14px;
+
+
+    margin-top:15px;
+
+
+}

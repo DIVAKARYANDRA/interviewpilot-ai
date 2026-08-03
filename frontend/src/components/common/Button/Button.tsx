@@ -32,7 +32,7 @@ export default function Button({
 
         <button
 
-            className="app-button"
+            className={className}
 
             type={type}
 

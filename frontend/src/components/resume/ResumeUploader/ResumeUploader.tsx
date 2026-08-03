@@ -16,6 +16,7 @@ export default function ResumeUploader({
 }:Props){
 
     const [loading,setLoading]=useState(false);
+    const [fileName,setFileName] = useState("");
 
     async function handleUpload(
 
@@ -69,15 +70,44 @@ export default function ResumeUploader({
 
             </p>
 
-            <input
+            <label className="upload-button">
 
-                type="file"
+    📄 Select Resume
 
-                accept=".pdf"
+    <input
 
-                onChange={handleUpload}
+        type="file"
 
-            />
+        accept=".pdf"
+
+        onChange={(e)=>{
+
+            if(e.target.files?.[0]){
+
+                setFileName(
+                    e.target.files[0].name
+                );
+
+            }
+
+            handleUpload(e);
+
+        }}
+
+    />
+
+</label>
+
+
+{
+    fileName &&
+
+    <p className="file-name">
+
+        ✅ {fileName}
+
+    </p>
+}
 
         </div>
 
