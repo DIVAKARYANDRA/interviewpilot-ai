@@ -6,6 +6,10 @@ from app.models import activity
 from app.database.db import Base, engine
 from app.api.resume_api import router as resume_router
 from app.models import interview_history
+
+from app.api.dashboard_api import (
+    router as dashboard_router
+)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -36,6 +40,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(interview_router)
 app.include_router(resume_router)
+app.include_router(dashboard_router)
 # -----------------------------
 # Health
 # -----------------------------
