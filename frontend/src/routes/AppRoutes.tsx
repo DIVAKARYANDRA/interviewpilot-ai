@@ -8,8 +8,7 @@ import { isAuthenticated } from "../hooks/useAuth";
 import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
 import InterviewPage from "../pages/Interview/InterviewPage";
 import ReportPage from "../pages/Report/ReportPage";
-import InterviewHistoryPage
-from "./pages/history/InterviewHistoryPage";
+import InterviewHistoryPage from "../pages/history/InterviewHistoryPage";
 
 export default function AppRoutes() {
   return (
