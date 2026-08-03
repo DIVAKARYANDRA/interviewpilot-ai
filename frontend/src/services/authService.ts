@@ -34,3 +34,40 @@ export async function getCurrentUser(){
     return response.data;
 
 }
+
+export async function updateProfile(
+    name:string
+){
+
+    const response =
+        await api.put(
+            "/auth/profile",
+            {
+                name
+            }
+        );
+
+    return response.data;
+
+}
+
+
+
+export async function updatePassword(
+    current_password:string,
+    new_password:string
+){
+
+    const response =
+        await api.put(
+            "/auth/password",
+            {
+                current_password,
+                new_password
+            }
+        );
+
+
+    return response.data;
+
+}

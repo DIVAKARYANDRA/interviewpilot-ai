@@ -3,10 +3,12 @@ from pydantic import BaseModel
 
 class UpdateProfileRequest(BaseModel):
 
-    name:str
+    name: str
 
 
 
 class UpdatePasswordRequest(BaseModel):
 
-    password:str
+    current_password: str
+
+    new_password: str

@@ -1,0 +1,68 @@
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.6);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:2000;
+
+}
+
+
+
+.profile-modal{
+
+    width:380px;
+
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    color:white;
+
+}
+
+
+
+.profile-item{
+
+    margin:20px 0;
+
+}
+
+
+
+.profile-item label{
+
+    color:#94a3b8;
+
+}
+
+
+.profile-modal button{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#6366f1;
+
+    color:white;
+
+    cursor:pointer;
+
+}

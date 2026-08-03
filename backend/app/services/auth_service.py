@@ -5,11 +5,13 @@ from app.models.user import User
 from app.repositories.user_repository import (
     get_user_by_email,
     create_user,
+    update_user,
     get_user_by_id
 )
 
 from app.utils.security import (
     hash_password,
+    verify_password
 )
 
 def update_profile(
@@ -40,31 +42,31 @@ def update_profile(
 
 
 
-def update_password(
-    db: Session,
-    user_id: int,
-    password: str
-):
+# def update_password(
+#     db: Session,
+#     user_id: int,
+#     password: str
+# ):
 
-    user = get_user_by_id(
-        db,
-        user_id
-    )
-
-
-    if not user:
-        raise ValueError(
-            "User not found"
-        )
+#     user = get_user_by_id(
+#         db,
+#         user_id
+#     )
 
 
-    user.password = hash_password(
-        password
-    )
+#     if not user:
+#         raise ValueError(
+#             "User not found"
+#         )
 
-    db.commit()
 
-    return True
+#     user.password = hash_password(
+#         password
+#     )
+
+#     db.commit()
+
+#     return True
 
 def register_user(db: Session, user_data):
 
@@ -156,3 +158,47 @@ def get_current_user_service(
 
 
     return user
+
+
+def change_password(
+    db: Session,
+    user_id: int,
+    current_password: str,
+    new_password: str
+):
+
+    user = get_user_by_id(
+        db,
+        user_id
+    )
+
+
+    if not user:
+
+        raise ValueError(
+            "User not found"
+        )
+
+
+    if not verify_password(
+        current_password,
+        user.password
+    ):
+
+        raise ValueError(
+            "Current password incorrect"
+        )
+
+
+    user.password = hash_password(
+        new_password
+    )
+
+
+    update_user(
+        db,
+        user
+    )
+
+
+    return True

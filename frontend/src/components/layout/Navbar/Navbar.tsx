@@ -11,6 +11,12 @@ import { scrollToSection } from "../../../utils/scroll";
 
 import "./Navbar.css";
 
+import ProfileModal 
+from "../../profile/ProfileModal/ProfileModal";
+
+import SettingsModal 
+from "../../profile/SettingsModal/SettingsModal";
+
 
 export default function Navbar(){
 
@@ -18,6 +24,10 @@ export default function Navbar(){
     const [open,setOpen] = useState(false);
 
     const [user,setUser] = useState<any>(null);
+
+    const [showProfile,setShowProfile]=useState(false);
+
+const [showSettings,setShowSettings]=useState(false);
 
 
 
@@ -143,16 +153,22 @@ open &&
 
 <div className="profile-menu">
 
-
-<button>
+<button
+onClick={() =>
+    setShowProfile(true)
+}
+>
 Profile
 </button>
 
 
-<button>
+<button
+onClick={() =>
+    setShowSettings(true)
+}
+>
 Settings
 </button>
-
 
 
 <button
@@ -216,6 +232,37 @@ Register
 
 
 </header>
+
+{
+showProfile &&
+
+<ProfileModal
+
+user={user}
+
+onClose={()=>
+setShowProfile(false)
+}
+
+/>
+
+}
+
+
+{
+showSettings &&
+
+<SettingsModal
+
+user={user}
+
+onClose={()=>
+setShowSettings(false)
+}
+
+/>
+
+}
 
 
 );
