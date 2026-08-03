@@ -1,34 +1,36 @@
-interface Props{
+interface Props {
 
-    children:React.ReactNode;
+    children: React.ReactNode;
 
     type?:
+        | "button"
+        | "submit";
 
-        "button"
+    disabled?: boolean;
 
-        |
+    onClick?: () => void;
 
-        "submit";
-
-    disabled?:boolean;
-
-    onClick?:()=>void;
+    className?: string;
 
 }
+
 
 export default function Button({
 
     children,
 
-    type="button",
+    type = "button",
 
     disabled,
 
-    onClick
+    onClick,
 
-}:Props){
+    className = ""
 
-    return(
+}: Props) {
+
+
+    return (
 
         <button
 
