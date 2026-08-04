@@ -1,21 +1,27 @@
-.app-input{
-
-    width:100%;
-
-    padding:14px;
-
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    font-size:16px;
-
-    outline:none;
-
+.app-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-silk),
+              box-shadow var(--duration-fast) var(--ease-silk),
+              background var(--duration-fast) var(--ease-silk);
 }
 
-.app-input:focus{
+.app-input::placeholder {
+  color: var(--text-faint);
+}
 
-    border-color:var(--primary);
+.app-input:hover {
+  border-color: var(--border-strong);
+}
 
+.app-input:focus {
+  border-color: var(--primary);
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }

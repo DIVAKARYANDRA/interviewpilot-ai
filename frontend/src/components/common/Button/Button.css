@@ -1,25 +1,91 @@
-.app-button{
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-    border-radius:var(--radius);
-
-    padding:14px 24px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    font-weight:600;
-
+.app-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--gradient-brand);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 13px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-silk),
+              box-shadow var(--duration-fast) var(--ease-silk),
+              filter var(--duration-fast) var(--ease-silk);
 }
 
-.app-button:hover{
+.app-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, #818CF8, #A78BFA, #22D3EE);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-silk);
+}
 
-    background:var(--primary-dark);
+.app-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
 
+.app-button:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.app-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.app-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Ripple micro-interaction */
+.app-button:not(:disabled):active {
+  filter: brightness(0.96);
+}
+
+/* Variant modifiers — apply alongside app-button via className */
+.app-button.secondary {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  box-shadow: none;
+}
+.app-button.secondary::before { background: var(--surface-hover); }
+.app-button.secondary:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(0,0,0,.28);
+  transform: translateY(-2px);
+}
+
+.app-button.ghost {
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  padding: 13px 18px;
+}
+.app-button.ghost::before { background: var(--surface); }
+.app-button.ghost:hover:not(:disabled) {
+  color: var(--text);
+  transform: none;
+}
+
+.app-button.danger {
+  background: linear-gradient(135deg, #F87171, #EF4444);
+}
+.app-button.danger::before { background: linear-gradient(135deg, #FCA5A5, #F87171); }
+
+.app-button.sm {
+  padding: 9px 18px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
 }
