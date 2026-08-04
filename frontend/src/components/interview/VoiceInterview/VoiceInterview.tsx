@@ -10,9 +10,8 @@ import InterviewStatus from "../InterviewStatus/InterviewStatus";
 import InterviewControls from "../InterviewControls/InterviewControls";
 import EvaluationPanel from "../EvaluationPanel/EvaluationPanel";
 import ConnectingScreen from "../ConnectingScreen/ConnectingScreen";
-import useVoiceInterview
-// import { useState } from "react";
-from "../../../hooks/useVoiceInterview";
+import useVoiceInterview from "../../../hooks/useVoiceInterview";
+import useInterviewStage from "../../../hooks/useInterviewStage";
 import { greetingMessage } from "../../../constants/interviewGreeting";
 
 import "./VoiceInterview.css";
@@ -38,6 +37,8 @@ export default function VoiceInterview() {
         recruiterState
 
     } = useInterview();
+
+    useInterviewStage();
 
     useVoiceInterview(
 
