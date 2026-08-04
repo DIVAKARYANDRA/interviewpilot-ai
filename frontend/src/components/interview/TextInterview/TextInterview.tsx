@@ -34,8 +34,6 @@ export default function TextInterview() {
 
         setEvaluation,
 
-        currentQuestion,
-
         setCurrentQuestion,
 
         setReport

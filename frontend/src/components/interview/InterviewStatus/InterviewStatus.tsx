@@ -1,5 +1,5 @@
 import "./InterviewStatus.css";
-
+import { useEffect, useState } from "react";
 interface Props{
 
     current:number;
@@ -26,13 +26,7 @@ export default function InterviewStatus({
 
 const timer=setInterval(()=>{
 
-setSeconds(
-
-s=>s+1
-
-);
-
-},1000);
+ssetSeconds((s: number) => s + 1);
 
 return()=>clearInterval(timer);
 

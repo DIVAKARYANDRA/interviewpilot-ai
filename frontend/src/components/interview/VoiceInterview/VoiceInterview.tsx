@@ -31,11 +31,11 @@ export default function VoiceInterview() {
 
         totalQuestions,
 
-        interviewMode,
+        // interviewMode,
 
         stage,
 
-        // recruiterState
+        recruiterState
 
     } = useInterview();
 
