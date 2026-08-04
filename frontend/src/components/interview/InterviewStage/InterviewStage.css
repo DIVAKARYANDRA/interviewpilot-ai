@@ -36,6 +36,39 @@
 
 }
 
+.stage-avatar{
+
+    position:relative;
+
+    width:170px;
+
+    height:170px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+}
+
+.stage-avatar::before,
+
+.stage-avatar::after{
+
+content:"";
+
+position:absolute;
+
+inset:-10px;
+
+border-radius:50%;
+
+opacity:0;
+
+pointer-events:none;
+
+}
+
+
 .stage-avatar.idle{
 
     border-color:#d1d5db;
@@ -204,6 +237,76 @@ box-shadow:0 0 45px rgba(139,92,246,.7);
 transform:scale(1);
 
 box-shadow:0 0 0 rgba(139,92,246,.2);
+
+}
+
+}
+
+
+.stage-avatar.speaking::before{
+
+animation:voiceWave 1.3s infinite;
+
+border:4px solid #2563eb;
+
+}
+
+.stage-avatar.speaking::after{
+
+animation:voiceWave 1.3s .4s infinite;
+
+border:4px solid #2563eb;
+
+}
+
+.stage-avatar.listening::before{
+
+animation:voiceWave 1.6s infinite;
+
+border:4px solid #16a34a;
+
+}
+
+.stage-avatar.listening::after{
+
+animation:voiceWave 1.6s .5s infinite;
+
+border:4px solid #16a34a;
+
+}
+
+
+.stage-avatar.thinking::before{
+
+animation:voiceWave 1.2s infinite;
+
+border:4px solid #9333ea;
+
+}
+
+.stage-avatar.thinking::after{
+
+animation:voiceWave 1.2s .4s infinite;
+
+border:4px solid #9333ea;
+
+}
+
+@keyframes voiceWave{
+
+0%{
+
+transform:scale(.9);
+
+opacity:.9;
+
+}
+
+100%{
+
+transform:scale(1.4);
+
+opacity:0;
 
 }
 

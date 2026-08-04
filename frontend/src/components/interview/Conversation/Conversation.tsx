@@ -2,20 +2,21 @@ import ConversationBubble
 from "../ConversationBubble/ConversationBubble";
 
 import "./Conversation.css";
-
 interface Props{
 
     question:string;
 
     answer:string;
 
-}
+    liveTranscript?:string;
 
+}
 export default function Conversation({
 
     question,
 
-    answer
+    answer,
+    liveTranscript
 
 }:Props){
 
@@ -33,17 +34,23 @@ export default function Conversation({
 
             <ConversationBubble
 
-                sender="user"
+sender="user"
 
-                message={
+message={
 
-                    answer ||
+liveTranscript?.trim()
 
-                    "Listening..."
+||
 
-                }
+answer.trim()
 
-            />
+||
+
+"🎤 Listening..."
+
+}
+
+/>
 
         </div>
 

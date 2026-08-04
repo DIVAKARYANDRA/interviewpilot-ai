@@ -20,9 +20,56 @@ export default function InterviewStatus({
 
 }:Props){
 
+    const [seconds,setSeconds]=useState(0);
+
+    useEffect(()=>{
+
+const timer=setInterval(()=>{
+
+setSeconds(
+
+s=>s+1
+
+);
+
+},1000);
+
+return()=>clearInterval(timer);
+
+},[]);
+
     return(
 
         <div className="interview-status">
+            <div>
+
+🕒
+
+{
+
+Math.floor(seconds/60)
+
+}
+
+:
+
+{
+
+String(
+
+seconds%60
+
+).padStart(
+
+2,
+
+"0"
+
+)
+
+}
+
+</div>
 
             <div>
 

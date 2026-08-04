@@ -52,6 +52,20 @@ interface InterviewContextType {
   setAnswer: (answer: string) => void;
   setEvaluation: (evaluation: any) => void;
 
+  recruiterState:
+    "idle"
+    | "speaking"
+    | "listening"
+    | "thinking";
+
+setRecruiterState:(
+    value:
+        "idle"
+        | "speaking"
+        | "listening"
+        | "thinking"
+)=>void;
+
 
 
 
@@ -81,6 +95,10 @@ export function InterviewProvider({
 
   const [interviewMode, setInterviewMode] = useState<"text" | "voice">("text");
 
+  const [recruiterState, setRecruiterState] = useState<
+    "idle" | "speaking" | "listening" | "thinking"
+>("idle");
+
   const [stage,setStage]=useState<InterviewStage>(
 
 "connecting"
@@ -107,7 +125,10 @@ export function InterviewProvider({
         interviewMode,
         stage,
         setStage,
-        setInterviewMode
+        setInterviewMode,
+        recruiterState,
+
+setRecruiterState
       }}
     >
       {children}

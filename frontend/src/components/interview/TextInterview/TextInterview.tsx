@@ -44,7 +44,7 @@ export default function TextInterview() {
 
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     async function handleSubmit() {
 

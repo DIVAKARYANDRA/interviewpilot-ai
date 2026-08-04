@@ -1,22 +1,25 @@
 import { useInterview } from "../../context/InterviewContext";
 
-import TextInterview from "../../components/interview/TextInterview/TextInterview";
-import VoiceInterview from "../../components/interview/VoiceInterview/VoiceInterview";
+import TextInterview
+from "../../components/interview/TextInterview/TextInterview";
 
-export default function InterviewPage() {
+import VoiceInterview
+from "../../components/interview/VoiceInterview/VoiceInterview";
 
-    const {
+export default function InterviewPage(){
+
+    const{
 
         interviewMode
 
-    } = useInterview();
+    }=useInterview();
 
-    if (interviewMode === "voice") {
+    if(interviewMode==="voice"){
 
-        return <VoiceInterview />;
+        return<VoiceInterview/>;
 
     }
 
-    return <TextInterview />;
+    return<TextInterview/>;
 
 }
