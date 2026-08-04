@@ -5,6 +5,8 @@ import MainLayout from "../../layouts/MainLayout";
 import HeroCard from "../../components/dashboard/HeroCard/HeroCard";
 import StatsCard from "../../components/dashboard/StatsCard/StatsCard";
 import QuickActions from "../../components/dashboard/QuickActions/QuickActions";
+import ScoreTrendChart from "../../components/dashboard/ScoreTrendChart/ScoreTrendChart";
+import AIRecommendations from "../../components/dashboard/AIRecommendations/AIRecommendations";
 
 import { getDashboard } from "../../services/dashboardService";
 
@@ -132,6 +134,21 @@ export default function DashboardPage() {
 
                         }
 
+                    />
+
+                </div>
+
+                <div className="dashboard-insights">
+
+                    <ScoreTrendChart
+                        interviews={stats?.recent_interviews ?? []}
+                        loading={loading}
+                    />
+
+                    <AIRecommendations
+                        averageScore={stats?.average_score ?? 0}
+                        totalInterviews={stats?.total_interviews ?? 0}
+                        loading={loading}
                     />
 
                 </div>

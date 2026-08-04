@@ -1,221 +1,181 @@
 .navbar {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 70px;
-
-    background: #0f172a;
-
-    border-bottom: 1px solid #1e293b;
-
-    z-index: 1000;
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background: rgba(8, 9, 13, 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  animation: navSlideDown 0.6s var(--ease-silk) both;
 }
 
-
+@keyframes navSlideDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .navbar-container {
-
-    max-width: 1200px;
-
-    height: 100%;
-
-    margin: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 0 30px;
-
+  max-width: var(--max-width);
+  height: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
 }
-
-
 
 .logo {
-
-    font-size: 26px;
-
-    font-weight: 700;
-
-    color: white;
-
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-
-
 
 .logo span {
-
-    color: #6366f1;
-
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-
-
 
 .nav-links {
-
-    display: flex;
-
-    gap: 30px;
-
+  display: flex;
+  gap: 8px;
 }
-
-
 
 .nav-links button {
-
-    background: transparent;
-
-    border: none;
-
-    color: #cbd5e1;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-silk), background var(--duration-fast) var(--ease-silk);
 }
 
-
-
-.nav-links button:hover {
-
-    color: white;
-
+.nav-links a {
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--duration-fast) var(--ease-silk), background var(--duration-fast) var(--ease-silk);
 }
 
-
+.nav-links button:hover,
+.nav-links a:hover {
+  color: var(--text);
+  background: var(--surface);
+}
 
 .nav-actions {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-
-
 
 .login-btn,
 .register-btn {
-
-    padding: 10px 22px;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-weight: 600;
-
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  transition: transform var(--duration-fast) var(--ease-silk), box-shadow var(--duration-fast) var(--ease-silk);
 }
-
-
 
 .login-btn {
-
-    background: transparent;
-
-    border: 1px solid #475569;
-
-    color: white;
-
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
 }
 
-
+.login-btn:hover {
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
 
 .register-btn {
-
-    background: #6366f1;
-
-    border: none;
-
-    color: white;
-
+  background: var(--gradient-brand);
+  color: white;
+  box-shadow: var(--shadow-sm);
 }
 
-
+.register-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
 
 .profile-wrapper {
-
-    position: relative;
-
+  position: relative;
 }
-
-
 
 .profile-btn {
-
-    background: #334155;
-
-    border: none;
-
-    color: white;
-
-    padding: 10px 18px;
-
-    border-radius: 12px;
-
-    cursor: pointer;
-
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px 8px 10px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color var(--duration-fast) var(--ease-silk), background var(--duration-fast) var(--ease-silk);
 }
 
+.profile-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
 
+.profile-btn svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-light);
+}
 
 .profile-menu {
-
-    position: absolute;
-
-    right: 0;
-
-    top: 50px;
-
-    width: 180px;
-
-    background: #1e293b;
-
-    border-radius: 12px;
-
-    padding: 10px;
-
-    box-shadow:
-    0 15px 40px rgba(0,0,0,0.4);
-
+  position: absolute;
+  right: 0;
+  top: 54px;
+  width: 190px;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.22s var(--ease-silk) both;
 }
-
-
 
 .profile-menu button {
-
-    width: 100%;
-
-    padding: 12px;
-
-    background: transparent;
-
-    border: none;
-
-    color: white;
-
-    text-align: left;
-
-    cursor: pointer;
-
+  width: 100%;
+  padding: 11px 12px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--duration-fast) var(--ease-silk), color var(--duration-fast) var(--ease-silk);
 }
 
-
-
 .profile-menu button:hover {
+  background: var(--surface);
+  color: var(--text);
+}
 
-    background:#334155;
-
+@media (max-width: 860px) {
+  .nav-links { display: none; }
 }

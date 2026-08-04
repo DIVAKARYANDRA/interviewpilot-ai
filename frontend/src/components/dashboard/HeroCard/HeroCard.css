@@ -1,57 +1,95 @@
-.hero-card{
-
-    background:#1e293b;
-
-    padding:40px;
-
-    border-radius:20px;
-
-    margin-bottom:30px;
-
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-solid);
+  background-image: linear-gradient(160deg, rgba(255,255,255,0.04), transparent 55%);
+  border: 1px solid var(--border);
+  padding: 48px;
+  border-radius: var(--radius-xl);
+  margin-bottom: 28px;
+  isolation: isolate;
 }
 
-.hero-card h1{
-
-    margin-bottom:12px;
-
+.hero-orb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: -180px;
+  right: -120px;
+  background: var(--gradient-glow);
+  z-index: -1;
 }
 
-.hero-card p{
-
-    color:#cbd5e1;
-
-    line-height:1.7;
-
+.hero-card-inner {
+  max-width: 640px;
 }
 
-.hero-actions{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:16px;
-
-    margin-top:25px;
-
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-brand-soft);
+  border: 1px solid rgba(99,102,241,.3);
+  color: var(--primary-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 18px;
 }
 
-.hero-actions button{
-
-    padding:12px 22px;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
+.hero-card h1 {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  margin-bottom: 12px;
+  color: var(--text);
 }
 
-.secondary-btn{
+.hero-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1rem;
+}
 
-    background:#334155;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
 
-    color:white;
+.hero-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.92rem;
+  background: var(--gradient-brand);
+  color: white;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-silk), box-shadow var(--duration-fast) var(--ease-silk);
+}
 
+.hero-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.secondary-btn {
+  background: var(--surface) !important;
+  border: 1px solid var(--border-strong) !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+.secondary-btn:hover {
+  background: var(--surface-hover) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.28) !important;
+}
+
+@media (max-width: 640px) {
+  .hero-card { padding: 32px 24px; }
 }

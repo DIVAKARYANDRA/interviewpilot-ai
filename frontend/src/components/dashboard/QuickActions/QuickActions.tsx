@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Plus, Inbox, Building2 } from "lucide-react";
 
 import "./QuickActions.css";
 
@@ -20,6 +22,12 @@ interface Props{
 
 }
 
+function scoreTone(score: number) {
+    if (score >= 80) return "high";
+    if (score >= 50) return "mid";
+    return "low";
+}
+
 export default function QuickActions({
 
     interviews
@@ -30,7 +38,12 @@ export default function QuickActions({
 
     return(
 
-        <section className="recent-interviews">
+        <motion.section
+            className="recent-interviews"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        >
 
             <div className="recent-header">
 
@@ -52,7 +65,8 @@ export default function QuickActions({
 
                 >
 
-                    + Start Interview
+                    <Plus size={15} />
+                    Start Interview
 
                 </button>
 
@@ -65,6 +79,10 @@ export default function QuickActions({
                 ?
 
                 <div className="empty-history">
+
+                    <div className="empty-history-icon">
+                        <Inbox size={22} />
+                    </div>
 
                     <p>
 
@@ -82,45 +100,59 @@ export default function QuickActions({
 
                 :
 
-                interviews.map(interview=>
+                <div className="history-list">
+                    {interviews.map((interview, i)=>
 
-                    <div
+                        <motion.div
 
-                        key={interview.id}
+                            key={interview.id}
 
-                        className="history-item"
+                            className="history-item"
 
-                    >
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.05 * i }}
 
-                        <div>
+                        >
 
-                            <h3>
+                            <div className="history-item-left">
 
-                                {interview.company}
+                                <div className="history-item-icon">
+                                    <Building2 size={16} />
+                                </div>
 
-                            </h3>
+                                <div>
 
-                            <p>
+                                    <h3>
 
-                                {interview.role}
+                                        {interview.company}
 
-                            </p>
+                                    </h3>
 
-                        </div>
+                                    <p>
 
-                        <div className="history-score">
+                                        {interview.role}
 
-                            {interview.overall_score}%
+                                    </p>
 
-                        </div>
+                                </div>
 
-                    </div>
+                            </div>
 
-                )
+                            <div className={`history-score tone-${scoreTone(interview.overall_score)}`}>
+
+                                {interview.overall_score}%
+
+                            </div>
+
+                        </motion.div>
+
+                    )}
+                </div>
 
             }
 
-        </section>
+        </motion.section>
 
     );
 

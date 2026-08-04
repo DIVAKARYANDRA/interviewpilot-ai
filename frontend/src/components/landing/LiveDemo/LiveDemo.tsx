@@ -1,52 +1,179 @@
+import { motion } from "framer-motion";
+import {
+    Bot,
+    User,
+    Sparkles
+} from "lucide-react";
+
 import "./LiveDemo.css";
 
 export default function LiveDemo() {
 
-  return (
+    return (
 
-    <section className="live-demo">
+        <section className="live-demo">
 
-      <h2>See InterviewPilot in Action</h2>
+            <motion.h2
 
-      <div className="demo-card">
+                initial={{ opacity: 0, y: 30 }}
 
-        <div className="ai">
+                whileInView={{ opacity: 1, y: 0 }}
 
-          🤖 InterviewPilot
+                viewport={{ once: true }}
 
-          <p>
-            Explain Dependency Injection in FastAPI.
-          </p>
+            >
 
-        </div>
+                Experience an AI Interview
 
-        <div className="user">
+            </motion.h2>
 
-          👨 Candidate
+            <motion.p
 
-          <p>
-            Dependency Injection allows FastAPI to automatically provide
-            required dependencies like database sessions...
-          </p>
+                initial={{ opacity: 0 }}
 
-        </div>
+                whileInView={{ opacity: 1 }}
 
-        <div className="score">
+                viewport={{ once: true }}
 
-          <strong>AI Evaluation</strong>
+            >
 
-          <p>Technical : 92%</p>
+                Watch how InterviewPilot evaluates your answers instantly.
 
-          <p>Communication : 88%</p>
+            </motion.p>
 
-          <p>Confidence : 94%</p>
+            <motion.div
 
-        </div>
+                className="demo-window"
 
-      </div>
+                initial={{ opacity: 0, scale: .95 }}
 
-    </section>
+                whileInView={{ opacity: 1, scale: 1 }}
 
-  );
+                viewport={{ once: true }}
+
+            >
+
+                {/* Browser Header */}
+
+                <div className="window-header">
+
+                    <span className="dot red"></span>
+
+                    <span className="dot yellow"></span>
+
+                    <span className="dot green"></span>
+
+                    <small>InterviewPilot Live Session</small>
+
+                </div>
+
+                {/* AI */}
+
+                <div className="chat ai">
+
+                    <div className="avatar">
+
+                        <Bot size={24}/>
+
+                    </div>
+
+                    <div className="bubble">
+
+                        Explain Dependency Injection in FastAPI.
+
+                    </div>
+
+                </div>
+
+                {/* User */}
+
+                <div className="chat user">
+
+                    <div className="bubble">
+
+                        Dependency Injection allows FastAPI to automatically
+                        provide required objects like database sessions,
+                        authentication handlers and reusable services.
+
+                    </div>
+
+                    <div className="avatar">
+
+                        <User size={24}/>
+
+                    </div>
+
+                </div>
+
+                {/* AI Evaluation */}
+
+                <div className="evaluation-card">
+
+                    <div className="evaluation-title">
+
+                        <Sparkles size={18}/>
+
+                        AI Evaluation
+
+                    </div>
+
+                    <div className="progress-item">
+
+                        <span>Technical</span>
+
+                        <div className="bar">
+
+                            <div
+                                className="fill"
+                                style={{ width: "92%" }}
+                            ></div>
+
+                        </div>
+
+                        <strong>92%</strong>
+
+                    </div>
+
+                    <div className="progress-item">
+
+                        <span>Communication</span>
+
+                        <div className="bar">
+
+                            <div
+                                className="fill"
+                                style={{ width: "88%" }}
+                            ></div>
+
+                        </div>
+
+                        <strong>88%</strong>
+
+                    </div>
+
+                    <div className="progress-item">
+
+                        <span>Confidence</span>
+
+                        <div className="bar">
+
+                            <div
+                                className="fill"
+                                style={{ width: "94%" }}
+                            ></div>
+
+                        </div>
+
+                        <strong>94%</strong>
+
+                    </div>
+
+                </div>
+
+            </motion.div>
+
+        </section>
+
+    );
 
 }

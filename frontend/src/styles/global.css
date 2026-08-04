@@ -4,28 +4,73 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
+html, body, #root {
   width: 100%;
   min-height: 100%;
 }
 
 body {
-  background: #0f172a;
-  color: white;
-  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  background-image: var(--gradient-glow);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 button {
+  font-family: inherit;
   cursor: pointer;
-  transition: 0.25s;
-}
-
-button:hover {
-  opacity: 0.9;
+  transition: all var(--duration-fast) var(--ease-silk);
 }
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Fade/slide-in utility classes usable without JS for simple cases */
+.fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-silk) both;
+}
+
+.slide-up {
+  animation: slideUp var(--duration-slow) var(--ease-silk) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,.35); }
+  50% { box-shadow: 0 0 0 12px rgba(99,102,241,0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-hover) 37%, var(--surface) 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: var(--radius-sm);
 }

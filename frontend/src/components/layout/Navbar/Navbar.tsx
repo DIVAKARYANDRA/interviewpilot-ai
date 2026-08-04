@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { User } from "lucide-react";
 
 import {
     isAuthenticated,
@@ -245,7 +246,7 @@ AI Coach
 
                     >
 
-                    👤
+                    <User size={16} />
 
                     {
                         user?.name

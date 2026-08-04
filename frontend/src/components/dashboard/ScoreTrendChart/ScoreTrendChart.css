@@ -1,0 +1,68 @@
+.score-trend-card {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 26px 12px;
+}
+
+.score-trend-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.score-trend-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.score-trend-title svg { color: var(--accent); }
+
+.score-trend-title h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.score-trend-sub {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.score-trend-chart {
+  margin-top: 8px;
+}
+
+.trend-tooltip {
+  background: var(--surface-solid);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+}
+
+.trend-tooltip strong { color: var(--text); }
+.trend-tooltip span { color: var(--text-faint); }
+.trend-tooltip-score { color: var(--primary-light); font-weight: 700; margin-top: 4px; }
+
+.score-trend-skeleton {
+  height: 200px;
+  border-radius: var(--radius-md);
+  margin: 8px 0 16px;
+}
+
+.score-trend-empty {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.88rem;
+  padding: 0 20px;
+}

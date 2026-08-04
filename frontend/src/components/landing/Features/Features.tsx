@@ -1,55 +1,136 @@
+import { motion } from "framer-motion";
+
+import {
+    Brain,
+    Mic,
+    BarChart3,
+    GraduationCap
+} from "lucide-react";
+
 import "./Features.css";
 
 const features = [
-  {
-    title: "AI Mock Interviews",
-    description:
-      "Practice interviews tailored to your target company, role and experience level."
-  },
-  {
-    title: "Instant AI Feedback",
-    description:
-      "Receive technical, communication and confidence scores after every answer."
-  },
-  {
-    title: "Voice Interview",
-    description:
-      "Talk naturally with an AI interviewer just like a real interview."
-  },
-  {
-    title: "Learning Roadmap",
-    description:
-      "Get personalized learning recommendations based on your weaknesses."
-  }
+
+{
+icon:<Brain size={34}/>,
+title:"AI Mock Interviews",
+description:
+"Practice realistic interviews tailored to your dream company, role and experience level."
+},
+
+{
+icon:<BarChart3 size={34}/>,
+title:"Instant AI Feedback",
+description:
+"Receive detailed AI evaluation, communication analysis and technical scoring after every answer."
+},
+
+{
+icon:<Mic size={34}/>,
+title:"Voice Interview",
+description:
+"Talk naturally with an AI interviewer just like a real technical interview."
+},
+
+{
+icon:<GraduationCap size={34}/>,
+title:"Learning Roadmap",
+description:
+"Personalized improvement plan based on your interview performance and weak areas."
+}
+
 ];
 
-export default function Features() {
-  return (
-    <section className="features" id="features">
+export default function Features(){
 
-      <h2>Everything You Need to Crack Interviews</h2>
+return(
 
-      <p>
-        Built specifically for software engineers preparing for
-        product companies.
-      </p>
+<section
+className="features"
+id="features"
+>
 
-      <div className="feature-grid">
+<motion.h2
 
-        {features.map((item) => (
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
+transition={{duration:.6}}
 
-          <div className="feature-card" key={item.title}>
+>
 
-            <h3>{item.title}</h3>
+Everything You Need to
+<span> Crack Interviews</span>
 
-            <p>{item.description}</p>
+</motion.h2>
 
-          </div>
+<motion.p
 
-        ))}
+initial={{opacity:0}}
+whileInView={{opacity:1}}
+viewport={{once:true}}
 
-      </div>
+>
 
-    </section>
-  );
+Built specifically for software engineers preparing for
+Amazon, Google, Microsoft and top product companies.
+
+</motion.p>
+
+<div className="feature-grid">
+
+{
+
+features.map((item,index)=>(
+
+<motion.div
+
+className="feature-card"
+
+key={item.title}
+
+initial={{opacity:0,y:40}}
+
+whileInView={{opacity:1,y:0}}
+
+viewport={{once:true}}
+
+transition={{
+
+delay:index*.15
+
+}}
+
+>
+
+<div className="feature-icon">
+
+{item.icon}
+
+</div>
+
+<h3>
+
+{item.title}
+
+</h3>
+
+<p>
+
+{item.description}
+
+</p>
+
+</motion.div>
+
+))
+
+}
+
+</div>
+
+</section>
+
+);
+
 }

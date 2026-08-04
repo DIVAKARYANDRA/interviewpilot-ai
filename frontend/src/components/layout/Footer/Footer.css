@@ -1,11 +1,14 @@
-.footer{
+.footer {
+  padding: 40px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  background: var(--bg-elevated);
+}
 
-    padding:35px;
-
-    text-align:center;
-
-    border-top:1px solid #1e293b;
-
-    color:#94a3b8;
-
+.footer strong {
+  color: var(--text-muted);
+  font-weight: 600;
 }

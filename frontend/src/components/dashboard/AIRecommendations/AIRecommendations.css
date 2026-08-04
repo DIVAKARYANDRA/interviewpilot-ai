@@ -1,0 +1,70 @@
+.ai-recs-card {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+}
+
+.ai-recs-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.ai-recs-head svg { color: var(--accent); }
+
+.ai-recs-head h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.ai-recs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-rec-item {
+  display: flex;
+  gap: 12px;
+}
+
+.ai-rec-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--gradient-brand-soft);
+  border: 1px solid rgba(99,102,241,.3);
+  color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-rec-title {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.ai-rec-item p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.ai-recs-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ai-recs-skeleton .skeleton {
+  height: 52px;
+  border-radius: var(--radius-md);
+}

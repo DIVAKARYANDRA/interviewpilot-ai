@@ -1,52 +1,122 @@
+import { motion } from "framer-motion";
+import {
+    Target,
+    MessageSquare,
+    Trophy
+} from "lucide-react";
+
 import "./HowItWorks.css";
 
 const steps = [
-  {
-    number: "01",
-    title: "Choose Your Interview",
-    description:
-      "Select your target company, role, skills and difficulty level."
-  },
-  {
-    number: "02",
-    title: "Interview with AI",
-    description:
-      "Answer realistic interview questions generated specifically for you."
-  },
-  {
-    number: "03",
-    title: "Improve & Get Hired",
-    description:
-      "Receive detailed AI feedback, learning roadmap and readiness score."
-  }
+
+{
+number:"01",
+icon:<Target size={34}/>,
+title:"Choose Your Interview",
+description:
+"Select your company, role, skills and difficulty level."
+},
+
+{
+number:"02",
+icon:<MessageSquare size={34}/>,
+title:"Practice with AI",
+description:
+"Experience realistic AI-powered interviews with adaptive questioning."
+},
+
+{
+number:"03",
+icon:<Trophy size={34}/>,
+title:"Analyze & Improve",
+description:
+"Receive detailed evaluation, strengths, weaknesses and a personalized roadmap."
+}
+
 ];
 
-export default function HowItWorks() {
-  return (
-    <section className="how-it-works" id="how-it-works">
+export default function HowItWorks(){
 
-      <h2>How InterviewPilot Works</h2>
+return(
 
-      <div className="steps">
+<section
+className="how-it-works"
+id="how-it-works"
+>
 
-        {steps.map((step) => (
-          <div className="step-card" key={step.number}>
+<motion.h2
 
-            <div className="step-number">
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+viewport={{once:true}}
 
-              {step.number}
+>
 
-            </div>
+Your Journey to
+<span> Interview Success</span>
 
-            <h3>{step.title}</h3>
+</motion.h2>
 
-            <p>{step.description}</p>
+<div className="timeline">
 
-          </div>
-        ))}
+{
 
-      </div>
+steps.map((step,index)=>(
 
-    </section>
-  );
+<motion.div
+
+className="step-card"
+
+key={step.number}
+
+initial={{opacity:0,y:50}}
+
+whileInView={{opacity:1,y:0}}
+
+viewport={{once:true}}
+
+transition={{
+
+delay:index*.2
+
+}}
+
+>
+
+<div className="step-icon">
+
+{step.icon}
+
+</div>
+
+<div className="step-number">
+
+{step.number}
+
+</div>
+
+<h3>
+
+{step.title}
+
+</h3>
+
+<p>
+
+{step.description}
+
+</p>
+
+</motion.div>
+
+))
+
+}
+
+</div>
+
+</section>
+
+);
+
 }
