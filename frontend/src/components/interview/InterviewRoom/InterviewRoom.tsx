@@ -12,7 +12,7 @@ interface Props{
 
     controls:React.ReactNode;
 
-    evaluation:React.ReactNode;
+    // evaluation:React.ReactNode;
 
 }
 
@@ -28,7 +28,7 @@ export default function InterviewRoom({
 
     controls,
 
-    evaluation
+    // evaluation
 
 }:Props){
 

@@ -1,52 +1,112 @@
 import MainLayout from "../../../layouts/MainLayout";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useInterview } from "../../../context/InterviewContext";
 
-import InterviewRoom from "../InterviewRoom/InterviewRoom";
-import InterviewHeader from "../InterviewHeader/InterviewHeader";
-import InterviewStage from "../InterviewStage/InterviewStage";
-import Conversation from "../Conversation/Conversation";
-import InterviewStatus from "../InterviewStatus/InterviewStatus";
-import InterviewControls from "../InterviewControls/InterviewControls";
-import EvaluationPanel from "../EvaluationPanel/EvaluationPanel";
+import { submitAnswer } from "../../../services/interviewService";
+import { endInterview } from "../../../services/reportService";
+
 import ConnectingScreen from "../ConnectingScreen/ConnectingScreen";
+import InterviewLive from "../InterviewLive/InterviewLive";
+
 import useVoiceInterview from "../../../hooks/useVoiceInterview";
 import useInterviewStage from "../../../hooks/useInterviewStage";
-import { greetingMessage } from "../../../constants/interviewGreeting";
-import InterviewLive
-from "../InterviewLive/InterviewLive";
+
 import "./VoiceInterview.css";
 
 export default function VoiceInterview() {
 
     const {
 
-        question,
+        sessionId,
 
         answer,
 
-        evaluation,
+        setAnswer,
 
-        currentQuestion,
+        setQuestion,
 
-        totalQuestions,
+        setEvaluation,
 
-        // interviewMode,
+        setCurrentQuestion,
 
-        stage,
+        setReport,
 
-        recruiterState
+        setRecruiterState,
+
+        stage
 
     } = useInterview();
 
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+
     useInterviewStage();
 
-    useVoiceInterview(
+    async function handleSubmit() {
 
-()=>{}
+        if (loading) return;
 
-);
+        if (!answer.trim()) return;
 
+        setLoading(true);
+
+        setRecruiterState("thinking");
+
+        try {
+
+            const response = await submitAnswer({
+
+                session_id: sessionId,
+
+                answer
+
+            });
+
+            setEvaluation(response.evaluation);
+
+            if (response.interview_completed) {
+
+                const report = await endInterview(sessionId);
+
+                setReport(report);
+
+                navigate("/report");
+
+                return;
+
+            }
+
+            setQuestion(response.question);
+
+            setCurrentQuestion(response.question_number);
+
+            setAnswer("");
+
+            setRecruiterState("speaking");
+
+        }
+
+        catch (e) {
+
+            console.error(e);
+
+            alert("Failed to submit answer.");
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
+    }
+
+    useVoiceInterview(handleSubmit);
 
     if(stage==="connecting"){
 
@@ -62,29 +122,17 @@ export default function VoiceInterview() {
 
     }
 
-    const recruiterMessage =
-
-        stage==="greeting"
-
-            ?
-
-            greetingMessage
-
-            :
-
-            question;
-
     return(
 
         <MainLayout>
 
-        <InterviewLive
+            <InterviewLive
 
-loading={loading}
+                loading={loading}
 
-onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
 
-/>
+            />
 
         </MainLayout>
 
