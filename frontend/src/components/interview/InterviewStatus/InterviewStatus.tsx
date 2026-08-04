@@ -22,87 +22,29 @@ export default function InterviewStatus({
 
     const [seconds,setSeconds]=useState(0);
 
-    useEffect(()=>{
+    useEffect(() => {
+  const timer = setInterval(() => {
+    setSeconds((s: number) => s + 1);
+  }, 1000); 
 
-const timer=setInterval(()=>{
+  return () => clearInterval(timer);
+}, []);
 
-ssetSeconds((s: number) => s + 1);
+return (
+  <div className="interview-status">
+    <div>
+      🕒 {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
+    </div>
 
-return()=>clearInterval(timer);
+    <div>
+      Question{" "}
+      <strong>
+        {current}/{total}
+      </strong>
+    </div>
 
-},[]);
+    <div>{listening ? "🎤 Listening" : "🤖 AI Speaking"}</div>
 
-    return(
-
-        <div className="interview-status">
-            <div>
-
-🕒
-
-{
-
-Math.floor(seconds/60)
-
-}
-
-:
-
-{
-
-String(
-
-seconds%60
-
-).padStart(
-
-2,
-
-"0"
-
-)
-
-}
-
-</div>
-
-            <div>
-
-                Question
-
-                <strong>
-
-                    {current}/{total}
-
-                </strong>
-
-            </div>
-
-            <div>
-
-                {
-
-                    listening
-
-                    ?
-
-                    "🎤 Listening"
-
-                    :
-
-                    "🤖 AI Speaking"
-
-                }
-
-            </div>
-
-            <div className="live">
-
-                ● LIVE
-
-            </div>
-
-        </div>
-
-    );
-
-}
+    <div className="live">● LIVE</div>
+  </div>
+);
