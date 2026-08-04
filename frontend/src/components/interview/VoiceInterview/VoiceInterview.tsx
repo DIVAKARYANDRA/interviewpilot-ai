@@ -46,11 +46,23 @@ export default function VoiceInterview() {
 
     useInterviewStage();
 
-    async function handleSubmit() {
+    async function handleSubmit(
+    answerText?: string
+) {
 
         if (loading) return;
 
-        if (!answer.trim()) return;
+        const finalAnswer =
+
+    answerText ??
+
+    answer;
+
+if (!finalAnswer.trim()) {
+
+    return;
+
+}
 
         setLoading(true);
 
@@ -62,7 +74,7 @@ export default function VoiceInterview() {
 
                 session_id: sessionId,
 
-                answer
+                answer: finalAnswer
 
             });
 

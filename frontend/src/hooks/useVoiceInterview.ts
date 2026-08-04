@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useInterview } from "../context/InterviewContext";
 import { useSpeechRecognition } from "./useSpeechRecognition";
@@ -7,30 +7,27 @@ import { speak } from "./useSpeech";
 import { greetingMessage } from "../constants/interviewGreeting";
 
 export default function useVoiceInterview(
+        onSubmit:(answer:string)=>void
 
-    onSubmit:()=>void
+) {
 
-){
-
-    const{
+    const {
 
         interviewMode,
 
         question,
 
-        answer,
-
-        setAnswer,
-
         stage,
 
-        recruiterState,
+        setAnswer,
 
         setRecruiterState
 
     } = useInterview();
 
-    const{
+    const submittedRef = useRef(false);
+
+    const {
 
         transcript,
 
@@ -38,39 +35,57 @@ export default function useVoiceInterview(
 
     } = useSpeechRecognition(
 
-        (text)=>{
+        (finalText) => {
 
-            setAnswer(text);
+            if (!finalText.trim()) {
+
+                return;
+
+            }
+
+            if (submittedRef.current) {
+
+                return;
+
+            }
+
+            submittedRef.current = true;
+
+            setRecruiterState("thinking");
+
+            setAnswer(finalText);
+
+            setTimeout(() => {
+
+    onSubmit(finalText);
+
+},300);
 
         }
 
     );
 
     /*
-    ------------------------
+    -----------------------------
     Live Transcript
-    ------------------------
+    -----------------------------
     */
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(transcript){
+        setAnswer(transcript);
 
-            setAnswer(transcript);
-
-        }
-
-    },[transcript]);
+    }, [transcript]);
 
     /*
-    ------------------------
-    AI Speech
-    ------------------------
+    -----------------------------
+    AI Voice
+    -----------------------------
     */
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(interviewMode!=="voice"){
+        if (interviewMode !== "voice") {
 
             return;
 
@@ -78,65 +93,37 @@ export default function useVoiceInterview(
 
         const text =
 
-            stage==="greeting"
+            stage === "greeting"
 
-            ?
+                ? greetingMessage
 
-            greetingMessage
+                : question;
 
-            :
-
-            question;
-
-        if(!text){
+        if (!text) {
 
             return;
 
         }
 
-        setRecruiterState("speaking");
+        submittedRef.current = false;
 
-        window.speechSynthesis.cancel();
+        setRecruiterState("speaking");
 
         speak(
 
             text,
 
-            ()=>{
+            () => {
 
-                if(stage==="interview"){
+                setRecruiterState("listening");
 
-                    setRecruiterState(
-
-                        "listening"
-
-                    );
-
-                    startListening();
-
-                }
-
-                else{
-
-                    setRecruiterState(
-
-                        "idle"
-
-                    );
-
-                }
+                startListening();
 
             }
 
         );
 
-        return()=>{
-
-            window.speechSynthesis.cancel();
-
-        };
-
-    },[
+    }, [
 
         question,
 
@@ -145,39 +132,5 @@ export default function useVoiceInterview(
         interviewMode
 
     ]);
-
-    useEffect(()=>{
-
-    if(interviewMode!=="voice"){
-
-        return;
-
-    }
-
-    if(!answer.trim()){
-
-        return;
-
-    }
-
-    const timer=setTimeout(()=>{
-
-        onSubmit();
-
-    },2500);
-
-    return()=>clearTimeout(timer);
-
-},[answer]);
-
- 
-
-    return{
-
-        transcript,
-
-        recruiterState
-
-    };
 
 }
