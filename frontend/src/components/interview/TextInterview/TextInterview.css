@@ -1,0 +1,15 @@
+.text-interview{
+
+    max-width:950px;
+
+    margin:auto;
+
+    padding:40px 20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
