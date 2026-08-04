@@ -11,7 +11,7 @@ import InterviewControls from "../InterviewControls/InterviewControls";
 import EvaluationPanel from "../EvaluationPanel/EvaluationPanel";
 import ConnectingScreen from "../ConnectingScreen/ConnectingScreen";
 import useVoiceInterview
-import { useState } from "react";
+// import { useState } from "react";
 from "../../../hooks/useVoiceInterview";
 import { greetingMessage } from "../../../constants/interviewGreeting";
 
@@ -35,80 +35,15 @@ export default function VoiceInterview() {
 
         stage,
 
-        recruiterState
+        // recruiterState
 
     } = useInterview();
 
-    const [loading,setLoading]=useState(false);
-
     useVoiceInterview(
 
-handleSubmit
+()=>{}
 
 );
-
- 
-    async function handleSubmit() {
-
-        if (loading) return;
-
-        if (!answer.trim()) {
-
-            alert("Please enter your answer.");
-
-            return;
-
-        }
-
-        setLoading(true);
-
-        try {
-
-            const response = await submitAnswer({
-
-                session_id: sessionId,
-
-                answer
-
-            });
-
-            setEvaluation(response.evaluation);
-
-            if (response.interview_completed) {
-
-                const report = await endInterview(sessionId);
-
-                setReport(report);
-
-                navigate("/report");
-
-                return;
-
-            }
-
-            setQuestion(response.question);
-
-            setCurrentQuestion(response.question_number);
-
-            setAnswer("");
-
-        }
-
-        catch (e) {
-
-            console.error(e);
-
-            alert("Failed to submit answer.");
-
-        }
-
-        finally {
-
-            setLoading(false);
-
-        }
-
-    }
 
 
     if(stage==="connecting"){
@@ -207,7 +142,7 @@ handleSubmit
 
                     <InterviewControls
 
-                        loading={loading}
+                        loading={false}
 
                         onSubmit={()=>{}}
 
