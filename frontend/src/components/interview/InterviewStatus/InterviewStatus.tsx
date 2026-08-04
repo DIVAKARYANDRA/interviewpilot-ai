@@ -1,50 +1,43 @@
 import "./InterviewStatus.css";
 import { useEffect, useState } from "react";
-interface Props{
 
-    current:number;
-
-    total:number;
-
-    listening:boolean;
-
+interface Props {
+  current: number;
+  total: number;
+  listening: boolean;
 }
 
 export default function InterviewStatus({
+  current,
+  total,
+  listening
+}: Props) {
+  const [seconds, setSeconds] = useState(0);
 
-    current,
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSeconds((s: number) => s + 1);
+    }, 1000);
 
-    total,
+    return () => clearInterval(timer);
+  }, []);
 
-    listening
+  return (
+    <div className="interview-status">
+      <div>
+        🕒 {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
+      </div>
 
-}:Props){
+      <div>
+        Question{" "}
+        <strong>
+          {current}/{total}
+        </strong>
+      </div>
 
-    const [seconds,setSeconds]=useState(0);
+      <div>{listening ? "🎤 Listening" : "🤖 AI Speaking"}</div>
 
-    useEffect(() => {
-  const timer = setInterval(() => {
-    setSeconds((s: number) => s + 1);
-  }, 1000); 
-
-  return () => clearInterval(timer);
-}, []);
-
-return (
-  <div className="interview-status">
-    <div>
-      🕒 {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
+      <div className="live">● LIVE</div>
     </div>
-
-    <div>
-      Question{" "}
-      <strong>
-        {current}/{total}
-      </strong>
-    </div>
-
-    <div>{listening ? "🎤 Listening" : "🤖 AI Speaking"}</div>
-
-    <div className="live">● LIVE</div>
-  </div>
-);
+  );
+} 
