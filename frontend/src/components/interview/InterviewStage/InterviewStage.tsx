@@ -2,7 +2,7 @@ import "./InterviewStage.css";
 import TypewriterSpeech from "../../common/TypewriterSpeech/TypewriterSpeech";
 import SpeakingWave
 from "../SpeakingWave/SpeakingWave";
-import SpeakingWave
+import ThinkingIndicator
 from "../ThinkingIndicator/ThinkingIndicator";
 
 interface Props {
