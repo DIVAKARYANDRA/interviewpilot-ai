@@ -22,7 +22,26 @@ export default function InterviewControls({
 
     if(voiceMode){
 
-        return null;
+        return(
+
+            <div className="voice-controls">
+
+                <div className="voice-indicator">
+
+                    🎤 Voice Interview Active
+
+                </div>
+
+                <small>
+
+                    Speak naturally.
+                    Your answer will be submitted automatically.
+
+                </small>
+
+            </div>
+
+        );
 
     }
 

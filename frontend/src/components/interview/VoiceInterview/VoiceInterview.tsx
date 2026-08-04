@@ -13,7 +13,8 @@ import ConnectingScreen from "../ConnectingScreen/ConnectingScreen";
 import useVoiceInterview from "../../../hooks/useVoiceInterview";
 import useInterviewStage from "../../../hooks/useInterviewStage";
 import { greetingMessage } from "../../../constants/interviewGreeting";
-
+import InterviewLive
+from "../InterviewLive/InterviewLive";
 import "./VoiceInterview.css";
 
 export default function VoiceInterview() {
@@ -77,93 +78,13 @@ export default function VoiceInterview() {
 
         <MainLayout>
 
-            <InterviewRoom
+        <InterviewLive
 
-                header={
+loading={loading}
 
-                    <InterviewHeader
+onSubmit={handleSubmit}
 
-                        company="InterviewPilot"
-
-                        role="AI Mock Interview"
-
-                    />
-
-                }
-
-                recruiter={
-
-                    <InterviewStage
-
-                        recruiterName="Divakar AI"
-
-                        recruiterTitle="Senior Technical Interviewer"
-
-                        company="InterviewPilot Live"
-
-                        state={recruiterState}
-
-                        message={recruiterMessage}
-
-                    />
-
-                }
-
-                transcript={
-
-                    <Conversation
-
-                        question={recruiterMessage}
-
-                        answer={answer}
-
-                    />
-
-                }
-
-                status={
-
-                    <InterviewStatus
-
-                        current={currentQuestion}
-
-                        total={totalQuestions}
-
-                        listening={
-
-                            recruiterState==="listening"
-
-                        }
-
-                    />
-
-                }
-
-                controls={
-
-                    <InterviewControls
-
-                        loading={false}
-
-                        onSubmit={()=>{}}
-
-                        voiceMode={true}
-
-                    />
-
-                }
-
-                evaluation={
-
-                    <EvaluationPanel
-
-                        evaluation={evaluation}
-
-                    />
-
-                }
-
-            />
+/>
 
         </MainLayout>
 

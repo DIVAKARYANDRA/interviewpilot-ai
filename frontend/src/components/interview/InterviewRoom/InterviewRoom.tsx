@@ -38,15 +38,28 @@ export default function InterviewRoom({
 
             {header}
 
-            {recruiter}
+            <div className="meeting-body">
 
-            {transcript}
+                <aside className="meeting-left">
 
-            {status}
+                    {recruiter}
+                </aside>
 
-            {controls}
+                <section className="meeting-right">
 
-            {evaluation}
+                    {transcript}
+
+                </section>
+
+            </div>
+
+            <div className="meeting-footer">
+
+    {status}
+
+    {controls}
+
+</div>
 
         </div>
 

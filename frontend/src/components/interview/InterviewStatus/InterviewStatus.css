@@ -1,23 +1,109 @@
 .interview-status{
 
-    display:flex;
+padding:22px;
 
-    justify-content:space-between;
+border-radius:20px;
 
-    align-items:center;
+background:rgba(255,255,255,.05);
 
-    padding:18px 35px;
+border:1px solid rgba(255,255,255,.08);
 
-    background:#111827;
+backdrop-filter:blur(20px);
 
-    color:white;
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
 
 }
 
-.live{
+.progress-top{
 
-    color:#22c55e;
+display:flex;
 
-    font-weight:bold;
+justify-content:space-between;
+
+align-items:center;
+
+font-weight:600;
+
+}
+
+.progress-bar{
+
+height:10px;
+
+border-radius:999px;
+
+background:rgba(255,255,255,.08);
+
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+height:100%;
+
+background:linear-gradient(
+
+90deg,
+
+#6366f1,
+
+#22d3ee
+
+);
+
+transition:.5s;
+
+}
+
+.status-bottom{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.voice-status{
+
+font-weight:600;
+
+color:#22d3ee;
+
+}
+
+.live-chip{
+
+padding:8px 16px;
+
+border-radius:999px;
+
+background:rgba(239,68,68,.15);
+
+color:#ef4444;
+
+font-weight:700;
+
+letter-spacing:.5px;
+
+}
+
+@media(max-width:768px){
+
+.status-bottom{
+
+flex-direction:column;
+
+gap:14px;
+
+align-items:flex-start;
+
+}
 
 }

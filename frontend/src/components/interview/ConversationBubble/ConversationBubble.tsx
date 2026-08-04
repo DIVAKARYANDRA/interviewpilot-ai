@@ -1,8 +1,15 @@
+import {
+    Bot,
+    User
+} from "lucide-react";
+
 import "./ConversationBubble.css";
 
 interface Props{
 
     sender:"ai"|"user";
+
+    title?:string;
 
     message:string;
 
@@ -12,51 +19,69 @@ export default function ConversationBubble({
 
     sender,
 
+    title,
+
     message
 
 }:Props){
 
+    const isAI = sender==="ai";
+
     return(
 
         <div
-
-            className={
-
-                sender==="ai"
-
-                ?
-
-                "bubble ai"
-
-                :
-
-                "bubble user"
-
-            }
-
+            className={`bubble ${sender}`}
         >
 
-            <div className="bubble-header">
+            <div className="bubble-avatar">
 
                 {
 
-                    sender==="ai"
+                    isAI
 
                     ?
 
-                    "🤖 Divakar AI"
+                    <Bot size={22}/>
 
                     :
 
-                    "👤 You"
+                    <User size={22}/>
 
                 }
 
             </div>
 
-            <div className="bubble-message">
+            <div className="bubble-content">
 
-                {message}
+                <div className="bubble-header">
+
+                    {
+
+                        title ||
+
+                        (
+
+                            isAI
+
+                            ?
+
+                            "Divakar AI"
+
+                            :
+
+                            "You"
+
+                        )
+
+                    }
+
+                </div>
+
+                <div className="bubble-message">
+
+                    {message}
+
+                </div>
 
             </div>
 

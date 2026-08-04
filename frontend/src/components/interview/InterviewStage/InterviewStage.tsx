@@ -1,8 +1,9 @@
 import "./InterviewStage.css";
-import TypewriterSpeech
-from "../../common/TypewriterSpeech/TypewriterSpeech";
+import TypewriterSpeech from "../../common/TypewriterSpeech/TypewriterSpeech";
+import SpeakingWave
+from "../SpeakingWave/SpeakingWave";
 
-interface Props{
+interface Props {
 
     recruiterName:string;
 
@@ -10,15 +11,11 @@ interface Props{
 
     company:string;
 
-state:
-
-|"idle"
-
-|"speaking"
-
-|"listening"
-
-|"thinking";
+    state:
+        |"idle"
+        |"speaking"
+        |"listening"
+        |"thinking";
 
     message:string;
 
@@ -42,55 +39,69 @@ export default function InterviewStage({
 
         <section className="interview-stage">
 
-            <div className={`stage-avatar ${state}`}>
+            <div className={`avatar-wrapper ${state}`}>
+
+                <div className="ring ring1"></div>
+
+                <div className="ring ring2"></div>
+
+                <div className="ring ring3"></div>
 
                 <img
-
-                    src="/recruiter.png"
-
+                    src="/recruiter.jpg"
                     alt="Recruiter"
-
+                    className="recruiter-avatar"
                 />
 
             </div>
 
-            <h2>
+            <h2>{recruiterName}</h2>
 
-                {recruiterName}
+            <p>{recruiterTitle}</p>
 
-            </h2>
-
-            <p>
-
-                {recruiterTitle}
-
-            </p>
-
-            <small>
-
-                {company}
-
-            </small>
+            <small>{company}</small>
 
             <div className="stage-message">
 
-                <TypewriterSpeech
+                {
+
+state==="thinking"
+
+?
+
+<ThinkingIndicator/>
+
+:
+
+<TypewriterSpeech
 
 text={message}
 
 />
 
+}
+
             </div>
 
-            <div className="stage-status">
+        <div className={`stage-state ${state}`}>
 
-                {
+{
 
-                    state==="speaking"
+state==="speaking"
 
 ?
 
-"🎙 AI Speaking"
+<>
+
+<div>
+
+🗣 Speaking
+
+</div>
+
+<SpeakingWave/>
+
+</>
 
 :
 
@@ -106,15 +117,16 @@ state==="thinking"
 
 ?
 
-"🧠 Preparing next question..."
+"🤔 Thinking..."
 
 :
 
-"Waiting..."
+"Waiting"
 
-                }
+}
 
-            </div>
+</div>
+
 
         </section>
 

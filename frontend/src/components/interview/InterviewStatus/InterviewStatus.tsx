@@ -1,43 +1,93 @@
 import "./InterviewStatus.css";
-import { useEffect, useState } from "react";
 
-interface Props {
-  current: number;
-  total: number;
-  listening: boolean;
+interface Props{
+
+    current:number;
+
+    total:number;
+
+    listening:boolean;
+
 }
 
 export default function InterviewStatus({
-  current,
-  total,
-  listening
-}: Props) {
-  const [seconds, setSeconds] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSeconds((s: number) => s + 1);
-    }, 1000);
+    current,
 
-    return () => clearInterval(timer);
-  }, []);
+    total,
 
-  return (
-    <div className="interview-status">
-      <div>
-        🕒 {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
-      </div>
+    listening
 
-      <div>
-        Question{" "}
-        <strong>
-          {current}/{total}
-        </strong>
-      </div>
+}:Props){
 
-      <div>{listening ? "🎤 Listening" : "🤖 AI Speaking"}</div>
+    const percentage=(current/total)*100;
 
-      <div className="live">● LIVE</div>
-    </div>
-  );
-} 
+    return(
+
+        <section className="interview-status">
+
+            <div className="progress-top">
+
+                <span>
+
+                    Question Progress
+
+                </span>
+
+                <strong>
+
+                    {current}/{total}
+
+                </strong>
+
+            </div>
+
+            <div className="progress-bar">
+
+                <div
+
+                    className="progress-fill"
+
+                    style={{
+
+                        width:`${percentage}%`
+
+                    }}
+
+                />
+
+            </div>
+
+            <div className="status-bottom">
+
+                <div className="voice-status">
+
+                    {
+
+                        listening
+
+                        ?
+
+                        "🎤 Listening..."
+
+                        :
+
+                        "🤖 AI Speaking..."
+
+                    }
+
+                </div>
+
+                <div className="live-chip">
+
+                    ● LIVE
+
+                </div>
+
+            </div>
+
+        </section>
+
+    );
+
+}

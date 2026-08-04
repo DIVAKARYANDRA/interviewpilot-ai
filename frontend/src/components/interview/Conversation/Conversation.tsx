@@ -1,59 +1,65 @@
-import ConversationBubble
-from "../ConversationBubble/ConversationBubble";
-
 import "./Conversation.css";
+
 interface Props{
 
-    question:string;
+question:string;
 
-    answer:string;
-
-    liveTranscript?:string;
+answer:string;
 
 }
+
 export default function Conversation({
 
-    question,
+question,
 
-    answer,
-    liveTranscript
+answer
 
 }:Props){
 
-    return(
+return(
 
-        <div className="conversation">
+<section className="conversation">
 
-            <ConversationBubble
+<div className="current-question">
 
-                sender="ai"
+<h3>
 
-                message={question}
+💬 Current Question
 
-            />
+</h3>
 
-            <ConversationBubble
+<p>
 
-sender="user"
+{question}
 
-message={
+</p>
 
-liveTranscript?.trim()
+</div>
 
-||
+<div className="current-answer">
 
-answer.trim()
+<h3>
 
-||
+🎤 Live Transcript
 
-"🎤 Listening..."
+</h3>
+
+<p>
+
+{
+
+answer ||
+
+"Listening..."
 
 }
 
-/>
+</p>
 
-        </div>
+</div>
 
-    );
+</section>
+
+);
 
 }
