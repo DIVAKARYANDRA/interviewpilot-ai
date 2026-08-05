@@ -329,6 +329,9 @@ Paste the complete JD here...`}
 
 </section>
 
+</Card>
+</Section>
+
 <Section>
 
 <Card>
