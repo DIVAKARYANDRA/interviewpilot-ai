@@ -5,5 +5,14 @@ class MemoryAgent(BaseAgent):
 
     def execute(self, state):
 
-        state["skill_scores"]["overall"] = state["evaluations"][-1]["technical_score"]
+        latest = state["evaluations"][-1]
+
+        state["skill_scores"]["overall"] = latest["technical_score"]
+
+        state["last_feedback"] = latest.get("overall_feedback", "")
+
+        state["last_strengths"] = latest.get("strengths", "")
+
+        state["last_improvements"] = latest.get("improvements", "")
+
         return state

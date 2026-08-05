@@ -11,114 +11,121 @@ export default function useVoiceInterview(
 ) {
 
     const {
-
         interviewMode,
         question,
         stage,
         setAnswer,
         setRecruiterState
-
     } = useInterview();
 
     const submittedRef = useRef(false);
-
-    
-
     const keepListeningRef = useRef(false);
 
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const latestTranscript = useRef("");
 
-    const {
+    function submitCurrentAnswer() {
 
-        transcript,
-        startListening,
-        stopListening
+        if (submittedRef.current) return;
 
-    } = useSpeechRecognition(
+        submittedRef.current = true;
+        keepListeningRef.current = false;
 
-(finalText)=>{
+        stopListening();
 
-    latestTranscript.current = finalText;
+        if (silenceTimer.current) {
+            clearTimeout(silenceTimer.current);
+        }
 
-    setAnswer(finalText);
+        if (answerTimer.current) {
+            clearTimeout(answerTimer.current);
+        }
 
-},
+        setRecruiterState("thinking");
 
-()=>{
-
-    if(
-
-        keepListeningRef.current &&
-
-        !submittedRef.current
-
-    ){
-
-        setTimeout(()=>{
-
-            startListening();
-
-        },300);
+        onSubmit(latestTranscript.current);
 
     }
 
-}
-);
+    function restartSilenceTimer() {
+
+        if (silenceTimer.current) {
+            clearTimeout(silenceTimer.current);
+        }
+
+        silenceTimer.current = setTimeout(() => {
+
+            submitCurrentAnswer();
+
+        }, 5000);
+
+    }
+
+    const {
+        transcript,
+        startListening,
+        stopListening
+    } = useSpeechRecognition(
+
+        (finalText) => {
+
+            latestTranscript.current = finalText;
+            setAnswer(finalText);
+
+        },
+
+        () => {
+
+            if (
+                keepListeningRef.current &&
+                !submittedRef.current
+            ) {
+
+                setTimeout(() => {
+
+                    if (
+                        keepListeningRef.current &&
+                        !submittedRef.current
+                    ) {
+
+                        startListening();
+
+                    }
+
+                }, 1000);
+
+            }
+
+        }
+
+    );
 
     /*
-    --------------------------------
-    Live transcript
-    --------------------------------
+    ------------------------------------
+    Live Transcript
+    ------------------------------------
     */
 
     useEffect(() => {
-
-        if (!transcript) return;
 
         latestTranscript.current = transcript;
 
         setAnswer(transcript);
 
-        if (submittedRef.current) return;
+        if (!submittedRef.current) {
 
-        if (silenceTimer.current) {
-
-            clearTimeout(silenceTimer.current);
+            restartSilenceTimer();
 
         }
-
-        silenceTimer.current = setTimeout(() => {
-
-            if (submittedRef.current) return;
-
-            submittedRef.current = true;
-
-            keepListeningRef.current=false;
-
-            stopListening();
-
-            setRecruiterState("thinking");
-
-            if (answerTimer.current) {
-
-                clearTimeout(answerTimer.current);
-
-            }
-
-            onSubmit(latestTranscript.current);
-
-        }, 10000);
 
     }, [transcript]);
 
     /*
-    --------------------------------
+    ------------------------------------
     AI Speaking
-    --------------------------------
+    ------------------------------------
     */
 
     useEffect(() => {
@@ -137,30 +144,21 @@ const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
                 : question;
 
-        if (!text) {
-
-            return;
-
-        }
+        if (!text) return;
 
         submittedRef.current = false;
-
-        keepListeningRef.current=false;
+        keepListeningRef.current = false;
 
         latestTranscript.current = "";
 
         setAnswer("");
 
         if (silenceTimer.current) {
-
             clearTimeout(silenceTimer.current);
-
         }
 
         if (answerTimer.current) {
-
             clearTimeout(answerTimer.current);
-
         }
 
         setRecruiterState("speaking");
@@ -177,23 +175,21 @@ const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
                 startListening();
 
+                /*
+                Candidate says NOTHING
+                ↓
+                Auto move after 5 sec
+                */
+
+                restartSilenceTimer();
+
+                /*
+                Max answer time
+                */
+
                 answerTimer.current = setTimeout(() => {
 
-                    if (submittedRef.current) return;
-
-                    submittedRef.current = true;
-
-                    stopListening();
-
-                    setRecruiterState("thinking");
-
-                    if (silenceTimer.current) {
-
-                        clearTimeout(silenceTimer.current);
-
-                    }
-
-                    onSubmit(latestTranscript.current);
+                    submitCurrentAnswer();
 
                 }, 120000);
 

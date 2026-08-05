@@ -52,6 +52,26 @@ def start_interview(
         "interview_completed": False,
 
         # -----------------------
+        # Interview Flow
+        # -----------------------
+
+        "interview_phase": "INTRODUCTION",
+
+        "primary_skill": "",
+
+        "secondary_skills": [],
+
+        "candidate_level": "",
+
+        "current_topic": "",
+
+        "topic_depth": 0,
+
+        "current_topic": "",
+
+        "topic_depth": 0,
+
+        # -----------------------
         # History
         # -----------------------
 

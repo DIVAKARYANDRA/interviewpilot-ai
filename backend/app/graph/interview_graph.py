@@ -3,6 +3,7 @@ from app.agents.evaluation_agent import EvaluationAgent
 from app.agents.decision_agent import DecisionAgent
 from app.agents.memory_agent import MemoryAgent
 from app.agents.report_agent import ReportAgent
+from app.agents.skill_extraction_agent import SkillExtractionAgent
 
 class InterviewGraph:
 
@@ -13,6 +14,7 @@ class InterviewGraph:
         self.decision = DecisionAgent()
         self.memory = MemoryAgent()
         self.report = ReportAgent()
+        self.skill_extractor = SkillExtractionAgent()
 
     def start(self, state):
 
@@ -24,10 +26,14 @@ class InterviewGraph:
 
         state = self.decision.execute(state)
 
-        # Stop interview if completed
         if state["interview_completed"]:
-
             return state
+
+        if (
+            state["current_question_number"] == 2
+            and not state.get("primary_skill")
+        ):
+            state = self.skill_extractor.execute(state)
 
         state = self.memory.execute(state)
 
