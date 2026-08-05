@@ -46,77 +46,70 @@ export default function VoiceInterview() {
 
     useInterviewStage();
 
-    async function handleSubmit(
-    answerText?: string
-) {
+    async function handleSubmit(answerText?: string) {
 
-        if (loading) return;
+    if (loading) return;
 
-        const finalAnswer =
+    const finalAnswer = answerText ?? answer;
 
-    answerText ??
+    // If candidate didn't answer anything,
+    // send a placeholder instead of returning.
+    const answerToSubmit =
+        finalAnswer.trim()
+            ? finalAnswer
+            : "Candidate skipped this question.";
 
-    answer;
+    setLoading(true);
 
-if (!finalAnswer.trim()) {
+    setRecruiterState("thinking");
 
-    return;
+    try {
 
-}
+        const response = await submitAnswer({
 
-        setLoading(true);
+            session_id: sessionId,
 
-        setRecruiterState("thinking");
+            answer: answerToSubmit
 
-        try {
+        });
 
-            const response = await submitAnswer({
+        setEvaluation(response.evaluation);
 
-                session_id: sessionId,
+        if (response.interview_completed) {
 
-                answer: finalAnswer
+            const report = await endInterview(sessionId);
 
-            });
+            setReport(report);
 
-            setEvaluation(response.evaluation);
+            navigate("/report");
 
-            if (response.interview_completed) {
-
-                const report = await endInterview(sessionId);
-
-                setReport(report);
-
-                navigate("/report");
-
-                return;
-
-            }
-
-            setQuestion(response.question);
-
-            setCurrentQuestion(response.question_number);
-
-            setAnswer("");
-
-            setRecruiterState("speaking");
+            return;
 
         }
 
-        catch (e) {
+        setQuestion(response.question);
 
-            console.error(e);
+        setCurrentQuestion(response.question_number);
 
-            alert("Failed to submit answer.");
+        setAnswer("");
 
-        }
-
-        finally {
-
-            setLoading(false);
-
-        }
+        setRecruiterState("speaking");
 
     }
+    catch (e) {
+
+        console.error(e);
+
+        alert("Failed to submit answer.");
+
+    }
+    finally {
+
+        setLoading(false);
+
+    }
+
+}
 
     useVoiceInterview(handleSubmit);
 

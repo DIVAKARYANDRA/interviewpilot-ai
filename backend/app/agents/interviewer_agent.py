@@ -1,11 +1,21 @@
 from app.agents.base_agent import BaseAgent
 from app.prompts.prompt_builder import PromptBuilder
 from app.services.gemini_service import GeminiService
+from datetime import datetime
 
 
 class InterviewerAgent(BaseAgent):
 
     def execute(self, state):
+
+        current_hour = datetime.now().hour
+
+        if current_hour < 12:
+            greeting = "Good morning"
+        elif current_hour < 17:
+            greeting = "Good afternoon"
+        else:
+            greeting = "Good evening"
 
         phase = state.get("interview_phase", "TECHNICAL")
 
@@ -26,7 +36,7 @@ class InterviewerAgent(BaseAgent):
             if interview_type == "HR":
 
                 intro = (
-                    f"Good morning {candidate}. "
+                    f"{greeting} {candidate}. "
                     f"Welcome to InterviewPilot. "
                     f"I'll be conducting your HR interview today for the {role} position at {company}. "
                     f"I see that you have around {experience} years of experience. "
@@ -36,7 +46,7 @@ class InterviewerAgent(BaseAgent):
             elif interview_type == "Resume":
 
                 intro = (
-                    f"Good morning {candidate}. "
+                    f"{greeting} {candidate}. "
                     f"Welcome to InterviewPilot. "
                     f"I'll be conducting your resume-based interview today for the {role} position at {company}. "
                     f"I noticed your profile includes experience with {skills}. "
@@ -46,7 +56,7 @@ class InterviewerAgent(BaseAgent):
             else:
 
                 intro = (
-                    f"Good morning {candidate}. "
+                    f"{greeting} {candidate}. "
                     f"Welcome to InterviewPilot. "
                     f"I'll be conducting your {role} interview today for {company}. "
                     f"I see that you've selected technologies such as {skills} and have around {experience} years of experience. "

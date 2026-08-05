@@ -4,8 +4,6 @@ import { useInterview } from "../context/InterviewContext";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { speak } from "./useSpeech";
 
-import { greetingMessage } from "../constants/interviewGreeting";
-
 export default function useVoiceInterview(
     onSubmit: (answer: string) => void
 ) {
@@ -45,7 +43,11 @@ export default function useVoiceInterview(
 
         setRecruiterState("thinking");
 
-        onSubmit(latestTranscript.current);
+        const finalAnswer =
+    latestTranscript.current.trim() ||
+    "Candidate skipped this question.";
+
+        onSubmit(finalAnswer);
 
     }
 
@@ -136,13 +138,7 @@ export default function useVoiceInterview(
 
         }
 
-        const text =
-
-            stage === "greeting"
-
-                ? greetingMessage
-
-                : question;
+        const text = question;
 
         if (!text) return;
 
