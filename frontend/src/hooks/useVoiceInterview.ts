@@ -20,13 +20,23 @@ export default function useVoiceInterview(
 
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const maxAnswerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const noResponseTimer =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const latestTranscript = useRef("");
 
     function clearTimers() {
-        if (silenceTimer.current) clearTimeout(silenceTimer.current);
-        if (maxAnswerTimer.current) clearTimeout(maxAnswerTimer.current);
-    }
+
+    if (silenceTimer.current)
+        clearTimeout(silenceTimer.current);
+
+    if (maxAnswerTimer.current)
+        clearTimeout(maxAnswerTimer.current);
+
+    if (noResponseTimer.current)
+        clearTimeout(noResponseTimer.current);
+
+}
 
     function submitAnswer() {
         if (submittedRef.current) return;
@@ -95,6 +105,10 @@ export default function useVoiceInterview(
 
         if (!transcript.trim()) return;
 
+        if (noResponseTimer.current) {
+    clearTimeout(noResponseTimer.current);
+}
+
         hasStartedSpeakingRef.current = true;
         startSilenceTimer();
 
@@ -124,6 +138,19 @@ export default function useVoiceInterview(
             setRecruiterState("listening");
 
             startListening();
+
+            noResponseTimer.current = setTimeout(() => {
+
+    if (
+        submittedRef.current ||
+        hasStartedSpeakingRef.current
+    ) {
+        return;
+    }
+
+    submitAnswer();
+
+}, 20000);
 
             maxAnswerTimer.current = setTimeout(() => {
                 submitAnswer();

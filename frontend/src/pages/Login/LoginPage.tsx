@@ -3,7 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 
-import { login } from "../../hooks/useAuth";
+import {
+    login,
+    getUser
+} from "../../hooks/useAuth";
 
 import "./LoginPage.css";
 
@@ -53,6 +56,8 @@ export default function LoginPage() {
                 email,
                 password
             );
+
+            await getUser();
 
 
             navigate("/dashboard");

@@ -5,7 +5,7 @@ import { useInterview } from "../../context/InterviewContext";
 import ScoreCard from "../../components/report/ScoreCard/ScoreCard";
 import { useNavigate } from "react-router-dom";
 import ListCard from "../../components/report/ListCard/ListCard";
-
+import { useEffect, useState } from "react";
 
 import "./ReportPage.css";
 
@@ -20,6 +20,66 @@ export default function ReportPage(){
     } = useInterview();
 
     const navigate = useNavigate();
+
+    const [animatedScore, setAnimatedScore] = useState(0);
+
+    const performanceLabel =
+    report?.overall_score >= 90
+        ? "Outstanding"
+        : report?.overall_score >= 80
+        ? "Excellent"
+        : report?.overall_score >= 70
+        ? "Good"
+        : report?.overall_score >= 60
+        ? "Needs Improvement"
+        : "Keep Practicing";
+
+    const stars = Math.max(
+    1,
+    Math.round(report.overall_score / 20)
+);
+
+const starText =
+
+"★★★★★".slice(0, stars) +
+
+"☆☆☆☆☆".slice(0, 5 - stars);
+
+const recommendation =
+    report?.overall_score >= 85
+        ? "Recommended"
+        : report?.overall_score >= 70
+        ? "Recommended after Preparation"
+        : "Needs More Practice";
+
+const percentile = Math.max(
+    5,
+    100 - (report?.overall_score ?? 0)
+);
+
+useEffect(() => {
+
+    if (!report) return;
+
+    let current = 0;
+
+    const timer = setInterval(() => {
+
+        current++;
+
+        setAnimatedScore(current);
+
+        if (current >= report.overall_score) {
+
+            clearInterval(timer);
+
+        }
+
+    }, 15);
+
+    return () => clearInterval(timer);
+
+}, [report]);
 
 
 
@@ -51,31 +111,51 @@ export default function ReportPage(){
             <div className="report-container">
 
 
-                <h1>
+                <div className="report-hero">
 
-                    Interview Performance Report
+    <p className="hero-badge">
 
-                </h1>
+        🎉 Interview Completed
+
+    </p>
+
+    <h1>
+
+        AI Interview Assessment
+
+    </h1>
+
+    <p className="hero-subtitle">
+
+        Here's a complete analysis of your interview performance.
+
+    </p>
+
+</div>
 
 
 
                 <div className="overall-score">
 
-    <p>
-
-        Interview Completed 🎉
-
-    </p>
-
     <h2>
 
-        Overall Performance
+        Overall Score
 
     </h2>
 
+    <div className="overall-rating">
+
+    <h2>
+
+        {starText}
+
+    </h2>
+
+</div>
+
     <div className="overall-circle">
 
-        {report.overall_score}
+        {animatedScore}
 
         <span>
 
@@ -84,6 +164,20 @@ export default function ReportPage(){
         </span>
 
     </div>
+
+    <h3 className="performance-label">
+
+        {performanceLabel}
+
+    </h3>
+
+    
+
+    <p className="percentile">
+
+        Top {percentile}% Performance
+
+    </p>
 
 </div>
 
@@ -122,11 +216,35 @@ export default function ReportPage(){
 
                 </div>
 
+                <div className="recommendation-card">
+
+    <h2>
+
+        🤖 AI Hiring Recommendation
+
+    </h2>
+
+    <h3>
+
+        {recommendation}
+
+    </h3>
+
+    <p>
+
+        Based on your technical knowledge,
+        communication skills and confidence
+        demonstrated during this interview.
+
+    </p>
+
+</div>
+
                 <div className="summary-card">
 
     <h2>
 
-        🤖 AI Summary
+        🤖 AI Interview Assessment
 
     </h2>
 
@@ -135,6 +253,22 @@ export default function ReportPage(){
         {report.summary}
 
     </p>
+
+</div>
+
+<div className="highlight-card">
+
+    <h2>
+
+        🏆 Strongest Area
+
+    </h2>
+
+    <h3>
+
+        {report.strengths[0]}
+
+    </h3>
 
 </div>
 
@@ -148,6 +282,22 @@ export default function ReportPage(){
                     items={report.strengths}
 
                 />
+
+                <div className="highlight-card">
+
+    <h2>
+
+        🎯 Highest Priority
+
+    </h2>
+
+    <h3>
+
+        {report.weaknesses[0]}
+
+    </h3>
+
+</div>
 
 
 
@@ -173,30 +323,92 @@ export default function ReportPage(){
 
                 <div className="readiness">
 
+    <h2>
 
-                    <h2>
+        🎯 Company Readiness
 
-                        Company Readiness
+    </h2>
 
-                    </h2>
+    <p>
 
+        {report.company_readiness}
 
-                    <p>
+    </p>
 
-                        {report.company_readiness}
+    <div className="readiness-bar">
 
-                    </p>
+    <div
 
+        className="readiness-fill"
 
-                </div>
+        style={{
 
-                <button
-                    onClick={() => navigate("/interview/setup")}
-                >
+            width:`${report.overall_score}%`
 
-                    Start New Interview
+        }}
 
-                </button>
+    />
+
+</div>
+
+<p className="readiness-score">
+
+    {report.overall_score}% Ready
+
+</p>
+
+</div>
+
+<div className="goal-card">
+
+    <h2>
+
+        🚀 Next Goal
+
+    </h2>
+
+    <h3>
+
+        Reach 90+ Overall Score
+
+    </h3>
+
+    <p>
+
+        Improve by
+
+        {Math.max(0,90-report.overall_score)}
+
+        more points.
+
+    </p>
+
+</div>
+
+               <div className="report-actions">
+
+    <button
+        onClick={() =>
+            navigate("/interview/setup")
+        }
+    >
+
+        🚀 Start New Interview
+
+    </button>
+
+    <button
+        className="history-btn"
+        onClick={() =>
+            navigate("/history")
+        }
+    >
+
+        📊 View Interview History
+
+    </button>
+
+</div>
 
 
 

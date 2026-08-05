@@ -9,6 +9,7 @@ import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
 import InterviewPage from "../pages/Interview/InterviewPage";
 import ReportPage from "../pages/Report/ReportPage";
 import InterviewHistoryPage from "../pages/history/InterviewHistoryPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export default function AppRoutes() {
   return (
@@ -17,19 +18,15 @@ export default function AppRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
-            path="/dashboard"
-            element={
-                isAuthenticated()
+    path="/dashboard"
+    element={
+        <ProtectedRoute>
 
-                    ?
+            <DashboardPage/>
 
-                    <DashboardPage/>
-
-                    :
-
-                    <Navigate to="/login"/>
-            }
-        />
+        </ProtectedRoute>
+    }
+/>
         <Route
             path="/register"
             element={<RegisterPage />}
