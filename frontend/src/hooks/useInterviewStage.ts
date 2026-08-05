@@ -2,9 +2,9 @@ import { useEffect } from "react";
 
 import { useInterview } from "../context/InterviewContext";
 
-export default function useInterviewStage(){
+export default function useInterviewStage() {
 
-    const{
+    const {
 
         stage,
 
@@ -12,36 +12,21 @@ export default function useInterviewStage(){
 
     } = useInterview();
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(stage==="connecting"){
+        if (stage === "connecting") {
 
-            const timer = setTimeout(()=>{
+            const timer = setTimeout(() => {
 
-                setStage("greeting");
-
-            },2000);
-
-            return ()=>clearTimeout(timer);
-
-        }
-
-    },[stage]);
-
-    useEffect(()=>{
-
-        if(stage==="greeting"){
-
-            const timer = setTimeout(()=>{
-
+                // Go directly to interview
                 setStage("interview");
 
-            },7000);
+            }, 2000);
 
-            return ()=>clearTimeout(timer);
+            return () => clearTimeout(timer);
 
         }
 
-    },[stage]);
+    }, [stage]);
 
 }

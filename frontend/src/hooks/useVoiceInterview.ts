@@ -11,7 +11,6 @@ export default function useVoiceInterview(
     const {
         interviewMode,
         question,
-        stage,
         setAnswer,
         setRecruiterState
     } = useInterview();
@@ -21,6 +20,7 @@ export default function useVoiceInterview(
 
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const firstResponseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const latestTranscript = useRef("");
 
@@ -40,6 +40,10 @@ export default function useVoiceInterview(
         if (answerTimer.current) {
             clearTimeout(answerTimer.current);
         }
+
+        if (firstResponseTimer.current) {
+    clearTimeout(firstResponseTimer.current);
+}
 
         setRecruiterState("thinking");
 
@@ -112,17 +116,24 @@ export default function useVoiceInterview(
 
     useEffect(() => {
 
-        latestTranscript.current = transcript;
+    latestTranscript.current = transcript;
 
-        setAnswer(transcript);
+    setAnswer(transcript);
 
-        if (!submittedRef.current) {
+    if (!transcript.trim()) {
+        return;
+    }
 
-            restartSilenceTimer();
+    // User has started speaking, so cancel the initial wait timer
+    if (firstResponseTimer.current) {
+        clearTimeout(firstResponseTimer.current);
+    }
 
-        }
+    if (!submittedRef.current) {
+        restartSilenceTimer();
+    }
 
-    }, [transcript]);
+}, [transcript]);
 
     /*
     ------------------------------------
@@ -157,6 +168,10 @@ export default function useVoiceInterview(
             clearTimeout(answerTimer.current);
         }
 
+        if (firstResponseTimer.current) {
+    clearTimeout(firstResponseTimer.current);
+}
+
         setRecruiterState("speaking");
 
         speak(
@@ -171,23 +186,26 @@ export default function useVoiceInterview(
 
                 startListening();
 
-                /*
-                Candidate says NOTHING
-                ↓
-                Auto move after 5 sec
-                */
+// Candidate has 5 seconds to begin speaking
+firstResponseTimer.current = setTimeout(() => {
 
-                restartSilenceTimer();
+    if (
+        submittedRef.current ||
+        latestTranscript.current.trim()
+    ) {
+        return;
+    }
 
-                /*
-                Max answer time
-                */
+    submitCurrentAnswer();
 
-                answerTimer.current = setTimeout(() => {
+}, 5000);
 
-                    submitCurrentAnswer();
+// Maximum answer duration
+answerTimer.current = setTimeout(() => {
 
-                }, 120000);
+    submitCurrentAnswer();
+
+}, 120000);
 
             }
 
@@ -212,7 +230,6 @@ export default function useVoiceInterview(
     }, [
 
         question,
-        stage,
         interviewMode
 
     ]);
