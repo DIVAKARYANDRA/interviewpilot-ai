@@ -457,7 +457,7 @@ role:value
 
 <div className="setup-section">
 
-<br>
+<br />
 
 <h2>
 ⚙ Interview Configuration
@@ -619,7 +619,7 @@ Choose Voice for AI voice interview or Text for typing answers.
 
 <div className="setup-section">
 
-<br>
+<br />
 
 <h2>
 🧠 Skills & Projects
