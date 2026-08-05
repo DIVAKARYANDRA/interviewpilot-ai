@@ -9,16 +9,13 @@ declare global {
 
 export function useSpeechRecognition(
     onFinished?: (text: string) => void,
-    onRecognitionEnded?: ()=>void
-
+    onRecognitionEnded?: () => void
 ) {
-
     const recognitionRef = useRef<any>(null);
-
     const finalTranscriptRef = useRef("");
+    const isRunningRef = useRef(false);
 
     const [transcript, setTranscript] = useState("");
-
     const [listening, setListening] = useState(false);
 
     useEffect(() => {
@@ -28,166 +25,112 @@ export function useSpeechRecognition(
             window.webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-
-            console.warn(
-                "Speech Recognition is not supported."
-            );
-
+            console.warn("Speech Recognition is not supported.");
             return;
         }
 
         const recognition = new SpeechRecognition();
 
         recognition.lang = "en-US";
-
         recognition.continuous = true;
-
         recognition.interimResults = true;
-
         recognition.maxAlternatives = 1;
 
         recognition.onstart = () => {
-
             console.log("🎤 Recognition Started");
-
+            isRunningRef.current = true;
             setListening(true);
-
-            setTranscript("");
-
             finalTranscriptRef.current = "";
-
         };
 
         recognition.onresult = (event: any) => {
 
-            console.log("📝 Result:", event);
-
+            let finalText = finalTranscriptRef.current;
             let interim = "";
 
-            let finalText = "";
-
-            for (
-
-                let i = 0;
-
-                i < event.results.length;
-
-                i++
-
-            ) {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
 
                 const result = event.results[i];
 
                 if (result.isFinal) {
-
                     finalText += result[0].transcript + " ";
-
+                } else {
+                    interim += result[0].transcript;
                 }
-
-                else {
-
-                    interim += result[0].transcript + " ";
-
-                }
-
             }
 
             finalTranscriptRef.current = finalText.trim();
-
-            setTranscript(
-
-                (finalText + interim).trim()
-
-            );
-
+            setTranscript((finalText + interim).trim());
         };
 
-        recognition.onerror = (event:any)=>{
+        recognition.onerror = (event: any) => {
+            console.log("❌ Speech Error:", event.error);
 
-    console.log("❌ Speech Error",event.error);
+            if (
+                event.error === "no-speech" ||
+                event.error === "aborted" ||
+                event.error === "network"
+            ) {
+                // allow onend to restart
+            }
 
-    setListening(false);
+            isRunningRef.current = false;
+            setListening(false);
+        };
 
-}
-
-        recognition.onend=()=>{
+        recognition.onend = () => {
 
             console.log("🔴 Recognition Ended");
 
-    setListening(false);
+            isRunningRef.current = false;
+            setListening(false);
 
-    const finalText=
+            const finalText = finalTranscriptRef.current.trim();
 
-        finalTranscriptRef.current.trim();
+            if (finalText && onFinished) {
+                onFinished(finalText);
+            }
 
-    if(
-
-        finalText &&
-
-        onFinished
-
-    ){
-
-        onFinished(finalText);
-
-    }
-
-    if(
-
-        onRecognitionEnded
-
-    ){
-
-        onRecognitionEnded();
-
-    }
-
-}
+            if (onRecognitionEnded) {
+                onRecognitionEnded();
+            }
+        };
 
         recognitionRef.current = recognition;
 
         return () => {
-
-            recognition.stop();
-
+            try {
+                recognition.stop();
+            } catch {}
         };
 
-    }, [onFinished]);
+    }, []);
 
     function startListening() {
 
+        if (isRunningRef.current) {
+            return;
+        }
+
         try {
-
             recognitionRef.current?.start();
-
-        }
-
-        catch {
-
-            // already started
-
-        }
-
+        } catch {}
     }
 
     function stopListening() {
 
-        recognitionRef.current?.stop();
+        isRunningRef.current = false;
 
+        try {
+            recognitionRef.current?.stop();
+        } catch {}
     }
 
     return {
-
         transcript,
-
         listening,
-
         startListening,
-
         stopListening,
-
         setTranscript
-
     };
-
 }

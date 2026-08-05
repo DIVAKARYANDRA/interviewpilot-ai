@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-
 import { useInterview } from "../context/InterviewContext";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { speak } from "./useSpeech";
@@ -7,7 +6,6 @@ import { speak } from "./useSpeech";
 export default function useVoiceInterview(
     onSubmit: (answer: string) => void
 ) {
-
     const {
         interviewMode,
         question,
@@ -17,56 +15,43 @@ export default function useVoiceInterview(
 
     const submittedRef = useRef(false);
     const keepListeningRef = useRef(false);
+    const hasStartedSpeakingRef = useRef(false);
+    const restartingRef = useRef(false);
 
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const firstResponseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const maxAnswerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const latestTranscript = useRef("");
 
-    function submitCurrentAnswer() {
+    function clearTimers() {
+        if (silenceTimer.current) clearTimeout(silenceTimer.current);
+        if (maxAnswerTimer.current) clearTimeout(maxAnswerTimer.current);
+    }
 
+    function submitAnswer() {
         if (submittedRef.current) return;
 
         submittedRef.current = true;
         keepListeningRef.current = false;
 
+        clearTimers();
         stopListening();
-
-        if (silenceTimer.current) {
-            clearTimeout(silenceTimer.current);
-        }
-
-        if (answerTimer.current) {
-            clearTimeout(answerTimer.current);
-        }
-
-        if (firstResponseTimer.current) {
-    clearTimeout(firstResponseTimer.current);
-}
 
         setRecruiterState("thinking");
 
-        const finalAnswer =
-    latestTranscript.current.trim() ||
-    "Candidate skipped this question.";
+        const answer =
+            latestTranscript.current.trim() ||
+            "Candidate skipped this question.";
 
-        onSubmit(finalAnswer);
-
+        onSubmit(answer);
     }
 
-    function restartSilenceTimer() {
-
-        if (silenceTimer.current) {
-            clearTimeout(silenceTimer.current);
-        }
+    function startSilenceTimer() {
+        if (silenceTimer.current) clearTimeout(silenceTimer.current);
 
         silenceTimer.current = setTimeout(() => {
-
-            submitCurrentAnswer();
-
+            submitAnswer();
         }, 5000);
-
     }
 
     const {
@@ -74,164 +59,83 @@ export default function useVoiceInterview(
         startListening,
         stopListening
     } = useSpeechRecognition(
-
         (finalText) => {
-
             latestTranscript.current = finalText;
             setAnswer(finalText);
-
         },
-
         () => {
-
             if (
-                keepListeningRef.current &&
-                !submittedRef.current
+                !keepListeningRef.current ||
+                submittedRef.current ||
+                restartingRef.current
             ) {
-
-                setTimeout(() => {
-
-                    if (
-                        keepListeningRef.current &&
-                        !submittedRef.current
-                    ) {
-
-                        startListening();
-
-                    }
-
-                }, 1000);
-
+                return;
             }
 
-        }
+            restartingRef.current = true;
 
+            setTimeout(() => {
+                restartingRef.current = false;
+
+                if (
+                    keepListeningRef.current &&
+                    !submittedRef.current
+                ) {
+                    try {
+                        startListening();
+                    } catch {}
+                }
+            }, 1000);
+        }
     );
 
-    /*
-    ------------------------------------
-    Live Transcript
-    ------------------------------------
-    */
+    useEffect(() => {
+        latestTranscript.current = transcript;
+        setAnswer(transcript);
+
+        if (!transcript.trim()) return;
+
+        hasStartedSpeakingRef.current = true;
+        startSilenceTimer();
+
+    }, [transcript]);
 
     useEffect(() => {
 
-    latestTranscript.current = transcript;
-
-    setAnswer(transcript);
-
-    if (!transcript.trim()) {
-        return;
-    }
-
-    // User has started speaking, so cancel the initial wait timer
-    if (firstResponseTimer.current) {
-        clearTimeout(firstResponseTimer.current);
-    }
-
-    if (!submittedRef.current) {
-        restartSilenceTimer();
-    }
-
-}, [transcript]);
-
-    /*
-    ------------------------------------
-    AI Speaking
-    ------------------------------------
-    */
-
-    useEffect(() => {
-
-        if (interviewMode !== "voice") {
-
-            return;
-
-        }
-
-        const text = question;
-
-        if (!text) return;
+        if (interviewMode !== "voice") return;
+        if (!question) return;
 
         submittedRef.current = false;
         keepListeningRef.current = false;
+        hasStartedSpeakingRef.current = false;
+        restartingRef.current = false;
 
         latestTranscript.current = "";
-
         setAnswer("");
 
-        if (silenceTimer.current) {
-            clearTimeout(silenceTimer.current);
-        }
-
-        if (answerTimer.current) {
-            clearTimeout(answerTimer.current);
-        }
-
-        if (firstResponseTimer.current) {
-    clearTimeout(firstResponseTimer.current);
-}
+        clearTimers();
 
         setRecruiterState("speaking");
 
-        speak(
+        speak(question, () => {
 
-            text,
+            keepListeningRef.current = true;
 
-            () => {
+            setRecruiterState("listening");
 
-                keepListeningRef.current = true;
+            startListening();
 
-                setRecruiterState("listening");
+            maxAnswerTimer.current = setTimeout(() => {
+                submitAnswer();
+            }, 120000);
 
-                startListening();
-
-// Candidate has 5 seconds to begin speaking
-firstResponseTimer.current = setTimeout(() => {
-
-    if (
-        submittedRef.current ||
-        latestTranscript.current.trim()
-    ) {
-        return;
-    }
-
-    submitCurrentAnswer();
-
-}, 5000);
-
-// Maximum answer duration
-answerTimer.current = setTimeout(() => {
-
-    submitCurrentAnswer();
-
-}, 120000);
-
-            }
-
-        );
+        });
 
         return () => {
-
-            if (silenceTimer.current) {
-
-                clearTimeout(silenceTimer.current);
-
-            }
-
-            if (answerTimer.current) {
-
-                clearTimeout(answerTimer.current);
-
-            }
-
+            keepListeningRef.current = false;
+            clearTimers();
+            stopListening();
         };
 
-    }, [
-
-        question,
-        interviewMode
-
-    ]);
-
+    }, [question, interviewMode]);
 }
