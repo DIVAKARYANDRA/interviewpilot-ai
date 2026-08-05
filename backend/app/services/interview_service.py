@@ -67,6 +67,8 @@ def start_interview(
 
         "topic_depth": 0,
 
+        "covered_topics": [],
+
         "current_topic": "",
 
         "topic_depth": 0,

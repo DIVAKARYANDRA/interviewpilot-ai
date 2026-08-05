@@ -7,6 +7,7 @@ from app.services.gemini_service import GeminiService
 
 class SkillExtractionAgent(BaseAgent):
 
+
     def execute(self, state):
 
         if state.get("primary_skill"):
@@ -40,6 +41,8 @@ Candidate Introduction:
                 "primary_skill",
                 ""
             )
+
+            state["current_topic"] = state["primary_skill"]
 
             state["secondary_skills"] = data.get(
                 "secondary_skills",

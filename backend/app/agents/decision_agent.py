@@ -29,6 +29,26 @@ class DecisionAgent(BaseAgent):
         state["current_question_number"] += 1
 
         # --------------------------
+        # Topic Progress
+        # --------------------------
+
+        if state["topic_depth"] >= 3:
+
+            if state["current_topic"]:
+
+                if state["current_topic"] not in state["covered_topics"]:
+
+                    state["covered_topics"].append(
+
+                        state["current_topic"]
+
+                    )
+
+            state["current_topic"] = ""
+
+            state["topic_depth"] = 0
+
+        # --------------------------
         # Interview Phase
         # --------------------------
 
@@ -37,10 +57,6 @@ class DecisionAgent(BaseAgent):
         if q == 1:
 
             state["interview_phase"] = "INTRODUCTION"
-
-        elif q == 2:
-
-            state["interview_phase"] = "STRENGTH_DISCOVERY"
 
         elif q <= 6:
 

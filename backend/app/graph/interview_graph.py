@@ -31,6 +31,7 @@ class InterviewGraph:
 
         if (
             state["current_question_number"] == 2
+            and state["interview_phase"] == "TECHNICAL"
             and not state.get("primary_skill")
         ):
             state = self.skill_extractor.execute(state)

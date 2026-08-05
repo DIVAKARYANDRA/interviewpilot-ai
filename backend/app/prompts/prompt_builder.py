@@ -172,6 +172,15 @@ Detected Secondary Skills:
 Candidate Level:
 {state.get("candidate_level","")}
 
+Current Interview Topic:
+{state.get("current_topic","")}
+
+Topics Already Covered:
+{", ".join(state.get("covered_topics",[]))}
+
+Current Topic Depth:
+{state.get("topic_depth",0)}
+
 Projects:
 {projects_section}
 
@@ -294,8 +303,33 @@ Architecture and optimization
 Level 5
 Debugging and troubleshooting
 
-Stay on the SAME topic for 2-4 questions before moving to another topic.
+Current Interview Topic:
 
+{state.get("current_topic","")}
+
+Topics Already Covered:
+
+{", ".join(state.get("covered_topics",[]))}
+
+Current Topic Depth:
+
+{state.get("topic_depth",0)}
+
+The backend controls interview progression.
+
+If Current Interview Topic is NOT empty:
+
+• Continue asking questions ONLY about the Current Interview Topic.
+
+• Gradually increase difficulty from basic concepts to implementation, production scenarios and debugging.
+
+• Do NOT switch to another technology until this topic has been sufficiently explored.
+
+If Current Interview Topic becomes empty:
+
+• Select the next most relevant skill that has NOT already been covered.
+
+• Never return to a topic listed under Covered Topics.
 --------------------------------------------------
 
 Phase 4 - Role Based Evaluation
