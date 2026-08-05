@@ -3,8 +3,6 @@ import RegisterPage from "../pages/Register/RegisterPage";
 import LandingPage from "../pages/Landing/LandingPage";
 import LoginPage from "../pages/Login/LoginPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
-import { Navigate } from "react-router-dom";
-import { isAuthenticated } from "../hooks/useAuth";
 import InterviewSetupPage from "../pages/InterviewSetup/InterviewSetupPage";
 import InterviewPage from "../pages/Interview/InterviewPage";
 import ReportPage from "../pages/Report/ReportPage";

@@ -472,3 +472,16 @@
     box-shadow:0 12px 35px rgba(0,0,0,.08);
 
 }
+
+
+.report-footer{
+
+    margin-top:50px;
+
+    text-align:center;
+
+    color:#6b7280;
+
+    padding-bottom:40px;
+
+}
