@@ -32,14 +32,25 @@ export interface SubmitAnswerResponse {
 
 export interface StartInterviewRequest {
 
-    name:string;
-    company:string;
-    role:string;
-    experience:number;
-    skills:string[];
-    projects:string[];
-    difficulty:string;
-    interview_type:string;
+    name: string;
+
+    current_company: string;
+
+    company: string;
+
+    role: string;
+
+    experience: number;
+
+    skills: string[];
+
+    projects: string[];
+
+    difficulty: string;
+
+    interview_type: string;
+
+    job_description: string;
 
 }
 

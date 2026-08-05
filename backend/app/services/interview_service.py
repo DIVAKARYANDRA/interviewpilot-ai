@@ -23,6 +23,8 @@ def start_interview(
 
         "session_id": str(uuid4()),
 
+        "current_company": data.current_company,
+
         "candidate_name": data.name,
 
         "company": data.company,

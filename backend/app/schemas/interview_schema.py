@@ -5,6 +5,8 @@ class StartInterviewRequest(BaseModel):
 
     name: str
 
+    current_company: str = ""
+
     company: str
 
     role: str
@@ -18,3 +20,5 @@ class StartInterviewRequest(BaseModel):
     interview_type: str
 
     projects: list[str] = []
+
+    job_description: str = ""
