@@ -30,7 +30,7 @@ export default function LiveAvatar({
 
                 <img
 
-                    src="/recruiter.png"
+                    src="/recruiter.jpg"
 
                     alt="Recruiter"
 

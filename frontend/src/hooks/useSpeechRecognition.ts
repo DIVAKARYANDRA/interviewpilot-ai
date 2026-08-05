@@ -48,6 +48,8 @@ export function useSpeechRecognition(
 
         recognition.onstart = () => {
 
+            console.log("🎤 Recognition Started");
+
             setListening(true);
 
             setTranscript("");
@@ -57,6 +59,8 @@ export function useSpeechRecognition(
         };
 
         recognition.onresult = (event: any) => {
+
+            console.log("📝 Result:", event);
 
             let interim = "";
 
@@ -98,21 +102,17 @@ export function useSpeechRecognition(
 
         };
 
-        recognition.onerror = (event: any) => {
+        recognition.onerror = (event:any)=>{
 
-            console.error(
+    console.log("❌ Speech Error",event.error);
 
-                "Speech Recognition:",
+    setListening(false);
 
-                event.error
-
-            );
-
-            setListening(false);
-
-        };
+}
 
         recognition.onend=()=>{
+
+            console.log("🔴 Recognition Ended");
 
     setListening(false);
 
