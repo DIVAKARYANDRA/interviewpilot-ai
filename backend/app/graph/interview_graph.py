@@ -4,6 +4,8 @@ from app.agents.decision_agent import DecisionAgent
 from app.agents.memory_agent import MemoryAgent
 from app.agents.report_agent import ReportAgent
 from app.agents.skill_extraction_agent import SkillExtractionAgent
+from app.agents.company_role_normalizer_agent import CompanyRoleNormalizerAgent
+from app.agents.job_description_agent import JobDescriptionAgent
 
 class InterviewGraph:
 
@@ -15,10 +17,18 @@ class InterviewGraph:
         self.memory = MemoryAgent()
         self.report = ReportAgent()
         self.skill_extractor = SkillExtractionAgent()
+        self.normalizer = CompanyRoleNormalizerAgent()
+        self.job_description = JobDescriptionAgent()
 
     def start(self, state):
 
-        return self.interviewer.execute(state)
+        state=self.job_description.execute(state)
+
+        state=self.normalizer.execute(state)
+
+        state=self.interviewer.execute(state)
+
+        return state
 
     def next(self, state):
 

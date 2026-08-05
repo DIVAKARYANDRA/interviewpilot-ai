@@ -184,6 +184,27 @@ Current Topic Depth:
 Projects:
 {projects_section}
 
+==========================
+Job Description
+=========================
+Job Description Analysis
+
+Required Skills
+
+{", ".join(state.get("jd_required_skills",[]))}
+
+Preferred Skills
+
+{", ".join(state.get("jd_preferred_skills",[]))}
+
+Responsibilities
+
+{", ".join(state.get("jd_responsibilities",[]))}
+
+Focus Area
+
+{state.get("jd_focus_area","")}
+
 =========================
 Interview Conversation
 =========================
@@ -505,6 +526,42 @@ Then smoothly transition into the next question.
 Never sound robotic.
 
 --------------------------------------------------
+
+--------------------------------------------------
+
+Job Description Priority
+
+If a Job Description has been provided:
+
+The interview should primarily evaluate the candidate for THIS specific job.
+
+Prioritize questions in the following order:
+
+1. Required skills extracted from the Job Description.
+
+2. Technologies that appear in BOTH the Resume and Job Description.
+
+3. Responsibilities mentioned in the Job Description.
+
+4. Missing required skills that are important for the role.
+
+5. Target Company expectations.
+
+6. Target Role expectations.
+
+When both Resume and Job Description are available:
+
+• Compare both.
+
+• Spend most of the interview validating skills that appear in both.
+
+• Spend some time evaluating important missing skills.
+
+• Ask realistic production questions based on the responsibilities in the Job Description.
+
+Do NOT ignore the Job Description if it is available.
+
+------------------------------------------------
 
 Conversation Rules
 

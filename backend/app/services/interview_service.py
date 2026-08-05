@@ -83,7 +83,23 @@ def start_interview(
 
         "evaluations": [],
 
-        "skill_scores": {}
+        "skill_scores": {},
+
+        #----------------------------
+        # Job Description
+        #----------------------------
+
+        "job_description": data.job_description,
+
+        "jd_required_skills": [],
+
+        "jd_preferred_skills": [],
+
+        "jd_responsibilities": [],
+
+        "jd_required_experience": "",
+
+        "jd_focus_area": "",
     }
 
     # ----------------------------------

@@ -184,3 +184,59 @@ font-size:16px;
 
 
 }
+
+.job-description-section{
+
+    margin:40px 0;
+
+}
+
+.job-description-section h3{
+
+    font-size:26px;
+
+    margin-bottom:10px;
+
+}
+
+.job-description-section p{
+
+    color:#94a3b8;
+
+    margin-bottom:20px;
+
+    line-height:1.7;
+
+}
+
+.job-description-input{
+
+    width:100%;
+
+    min-height:260px;
+
+    resize:vertical;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    font-size:16px;
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    color:white;
+
+    line-height:1.8;
+
+}
+
+.job-description-input:focus{
+
+    outline:none;
+
+    border-color:#6366f1;
+
+}

@@ -93,7 +93,7 @@ export function InterviewProvider({
 
   const [totalQuestions,setTotalQuestions]=useState(10);
 
-  const [interviewMode, setInterviewMode] = useState<"text" | "voice">("text");
+  const [interviewMode, setInterviewMode] = useState<"text" | "voice">("voice");
 
   const [recruiterState, setRecruiterState] = useState<
     "idle" | "speaking" | "listening" | "thinking"

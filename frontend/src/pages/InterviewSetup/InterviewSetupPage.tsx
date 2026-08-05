@@ -47,6 +47,8 @@ export default function InterviewSetupPage() {
 
         name: "",
 
+        current_company:"",
+
         company: "",
 
         role: "",
@@ -59,7 +61,9 @@ export default function InterviewSetupPage() {
 
         skills: "",
 
-        projects: ""
+        projects: "",
+
+        job_description:"",
 
     });
 
@@ -68,6 +72,46 @@ export default function InterviewSetupPage() {
     ) {
 
         e.preventDefault();
+
+        if(!form.name.trim()){
+
+    alert("Candidate name is required.");
+
+    return;
+
+}
+
+if(!form.company.trim()){
+
+    alert("Target company is required.");
+
+    return;
+
+}
+
+if(!form.role.trim()){
+
+    alert("Target role is required.");
+
+    return;
+
+}
+
+if(form.experience<0){
+
+    alert("Experience is required.");
+
+    return;
+
+}
+
+if(!form.skills.trim()){
+
+    alert("Please enter at least one skill.");
+
+    return;
+
+}
 
         setLoading(true);
 
@@ -166,7 +210,9 @@ setForm({
 
 name:data.name,
 
-company:data.current_company || "",
+current_company:data.current_company || "",
+
+company:"",
 
 role:data.suggested_role || "",
 
@@ -217,6 +263,76 @@ resume={resume}
 
 <Card>
 
+<section className="job-description-section">
+
+    <h3>
+
+        🎯 Target Job Description
+
+    </h3>
+
+    <p>
+
+        Paste the complete job description here.
+
+        InterviewPilot will tailor the interview based on
+
+        required skills, responsibilities and qualifications.
+
+    </p>
+
+    <textarea
+
+        className="job-description-input"
+
+        placeholder={`Example:
+
+Responsibilities
+
+• Build scalable backend APIs
+
+• Design Microservices
+
+• AWS Cloud
+
+Requirements
+
+• Python
+
+• FastAPI
+
+• Docker
+
+• Kafka
+
+• Redis
+
+• REST APIs
+
+Paste the complete JD here...`}
+
+        value={form.job_description}
+
+        onChange={(e)=>
+
+            setForm({
+
+                ...form,
+
+                job_description:e.target.value
+
+            })
+
+        }
+
+    />
+
+</section>
+
+<Section>
+
+<Card>
+
 
 <div className="setup-section">
 
@@ -250,6 +366,26 @@ name:value
 
 }
 
+/>
+
+<label>
+Current Company
+</label>
+
+<Input
+    value={form.current_company}
+    placeholder="Example: TCS (Optional)"
+    onChange={(value)=>
+
+        setForm({
+
+            ...form,
+
+            current_company:value
+
+        })
+
+    }
 />
 
 
@@ -442,9 +578,9 @@ value={interviewMode}
 
 options={[
 
-"text",
+"voice",
 
-"voice"
+"text"
 
 ]}
 
