@@ -26,9 +26,9 @@ export default function useVoiceInterview(
 
     const keepListeningRef = useRef(false);
 
-    const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+    const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const answerTimer = useRef<NodeJS.Timeout | null>(null);
+const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const latestTranscript = useRef("");
 
