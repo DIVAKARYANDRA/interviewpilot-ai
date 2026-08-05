@@ -1,28 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 
 declare global {
-
     interface Window {
-
         webkitSpeechRecognition: any;
-
         SpeechRecognition: any;
-
     }
-
 }
 
 export function useSpeechRecognition(
-
-    onFinished?: (text: string) => void
+    onFinished?: (text: string) => void,
+    onRecognitionEnded?: ()=>void
 
 ) {
 
     const recognitionRef = useRef<any>(null);
 
     const finalTranscriptRef = useRef("");
-
-    const silenceTimerRef = useRef<any>(null);
 
     const [transcript, setTranscript] = useState("");
 
@@ -31,28 +24,23 @@ export function useSpeechRecognition(
     useEffect(() => {
 
         const SpeechRecognition =
-
             window.SpeechRecognition ||
-
             window.webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
 
             console.warn(
-
                 "Speech Recognition is not supported."
-
             );
 
             return;
-
         }
 
         const recognition = new SpeechRecognition();
 
         recognition.lang = "en-US";
 
-        recognition.continuous = false;
+        recognition.continuous = true;
 
         recognition.interimResults = true;
 
@@ -72,11 +60,11 @@ export function useSpeechRecognition(
 
             let interim = "";
 
-            let finalText = finalTranscriptRef.current;
+            let finalText = "";
 
             for (
 
-                let i = event.resultIndex;
+                let i = 0;
 
                 i < event.results.length;
 
@@ -90,37 +78,23 @@ export function useSpeechRecognition(
 
                     finalText += result[0].transcript + " ";
 
-                } else {
+                }
 
-                    interim += result[0].transcript;
+                else {
+
+                    interim += result[0].transcript + " ";
 
                 }
 
             }
 
-            finalTranscriptRef.current = finalText;
+            finalTranscriptRef.current = finalText.trim();
 
             setTranscript(
 
                 (finalText + interim).trim()
 
             );
-
-            if (silenceTimerRef.current) {
-
-                clearTimeout(
-
-                    silenceTimerRef.current
-
-                );
-
-            }
-
-            silenceTimerRef.current = setTimeout(() => {
-
-                recognition.stop();
-
-            }, 1200);
 
         };
 
@@ -138,49 +112,47 @@ export function useSpeechRecognition(
 
         };
 
-        recognition.onend = () => {
+        recognition.onend=()=>{
 
-            setListening(false);
+    setListening(false);
 
-            if (
+    const finalText=
 
-                silenceTimerRef.current
+        finalTranscriptRef.current.trim();
 
-            ) {
+    if(
 
-                clearTimeout(
+        finalText &&
 
-                    silenceTimerRef.current
+        onFinished
 
-                );
+    ){
 
-            }
+        onFinished(finalText);
 
-            const finalText =
+    }
 
-finalTranscriptRef.current.trim()
+    if(
 
-||
+        onRecognitionEnded
 
-transcript.trim();
+    ){
 
-            if (
+        onRecognitionEnded();
 
-                finalText &&
+    }
 
-                onFinished
-
-            ) {
-
-                onFinished(finalText);
-
-            }
-
-        };
+}
 
         recognitionRef.current = recognition;
 
-    }, []);
+        return () => {
+
+            recognition.stop();
+
+        };
+
+    }, [onFinished]);
 
     function startListening() {
 
@@ -190,13 +162,9 @@ transcript.trim();
 
         }
 
-        catch (e) {
+        catch {
 
-            console.log(
-
-                "Recognition already started."
-
-            );
+            // already started
 
         }
 

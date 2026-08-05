@@ -7,80 +7,118 @@ import { speak } from "./useSpeech";
 import { greetingMessage } from "../constants/interviewGreeting";
 
 export default function useVoiceInterview(
-        onSubmit:(answer:string)=>void
-
+    onSubmit: (answer: string) => void
 ) {
 
     const {
 
         interviewMode,
-
         question,
-
         stage,
-
         setAnswer,
-
         setRecruiterState
 
     } = useInterview();
 
     const submittedRef = useRef(false);
 
+    
+
+    const keepListeningRef = useRef(false);
+
+    const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+
+    const answerTimer = useRef<NodeJS.Timeout | null>(null);
+
+    const latestTranscript = useRef("");
+
     const {
 
         transcript,
-
-        startListening
+        startListening,
+        stopListening
 
     } = useSpeechRecognition(
 
-        (finalText) => {
+(finalText)=>{
 
-            if (!finalText.trim()) {
+    latestTranscript.current = finalText;
 
-                return;
+    setAnswer(finalText);
 
-            }
+},
 
-            if (submittedRef.current) {
+()=>{
 
-                return;
+    if(
 
-            }
+        keepListeningRef.current &&
 
-            submittedRef.current = true;
+        !submittedRef.current
 
-            setRecruiterState("thinking");
+    ){
 
-            setAnswer(finalText);
+        setTimeout(()=>{
 
-            setTimeout(() => {
+            startListening();
 
-    onSubmit(finalText);
+        },300);
 
-},300);
+    }
 
-        }
-
-    );
+}
+);
 
     /*
-    -----------------------------
-    Live Transcript
-    -----------------------------
+    --------------------------------
+    Live transcript
+    --------------------------------
     */
 
     useEffect(() => {
 
+        if (!transcript) return;
+
+        latestTranscript.current = transcript;
+
         setAnswer(transcript);
+
+        if (submittedRef.current) return;
+
+        if (silenceTimer.current) {
+
+            clearTimeout(silenceTimer.current);
+
+        }
+
+        silenceTimer.current = setTimeout(() => {
+
+            if (submittedRef.current) return;
+
+            submittedRef.current = true;
+
+            keepListeningRef.current=false;
+
+            stopListening();
+
+            setRecruiterState("thinking");
+
+            if (answerTimer.current) {
+
+                clearTimeout(answerTimer.current);
+
+            }
+
+            onSubmit(latestTranscript.current);
+
+        }, 10000);
 
     }, [transcript]);
 
     /*
-    -----------------------------
-    AI Voice
-    -----------------------------
+    --------------------------------
+    AI Speaking
+    --------------------------------
     */
 
     useEffect(() => {
@@ -107,6 +145,24 @@ export default function useVoiceInterview(
 
         submittedRef.current = false;
 
+        keepListeningRef.current=false;
+
+        latestTranscript.current = "";
+
+        setAnswer("");
+
+        if (silenceTimer.current) {
+
+            clearTimeout(silenceTimer.current);
+
+        }
+
+        if (answerTimer.current) {
+
+            clearTimeout(answerTimer.current);
+
+        }
+
         setRecruiterState("speaking");
 
         speak(
@@ -115,20 +171,56 @@ export default function useVoiceInterview(
 
             () => {
 
+                keepListeningRef.current = true;
+
                 setRecruiterState("listening");
 
                 startListening();
+
+                answerTimer.current = setTimeout(() => {
+
+                    if (submittedRef.current) return;
+
+                    submittedRef.current = true;
+
+                    stopListening();
+
+                    setRecruiterState("thinking");
+
+                    if (silenceTimer.current) {
+
+                        clearTimeout(silenceTimer.current);
+
+                    }
+
+                    onSubmit(latestTranscript.current);
+
+                }, 120000);
 
             }
 
         );
 
+        return () => {
+
+            if (silenceTimer.current) {
+
+                clearTimeout(silenceTimer.current);
+
+            }
+
+            if (answerTimer.current) {
+
+                clearTimeout(answerTimer.current);
+
+            }
+
+        };
+
     }, [
 
         question,
-
         stage,
-
         interviewMode
 
     ]);
