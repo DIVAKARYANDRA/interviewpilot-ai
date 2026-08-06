@@ -46,6 +46,39 @@ export default function VoiceInterview() {
 
     useInterviewStage();
 
+    async function handleEndInterview() {
+
+        if (loading) return;
+
+        const confirmed = window.confirm(
+            "End this interview now? Your progress so far will be evaluated and a report will be generated."
+        );
+
+        if (!confirmed) return;
+
+        setLoading(true);
+
+        try {
+
+            const report = await endInterview(sessionId);
+            setReport(report);
+            navigate("/report");
+
+        }
+        catch (e) {
+
+            console.error(e);
+            alert("Failed to end interview.");
+
+        }
+        finally {
+
+            setLoading(false);
+
+        }
+
+    }
+
     async function handleSubmit(answerText?: string) {
 
     if (loading) return;
@@ -111,7 +144,7 @@ export default function VoiceInterview() {
 
 }
 
-    useVoiceInterview(handleSubmit);
+    const { muted, toggleMute } = useVoiceInterview(handleSubmit);
 
     if(stage==="connecting"){
 
@@ -133,9 +166,11 @@ export default function VoiceInterview() {
 
             <InterviewLive
 
-                loading={loading}
+                muted={muted}
 
-                onSubmit={handleSubmit}
+                onToggleMute={toggleMute}
+
+                onEndInterview={handleEndInterview}
 
             />
 

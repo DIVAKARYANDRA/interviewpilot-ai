@@ -1,3 +1,4 @@
+import { Bot, Code2, MessageCircle, Rocket, CheckCircle2, TrendingUp, Lightbulb, Target } from "lucide-react";
 import "./EvaluationPanel.css";
 
 interface Props {
@@ -38,41 +39,44 @@ export default function EvaluationPanel({
 
             <div className="evaluation-header">
 
-                <div>
+                <div className="evaluation-header-title">
 
-                    <h2>
+                    <span className="evaluation-icon">
+                        <Bot size={18} />
+                    </span>
 
-                        🤖 AI Performance Feedback
+                    <div>
 
-                    </h2>
+                        <h2>
 
-                    <p>
+                            AI Performance Feedback
 
-                        Here's how you performed in this question.
+                        </h2>
 
-                    </p>
+                        <p>
+
+                            Here's how you performed in this question.
+
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div className="overall-score">
+                <div className="eval-overall-score">
 
                     {overall}
-
                     <span>/100</span>
 
                 </div>
 
             </div>
 
-            <div className="score-grid">
+            <div className="eval-score-grid">
 
-                <div className="score-card">
+                <div className="eval-score-mini">
 
-                    <span>
-
-                        💻
-
-                    </span>
+                    <Code2 size={16} />
 
                     <h4>
 
@@ -88,13 +92,9 @@ export default function EvaluationPanel({
 
                 </div>
 
-                <div className="score-card">
+                <div className="eval-score-mini">
 
-                    <span>
-
-                        💬
-
-                    </span>
+                    <MessageCircle size={16} />
 
                     <h4>
 
@@ -110,13 +110,9 @@ export default function EvaluationPanel({
 
                 </div>
 
-                <div className="score-card">
+                <div className="eval-score-mini">
 
-                    <span>
-
-                        🚀
-
-                    </span>
+                    <Rocket size={16} />
 
                     <h4>
 
@@ -140,7 +136,8 @@ export default function EvaluationPanel({
 
                     <h3>
 
-                        ✅ Strengths
+                        <CheckCircle2 size={15} />
+                        Strengths
 
                     </h3>
 
@@ -172,7 +169,8 @@ export default function EvaluationPanel({
 
                     <h3>
 
-                        📈 Areas to Improve
+                        <TrendingUp size={15} />
+                        Areas to Improve
 
                     </h3>
 
@@ -206,7 +204,8 @@ export default function EvaluationPanel({
 
                 <h3>
 
-                    💡 AI Recommendation
+                    <Lightbulb size={15} />
+                    AI Recommendation
 
                 </h3>
 
@@ -222,7 +221,8 @@ export default function EvaluationPanel({
 
                 <strong>
 
-                    🎯 Recommended Next Topic
+                    <Target size={14} />
+                    Recommended Next Topic
 
                 </strong>
 

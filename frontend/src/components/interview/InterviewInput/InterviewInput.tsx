@@ -1,7 +1,4 @@
-import { useInterview } from "../../../context/InterviewContext";
-
 import AnswerBox from "../AnswerBox/AnswerBox";
-import VoiceAnswerBox from "../VoiceAnswerBox/VoiceAnswerBox";
 
 import "./InterviewInput.css";
 
@@ -15,6 +12,8 @@ interface Props{
 }
 
 
+// Only ever mounted by TextInterview (voice mode uses InterviewLive instead),
+// so this always renders the text answer box.
 export default function InterviewInput({
 
     answer,
@@ -23,35 +22,9 @@ export default function InterviewInput({
 
 }:Props){
 
-
-    const{
-
-        interviewMode
-
-    }=useInterview();
-
-
-
     return (
 
         <div className="interview-input">
-
-
-        {
-
-            interviewMode==="voice"
-
-            ?
-
-            <VoiceAnswerBox
-
-                answer={answer}
-
-                setAnswer={setAnswer}
-
-            />
-
-            :
 
             <AnswerBox
 
@@ -60,9 +33,6 @@ export default function InterviewInput({
                 setAnswer={setAnswer}
 
             />
-
-        }
-
 
         </div>
 

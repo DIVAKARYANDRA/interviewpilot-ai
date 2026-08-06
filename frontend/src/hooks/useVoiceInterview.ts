@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInterview } from "../context/InterviewContext";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { speak } from "./useSpeech";
@@ -17,6 +17,12 @@ export default function useVoiceInterview(
     const keepListeningRef = useRef(false);
     const hasStartedSpeakingRef = useRef(false);
     const restartingRef = useRef(false);
+
+    // Mute is purely a UI-triggered pause layered on top of the existing
+    // listening/timer flow below — it does not alter any submission timing,
+    // scoring, or API behavior when the candidate is unmuted.
+    const [muted, setMuted] = useState(false);
+    const mutedRef = useRef(false);
 
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const maxAnswerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -60,6 +66,7 @@ export default function useVoiceInterview(
         if (silenceTimer.current) clearTimeout(silenceTimer.current);
 
         silenceTimer.current = setTimeout(() => {
+            if (mutedRef.current) return;
             submitAnswer();
         }, 5000);
     }
@@ -77,7 +84,8 @@ export default function useVoiceInterview(
             if (
                 !keepListeningRef.current ||
                 submittedRef.current ||
-                restartingRef.current
+                restartingRef.current ||
+                mutedRef.current
             ) {
                 return;
             }
@@ -89,7 +97,8 @@ export default function useVoiceInterview(
 
                 if (
                     keepListeningRef.current &&
-                    !submittedRef.current
+                    !submittedRef.current &&
+                    !mutedRef.current
                 ) {
                     try {
                         startListening();
@@ -98,6 +107,45 @@ export default function useVoiceInterview(
             }, 1000);
         }
     );
+
+    function toggleMute() {
+        setMuted(prev => {
+            const next = !prev;
+            mutedRef.current = next;
+
+            if (next) {
+                // Pause the mic without touching submission state —
+                // the candidate can resume exactly where they left off.
+                keepListeningRef.current = false;
+                clearTimers();
+                stopListening();
+            } else if (!submittedRef.current && question) {
+                keepListeningRef.current = true;
+                setRecruiterState("listening");
+
+                try {
+                    startListening();
+                } catch {}
+
+                startSilenceTimer();
+
+                if (!hasStartedSpeakingRef.current) {
+                    noResponseTimer.current = setTimeout(() => {
+                        if (
+                            submittedRef.current ||
+                            hasStartedSpeakingRef.current ||
+                            mutedRef.current
+                        ) {
+                            return;
+                        }
+                        submitAnswer();
+                    }, 20000);
+                }
+            }
+
+            return next;
+        });
+    }
 
     useEffect(() => {
         latestTranscript.current = transcript;
@@ -137,13 +185,16 @@ export default function useVoiceInterview(
 
             setRecruiterState("listening");
 
-            startListening();
+            if (!mutedRef.current) {
+                startListening();
+            }
 
             noResponseTimer.current = setTimeout(() => {
 
     if (
         submittedRef.current ||
-        hasStartedSpeakingRef.current
+        hasStartedSpeakingRef.current ||
+        mutedRef.current
     ) {
         return;
     }
@@ -165,4 +216,9 @@ export default function useVoiceInterview(
         };
 
     }, [question, interviewMode]);
+
+    return {
+        muted,
+        toggleMute
+    };
 }

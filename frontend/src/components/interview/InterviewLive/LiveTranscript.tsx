@@ -1,60 +1,117 @@
+import { Mic, MicOff, User } from "lucide-react";
 import "./LiveTranscript.css";
+import SpeakingWave from "../SpeakingWave/SpeakingWave";
 
 interface Props{
 
-    question:string;
-
     answer:string;
+
+    micActive:boolean;
 
 }
 
 export default function LiveTranscript({
 
-    question,
+    answer,
 
-    answer
+    micActive
 
 }:Props){
 
+    const isSpeaking = micActive && answer.trim().length > 0;
+
     return(
 
-        <div className="live-transcript">
+        <div className="video-tile candidate-tile">
 
-            <div className="question-card">
+            <div className="tile-label">
 
-                <div className="card-title">
+                <span className="tile-role-badge">You</span>
+            </div>
 
-                    💬 Current Question
+            <div className="candidate-body">
+
+                <div className={`candidate-avatar ${isSpeaking ? "speaking" : ""}`}>
+
+                    <User size={40} />
 
                 </div>
 
-                <div className="card-content">
+                <div className={`mic-indicator ${micActive ? "active" : "muted"}`}>
 
-                    {question}
+                    {
+
+                        micActive
+
+                        ?
+
+                        <Mic size={14} />
+
+                        :
+
+                        <MicOff size={14} />
+
+                    }
+
+                    {
+
+                        micActive
+
+                        ?
+
+                        "Mic Live"
+
+                        :
+
+                        "Mic Off"
+
+                    }
+
+                </div>
+
+                <div className="candidate-visual">
+
+                    {
+
+                        isSpeaking
+
+                        &&
+
+                        <SpeakingWave />
+
+                    }
 
                 </div>
 
             </div>
 
-            <div className="answer-card">
+            <div className="live-transcript-box">
 
-                <div className="card-title">
+                <span className="transcript-label">Live Transcript</span>
 
-                    🎤 Live Transcript
-
-                </div>
-
-                <div className="card-content">
+                <p className={answer ? "" : "placeholder"}>
 
                     {
 
                         answer ||
 
-                        "Listening for your response..."
+                        (
+
+                            micActive
+
+                            ?
+
+                            "Listening for your response..."
+
+                            :
+
+                            "Waiting to start listening..."
+
+                        )
 
                     }
 
-                </div>
+                </p>
 
             </div>
 

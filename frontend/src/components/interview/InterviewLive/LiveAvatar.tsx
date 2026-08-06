@@ -1,4 +1,7 @@
+import { Mic, Brain, Volume2, Moon } from "lucide-react";
 import "./LiveAvatar.css";
+import SpeakingWave from "../SpeakingWave/SpeakingWave";
+import ThinkingIndicator from "../ThinkingIndicator/ThinkingIndicator";
 
 interface Props{
 
@@ -10,79 +13,93 @@ interface Props{
 
 }
 
+const STATE_CONFIG = {
+    speaking: { icon: Volume2, label: "AI Speaking" },
+    listening: { icon: Mic, label: "Listening" },
+    thinking: { icon: Brain, label: "Thinking" },
+    idle: { icon: Moon, label: "Waiting" },
+};
+
 export default function LiveAvatar({
 
     recruiterState
 
 }:Props){
 
+    const { icon: StateIcon, label } = STATE_CONFIG[recruiterState];
+
     return(
 
-        <div className="live-avatar">
+        <div className="video-tile recruiter-tile">
 
-            <div className={`avatar-circle ${recruiterState}`}>
+            <div className="tile-label">
 
-                <div className="ring ring1"></div>
-
-                <div className="ring ring2"></div>
-
-                <div className="ring ring3"></div>
-
-                <img
-
-                    src="/recruiter.jpg"
-
-                    alt="Recruiter"
-
-                />
+                <span className="tile-role-badge">Interviewer</span>
 
             </div>
 
-            <h2>
+            <div className="live-avatar">
 
-                Divakar AI
+                <div className={`avatar-circle ${recruiterState}`}>
 
-            </h2>
+                    <div className="ring ring1"></div>
+                    <div className="ring ring2"></div>
+                    <div className="ring ring3"></div>
 
-            <p>
+                    <img
 
-                Senior Technical Interviewer
+                        src="/recruiter.jpg"
 
-            </p>
+                        alt="AI recruiter avatar"
 
-           <div className={`state ${recruiterState}`}>
+                    />
 
-    {
+                </div>
 
-        recruiterState==="speaking"
+                <h2>
 
-        ?
+                    Divakar AI
 
-        "🗣 AI Speaking"
+                </h2>
 
-        :
+                <p>
 
-        recruiterState==="thinking"
+                    Senior Technical Interviewer
 
-        ?
+                </p>
 
-        "🤔 Thinking..."
+                <div className={`state-pill ${recruiterState}`}>
 
-        :
+                    <StateIcon size={13} />
+                    {label}
 
-        recruiterState==="listening"
+                </div>
 
-        ?
+                <div className="avatar-visual">
 
-        "🎤 Listening"
+                    {
 
-        :
+                        recruiterState === "speaking"
 
-        "💤 Waiting"
+                        &&
 
-    }
+                        <SpeakingWave />
 
-</div>
+                    }
+
+                    {
+
+                        recruiterState === "thinking"
+
+                        &&
+
+                        <ThinkingIndicator />
+
+                    }
+
+                </div>
+
+            </div>
 
         </div>
 

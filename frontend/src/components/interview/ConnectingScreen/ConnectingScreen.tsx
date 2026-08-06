@@ -1,3 +1,4 @@
+import { Wifi } from "lucide-react";
 import "./ConnectingScreen.css";
 
 export default function ConnectingScreen(){
@@ -6,7 +7,13 @@ export default function ConnectingScreen(){
 
         <div className="connecting">
 
-            <div className="loader"/>
+            <div className="connecting-loader">
+
+                <span className="connecting-ring" />
+                <span className="connecting-ring ring-delay" />
+                <Wifi size={26} />
+
+            </div>
 
             <h2>
 

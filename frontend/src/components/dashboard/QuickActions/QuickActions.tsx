@@ -139,7 +139,7 @@ export default function QuickActions({
 
                             </div>
 
-                            <div className={`history-score tone-${scoreTone(interview.overall_score)}`}>
+                            <div className={`recent-score-badge tone-${scoreTone(interview.overall_score)}`}>
 
                                 {interview.overall_score}%
 

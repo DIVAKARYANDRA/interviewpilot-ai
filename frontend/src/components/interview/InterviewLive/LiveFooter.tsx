@@ -1,3 +1,4 @@
+import { Mic, MicOff, PhoneOff } from "lucide-react";
 import "./LiveFooter.css";
 
 interface Props{
@@ -12,6 +13,14 @@ recruiterState:
 |"thinking"
 |"listening";
 
+question?:string;
+
+muted?:boolean;
+
+onToggleMute?:()=>void;
+
+onEndInterview?:()=>void;
+
 }
 
 export default function LiveFooter({
@@ -20,79 +29,221 @@ current,
 
 total,
 
-recruiterState
+recruiterState,
+
+question,
+
+muted,
+
+onToggleMute,
+
+onEndInterview
 
 }:Props){
 
-const progress=(current/total)*100;
+const progress = total > 0 ? (current/total)*100 : 0;
 
 return(
 
 <div className="live-footer-bar">
 
-<div className="progress-section">
+    {
 
-<div className="progress-top">
+        question
 
-<span>
+        &&
 
-Question {current} of {total}
+        <div className="current-question-banner">
 
-</span>
+            <span className="question-eyebrow">
 
-</div>
+                Question {current} of {total}
 
-<div className="progress-track">
+            </span>
 
-<div
+            <p>
 
-className="progress-fill"
+                {question}
 
-style={{
+            </p>
 
-width:`${progress}%`
+        </div>
 
-}}
+    }
 
-/>
+    <div className="footer-controls-row">
 
-</div>
+        <div className="progress-section">
 
-</div>
+            <div className="live-progress-track">
 
-<div className="voice-chip">
+                <div
 
-{
+                    className="live-progress-fill"
 
-recruiterState==="speaking"
+                    style={{
 
-&&
+                        width:`${progress}%`
 
-"🗣 AI Speaking"
+                    }}
 
-}
+                />
 
-{
+            </div>
 
-recruiterState==="listening"
+        </div>
 
-&&
+        <div className="voice-chip-wrapper">
 
-"🎤 Listening"
+            <div className={`voice-chip ${recruiterState}`}>
 
-}
+                {
 
-{
+                    recruiterState==="speaking"
 
-recruiterState==="thinking"
+                    &&
 
-&&
+                    "AI Speaking"
 
-"🤔 Thinking"
+                }
 
-}
+                {
 
-</div>
+                    recruiterState==="listening"
+
+                    &&
+
+                    "Listening"
+
+                }
+
+                {
+
+                    recruiterState==="thinking"
+
+                    &&
+
+                    "Thinking"
+
+                }
+
+                {
+
+                    recruiterState==="idle"
+
+                    &&
+
+                    "Waiting"
+
+                }
+
+            </div>
+
+        </div>
+
+        {
+
+            (onToggleMute || onEndInterview)
+
+            &&
+
+            <div className="meeting-controls">
+
+                {
+
+                    onToggleMute
+
+                    &&
+
+                    <button
+
+                        type="button"
+
+                        className={`control-btn ${muted ? "muted" : ""}`}
+
+                        onClick={onToggleMute}
+
+                        aria-pressed={muted}
+
+                        aria-label={
+
+                            muted
+
+                            ?
+
+                            "Unmute microphone"
+
+                            :
+
+                            "Mute microphone"
+
+                        }
+
+                    >
+
+                        {
+
+                            muted
+
+                            ?
+
+                            <MicOff size={17} />
+
+                            :
+
+                            <Mic size={17} />
+
+                        }
+
+                        {
+
+                            muted
+
+                            ?
+
+                            "Unmute"
+
+                            :
+
+                            "Mute"
+
+                        }
+
+                    </button>
+
+                }
+
+                {
+
+                    onEndInterview
+
+                    &&
+
+                    <button
+
+                        type="button"
+
+                        className="control-btn end-btn"
+
+                        onClick={onEndInterview}
+
+                        aria-label="End interview"
+
+                    >
+
+                        <PhoneOff size={17} />
+
+                        End Interview
+
+                    </button>
+
+                }
+
+            </div>
+
+        }
+
+    </div>
 
 </div>
 

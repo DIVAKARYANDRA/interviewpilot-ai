@@ -1,15 +1,6 @@
-.text-interview{
-
-    max-width:950px;
-
-    margin:auto;
-
-    padding:40px 20px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:24px;
-
+.text-interview {
+  max-width: 780px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+  animation: fadeIn 0.5s var(--ease-silk) both;
 }

@@ -1,40 +1,61 @@
+import { useEffect, useState } from "react";
 import "./InterviewLive.css";
 import LiveAvatar from "./LiveAvatar";
-import InterviewInput
-from "../InterviewInput/InterviewInput";
-import LiveTranscript
-from "./LiveTranscript";
+import LiveTranscript from "./LiveTranscript";
 import LiveFooter from "./LiveFooter";
 import { useInterview }
-from "../../../context/InterviewContext"; 
+from "../../../context/InterviewContext";
 
 interface Props{
 
-    loading:boolean;
+    muted?:boolean;
 
-    onSubmit:()=>void;
+    onToggleMute?:()=>void;
+
+    onEndInterview?:()=>void;
+
+}
+
+// Presentational elapsed-time display only — does not affect interview
+// timing/business logic, which lives entirely in useVoiceInterview.
+function useElapsedTime(){
+
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(()=>{
+
+        const interval = setInterval(()=>{
+
+            setSeconds(s => s + 1);
+
+        }, 1000);
+
+        return ()=> clearInterval(interval);
+
+    }, []);
+
+    const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
+
+    return `${mins}:${secs}`;
 
 }
 
 export default function InterviewLive({
 
-    loading,
+    muted,
 
-    onSubmit
+    onToggleMute,
+
+    onEndInterview
 
 }:Props){
-
-    
 
     const{
 
 question,
 
 answer,
-
-setAnswer,
-
-interviewMode,
 
 currentQuestion,
 
@@ -44,13 +65,15 @@ recruiterState
 
 }=useInterview();
 
+    const elapsed = useElapsedTime();
+
     return (
 
         <div className="live-interview">
 
             <div className="live-header">
 
-                <div>
+                <div className="live-header-title">
 
                     <h2>InterviewPilot Live</h2>
 
@@ -58,9 +81,20 @@ recruiterState
 
                 </div>
 
-                <div className="live-badge">
+                <div className="live-header-meta">
 
-                    ● LIVE
+                    <div className="live-timer">
+
+                        {elapsed}
+
+                    </div>
+
+                    <div className="live-badge">
+
+                        <span className="live-dot" />
+                        LIVE
+
+                    </div>
 
                 </div>
 
@@ -68,90 +102,39 @@ recruiterState
 
             <div className="live-body">
 
-                <div className="left-panel">
+                <LiveAvatar
 
-<LiveAvatar
+                    recruiterState={recruiterState}
 
-    recruiterState={recruiterState}
+                />
 
-/>
+                <LiveTranscript
 
-</div>
+                    answer={answer}
 
-                <div className="right-panel">
+                    micActive={recruiterState==="listening"}
 
-<LiveTranscript
-
-question={question}
-
-answer={answer}
-
-/>
-
-</div>
+                />
 
             </div>
 
-          
-          <div className="live-footer">
+            <LiveFooter
 
-<LiveFooter
+                current={currentQuestion}
 
-current={currentQuestion}
+                total={totalQuestions}
 
-total={totalQuestions}
+                recruiterState={recruiterState}
 
-recruiterState={recruiterState}
+                question={question}
 
-/>
+                muted={muted}
 
-{
+                onToggleMute={onToggleMute}
 
-interviewMode==="text"
+                onEndInterview={onEndInterview}
 
-&&
-
-<div className="footer-input">
-
-<InterviewInput
-
-answer={answer}
-
-setAnswer={setAnswer}
-
-/>
-
-<button
-
-className="footer-submit"
-
-onClick={onSubmit}
-
-disabled={loading}
-
->
-
-{
-
-loading
-
-?
-
-"Thinking..."
-
-:
-
-"Submit Answer"
-
-}
-
-</button>
-
-</div>
-
-}
-
-</div>
+            />
 
         </div>
 

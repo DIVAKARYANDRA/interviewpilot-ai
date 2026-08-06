@@ -1,172 +1,55 @@
-.progress-container{
-
-    background:#172033;
-
-    border:1px solid #2b3956;
-
-    border-radius:18px;
-
-    padding:24px;
-
-    margin-bottom:25px;
-
+.progress-container {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 26px;
 }
 
-
-
-.progress-top{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:16px;
-
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
 }
 
-
-
-.progress-top h3{
-
-    margin:0;
-
-    color:#f8fafc;
-
-    font-size:24px;
-
-    font-weight:700;
-
+.progress-top h3 {
+  color: var(--text);
+  font-size: 1.05rem;
 }
 
-
-
-.progress-top p{
-
-    margin-top:8px;
-
-    color:#94a3b8;
-
-    font-size:15px;
-
+.progress-top p {
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  margin-top: 2px;
 }
 
-
-
-.progress-percentage{
-
-    width:70px;
-
-    height:70px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:
-
-    linear-gradient(
-
-        135deg,
-
-        #6366f1,
-
-        #8b5cf6
-
-    );
-
-    color:white;
-
-    font-size:20px;
-
-    font-weight:700;
-
+.progress-percentage {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-light);
 }
 
-
-
-.progress-track{
-
-    width:100%;
-
-    height:12px;
-
-    background:#25324d;
-
-    border-radius:50px;
-
-    overflow:hidden;
-
+.progress-track {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 14px;
 }
 
-
-
-.progress-fill{
-
-    height:100%;
-
-    border-radius:50px;
-
-    background:
-
-    linear-gradient(
-
-        90deg,
-
-        #6366f1,
-
-        #8b5cf6
-
-    );
-
-    transition:width .5s ease;
-
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--gradient-brand);
+  transition: width 0.5s var(--ease-silk);
 }
 
-
-
-.progress-bottom{
-
-    margin-top:14px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    color:#94a3b8;
-
-    font-size:14px;
-
-}
-
-
-
-@media(max-width:768px){
-
-    .progress-top{
-
-        flex-direction:column;
-
-        gap:18px;
-
-        text-align:center;
-
-    }
-
-
-    .progress-bottom{
-
-        flex-direction:column;
-
-        gap:8px;
-
-        text-align:center;
-
-    }
-
+.progress-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  flex-wrap: wrap;
+  gap: 6px;
 }

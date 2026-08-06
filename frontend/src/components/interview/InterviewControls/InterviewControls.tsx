@@ -1,3 +1,4 @@
+import { Mic, Loader2 } from "lucide-react";
 import "./InterviewControls.css";
 
 interface Props{
@@ -28,7 +29,8 @@ export default function InterviewControls({
 
                 <div className="voice-indicator">
 
-                    🎤 Voice Interview Active
+                    <Mic size={15} />
+                    Voice Interview Active
 
                 </div>
 
@@ -65,7 +67,10 @@ export default function InterviewControls({
 
                     ?
 
-                    "Thinking..."
+                    <>
+                        <Loader2 size={16} className="spin-icon" />
+                        Thinking...
+                    </>
 
                     :
 

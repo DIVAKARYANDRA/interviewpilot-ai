@@ -1,5 +1,7 @@
 import Card from "../../common/Card/Card";
 
+import { Bot } from "lucide-react";
+
 import "./QuestionCard.css";
 
 
@@ -25,8 +27,8 @@ export default function QuestionCard({
             <div className="question-header">
 
 
-                <span>
-                    🤖
+                <span className="question-avatar">
+                    <Bot size={16} />
                 </span>
 
 

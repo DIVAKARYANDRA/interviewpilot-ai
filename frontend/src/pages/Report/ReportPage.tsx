@@ -7,6 +7,16 @@ import { useNavigate } from "react-router-dom";
 import ListCard from "../../components/report/ListCard/ListCard";
 import { useEffect, useState } from "react";
 
+import {
+    PartyPopper,
+    Sparkles,
+    Target,
+    TrendingUp,
+    RotateCcw,
+    History,
+    Download
+} from "lucide-react";
+
 import "./ReportPage.css";
 
 
@@ -14,9 +24,7 @@ export default function ReportPage(){
 
 
     const {
-
         report
-
     } = useInterview();
 
     const navigate = useNavigate();
@@ -28,23 +36,14 @@ export default function ReportPage(){
 useEffect(() => {
 
     if (!report) return;
-
     let current = 0;
-
     const timer = setInterval(() => {
-
         current++;
-
         setAnimatedScore(current);
-
         if (current >= report.overall_score) {
-
             clearInterval(timer);
-
         }
-
     }, 15);
-
     return () => clearInterval(timer);
 
 }, [report]);
@@ -57,11 +56,21 @@ useEffect(() => {
 
             <MainLayout>
 
-                <h2>
+                <div className="report-empty">
 
-                    Report not available
+                    <h2>
 
-                </h2>
+                        Report not available
+
+                    </h2>
+
+                    <p>
+
+                        Complete an interview to see your assessment here.
+
+                    </p>
+
+                </div>
 
             </MainLayout>
 
@@ -100,350 +109,287 @@ const percentile = Math.max(
     100 - (report?.overall_score ?? 0)
 );
 
+// Purely presentational — same score value, just used to derive a ring color.
+const scoreTone =
+    report.overall_score >= 80
+        ? "high"
+        : report.overall_score >= 50
+        ? "mid"
+        : "low";
+
+const RING_RADIUS = 90;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+const ringOffset =
+    RING_CIRCUMFERENCE - (animatedScore / 100) * RING_CIRCUMFERENCE;
+
 
 
     return(
 
         <MainLayout>
 
-
             <div className="report-container">
 
+                {/* HERO */}
+                <section className="report-hero">
 
-                <div className="report-hero">
+                    <span className="hero-badge">
+                        <PartyPopper size={14} />
+                        Interview Completed
+                    </span>
 
-    <p className="hero-badge">
+                    <h1>
+                        AI Interview Assessment
+                    </h1>
 
-        🎉 Interview Completed
+                    <p className="hero-subtitle">
+                        Here's a complete analysis of your interview performance.
+                    </p>
 
-    </p>
+                </section>
 
-    <h1>
+                {/* OVERALL SCORE */}
+                <section className={`overall-score tone-${scoreTone}`}>
 
-        AI Interview Assessment
+                    <div className="overall-score-ring">
 
-    </h1>
+                        <svg viewBox="0 0 200 200">
 
-    <p className="hero-subtitle">
+                            <circle
+                                className="overall-ring-track"
+                                cx="100" cy="100" r={RING_RADIUS}
+                            />
 
-        Here's a complete analysis of your interview performance.
+                            <circle
+                                className="overall-ring-fill"
+                                cx="100" cy="100" r={RING_RADIUS}
+                                style={{
+                                    strokeDasharray: RING_CIRCUMFERENCE,
+                                    strokeDashoffset: ringOffset
+                                }}
+                            />
 
-    </p>
+                        </svg>
 
-</div>
+                        <div className="overall-ring-center">
 
+                            <span className="overall-ring-value">
+                                {animatedScore}
+                            </span>
+                            <span className="overall-ring-percent">%</span>
 
+                        </div>
 
-                <div className="overall-score">
+                    </div>
 
-    <h2>
+                    <div className="overall-score-meta">
 
-        Overall Score
+                        <h3 className="performance-label">
+                            {performanceLabel}
+                        </h3>
 
-    </h2>
+                        <div className="overall-rating" aria-label={`${stars} out of 5 stars`}>
+                            {starText}
+                        </div>
 
-    <div className="overall-rating">
+                        <p className="percentile">
+                            Top {percentile}% Performance
+                        </p>
 
-    <h2>
+                    </div>
 
-        {starText}
+                </section>
 
-    </h2>
+                {/* SKILL BREAKDOWN */}
+                <section className="report-section">
 
-</div>
+                    <h2 className="section-title">Skill Breakdown</h2>
 
-    <div className="overall-circle">
+                    <div className="score-grid">
 
-        {animatedScore}
+                        <ScoreCard
+                            title="Technical"
+                            score={report.technical_score}
+                        />
 
-        <span>
+                        <ScoreCard
+                            title="Communication"
+                            score={report.communication_score}
+                        />
 
-            %
+                        <ScoreCard
+                            title="Confidence"
+                            score={report.confidence_score}
+                        />
 
-        </span>
+                    </div>
 
-    </div>
+                </section>
 
-    <h3 className="performance-label">
+                {/* AI SUMMARY + RECOMMENDATION */}
+                <section className="report-section">
 
-        {performanceLabel}
+                    <div className="summary-recommendation-grid">
 
-    </h3>
+                        <div className="summary-card">
 
-    
+                            <div className="card-eyebrow">
+                                <Sparkles size={14} />
+                                AI Interview Assessment
+                            </div>
 
-    <p className="percentile">
+                            <p>
+                                {report.summary}
+                            </p>
 
-        Top {percentile}% Performance
+                        </div>
 
-    </p>
+                        <div className={`recommendation-card tone-${scoreTone}`}>
 
-</div>
+                            <div className="card-eyebrow">
+                                <Target size={14} />
+                                AI Hiring Recommendation
+                            </div>
 
+                            <h3>
+                                {recommendation}
+                            </h3>
 
+                            <p>
+                                Based on your technical knowledge,
+                                communication skills and confidence
+                                demonstrated during this interview.
+                            </p>
 
+                        </div>
 
-                <div className="score-grid">
+                    </div>
 
+                </section>
 
-                    <ScoreCard
+                {/* STRENGTHS / WEAKNESSES */}
+                <section className="report-section">
 
-                        title="Technical"
+                    <div className="list-grid">
 
-                        score={report.technical_score}
+                        <ListCard
+                            title="Strengths"
+                            items={report.strengths}
+                            variant="positive"
+                            highlight={
+                                report.strengths[0]
+                                    ? `Strongest area: ${report.strengths[0]}`
+                                    : undefined
+                            }
+                        />
 
+                        <ListCard
+                            title="Areas To Improve"
+                            items={report.weaknesses}
+                            variant="negative"
+                            highlight={
+                                report.weaknesses[0]
+                                    ? `Highest priority: ${report.weaknesses[0]}`
+                                    : undefined
+                            }
+                        />
+
+                    </div>
+
+                </section>
+
+                {/* LEARNING ROADMAP */}
+                <section className="report-section">
+
+                    <ListCard
+                        title="Learning Roadmap"
+                        items={report.learning_roadmap}
+                        variant="roadmap"
                     />
 
+                </section>
 
-                    <ScoreCard
+                {/* READINESS + NEXT GOAL */}
+                <section className="report-section">
 
-                        title="Communication"
+                    <div className="readiness-goal-grid">
 
-                        score={report.communication_score}
+                        <div className="readiness-card">
 
-                    />
+                            <div className="card-eyebrow">
+                                <Target size={14} />
+                                Company Readiness
+                            </div>
 
+                            <p>{report.company_readiness}</p>
 
-                    <ScoreCard
+                            <div className="readiness-bar">
+                                <div
+                                    className="readiness-fill"
+                                    style={{ width:`${report.overall_score}%` }}
+                                />
+                            </div>
 
-                        title="Confidence"
+                            <span className="readiness-score">
+                                {report.overall_score}% Ready
+                            </span>
 
-                        score={report.confidence_score}
+                        </div>
 
-                    />
+                        <div className="goal-card">
 
+                            <div className="card-eyebrow">
+                                <TrendingUp size={14} />
+                                Next Goal
+                            </div>
 
-                </div>
+                            <h3>Reach 90+ Overall Score</h3>
 
-                <div className="recommendation-card">
+                            <p>
+                                Improve by {Math.max(0, 90 - report.overall_score)} more points.
+                            </p>
 
-    <h2>
+                        </div>
 
-        🤖 AI Hiring Recommendation
+                    </div>
 
-    </h2>
+                </section>
 
-    <h3>
+                {/* ACTIONS */}
+                <section className="report-actions">
 
-        {recommendation}
+                    <button
+                        onClick={() => navigate("/interview/setup")}
+                    >
+                        <RotateCcw size={16} />
+                        Start New Interview
+                    </button>
 
-    </h3>
+                    <button
+                        className="history-btn"
+                        onClick={() => navigate("/history")}
+                    >
+                        <History size={16} />
+                        View Interview History
+                    </button>
 
-    <p>
+                    <button
+                        className="ghost-btn"
+                        onClick={() => window.print()}
+                    >
+                        <Download size={16} />
+                        Download Report
+                    </button>
 
-        Based on your technical knowledge,
-        communication skills and confidence
-        demonstrated during this interview.
+                </section>
 
-    </p>
-
-</div>
-
-                <div className="summary-card">
-
-    <h2>
-
-        🤖 AI Interview Assessment
-
-    </h2>
-
-    <p>
-
-        {report.summary}
-
-    </p>
-
-</div>
-
-<div className="highlight-card">
-
-    <h2>
-
-        🏆 Strongest Area
-
-    </h2>
-
-    <h3>
-
-        {report.strengths[0]}
-
-    </h3>
-
-</div>
-
-
-
-
-                <ListCard
-
-                    title="Strengths"
-
-                    items={report.strengths}
-
-                />
-
-                <div className="highlight-card">
-
-    <h2>
-
-        🎯 Highest Priority
-
-    </h2>
-
-    <h3>
-
-        {report.weaknesses[0]}
-
-    </h3>
-
-</div>
-
-
-
-                <ListCard
-
-                    title="Areas To Improve"
-
-                    items={report.weaknesses}
-
-                />
-
-
-
-                <ListCard
-
-                    title="Learning Roadmap"
-
-                    items={report.learning_roadmap}
-
-                />
-
-
-
-                <div className="readiness">
-
-    <h2>
-
-        🎯 Company Readiness
-
-    </h2>
-
-    <p>
-
-        {report.company_readiness}
-
-    </p>
-
-    <div className="readiness-bar">
-
-    <div
-
-        className="readiness-fill"
-
-        style={{
-
-            width:`${report.overall_score}%`
-
-        }}
-
-    />
-
-</div>
-
-<p className="readiness-score">
-
-    {report.overall_score}% Ready
-
-</p>
-
-</div>
-
-<div className="goal-card">
-
-    <h2>
-
-        🚀 Next Goal
-
-    </h2>
-
-    <h3>
-
-        Reach 90+ Overall Score
-
-    </h3>
-
-    <p>
-
-        Improve by
-
-        {Math.max(0,90-report.overall_score)}
-
-        more points.
-
-    </p>
-
-</div>
-
-               <div className="report-actions">
-
-    <button
-        onClick={() =>
-            navigate("/interview/setup")
-        }
-    >
-
-        🚀 Start New Interview
-
-    </button>
-
-    <button
-        className="history-btn"
-        onClick={() =>
-            navigate("/history")
-        }
-    >
-
-        📊 View Interview History
-
-    </button>
-
-
-    <button
-
-    onClick={()=>
-
-        window.print()
-
-    }
-
->
-
-    📄 Download Report
-
-</button>
-
-</div>
-
-<footer className="report-footer">
-
-    Generated by
-
-    <strong>
-
-        InterviewPilot AI
-
-    </strong>
-
-    <br/>
-
-    Helping engineers crack top product companies.
-
-</footer>
-
-
+                <footer className="report-footer">
+                    Generated by <strong>InterviewPilot AI</strong>
+                    <br/>
+                    Helping engineers crack top product companies.
+                </footer>
 
             </div>
-
 
         </MainLayout>
 
